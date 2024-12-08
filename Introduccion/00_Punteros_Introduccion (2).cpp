@@ -4,6 +4,7 @@
 using namespace std;
 //void swap(int,int);
 void swap(int *a, int *b);
+int fun();
 //void swap(int &a, int &b);  //Pasaje por referencia
 int main(int argc, char *argv[])
 {   int x,y;
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
      cout<<endl<<"px= "<<px;
      cout<<endl<<"v= "<<v;
      cout<<endl<<"py= "<<py;
-     
+     cout<<endl<< fun();
      
          
     cout<<endl;
@@ -61,6 +62,12 @@ void swap(int *a, int *b)
   c=*a; *a=*b; *b=c;
   cout<<"\n a="<<*a<<"  b="<<*b;   
      
+}
+
+int fun(){
+  static int count = 0;
+  count++;
+  return count;
 }
 
 /*void swap(int &a, int &b) //Pasaje por referencia
