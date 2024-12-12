@@ -8,18 +8,24 @@ int suma(int v[],int n);
 int mayor(int v[],int n);
 int multi(int,int);
 void hanoi(char a,char c, char b, int n);
+int mayor_tail_recursion(int v[], int n, int m);
+int mayor_iterative(int v[], int n, int m);
 
 int main(int argc, char *argv[])
 {   
-    int v[6]={17,15,-8,30,5,-2};
+    int v[6]={17,15,-8,30,5,50};
     char nom[]={"Juan Perez"};
+
+    cout<<"mayor vec " << mayor_tail_recursion(v,5,v[0]) <<endl;
     
-	cout<<"impre vector"<<endl; impre(v,5);    
+/*	cout<<"impre vector"<<endl; impre(v,5);    
     cout<<"impre suma "<< suma(v,5) <<endl;    
     cout<<"mayor vec " << mayor(v,5) <<endl;
-    cout<<"multi "<<multi(8,7)<<endl;
+    cout<<"multi "<<multi(8,7)<<endl; */
+  //  hanoi('a','c','b',2);
+  //  cout<<endl;
    
-        system("PAUSE");
+    system("PAUSE");
     return EXIT_SUCCESS;
 }
 
@@ -57,7 +63,19 @@ void hanoi(char a,char c, char b, int n){
              hanoi(a,b,c,n-1);
 cout<<"Mover "<<n<<" desde "<<a<<" hasta "<<c<<endl;
              hanoi(b,c,a,n-1);
-     }
+    }
 }
 
-    
+int mayor_tail_recursion(int v[], int n, int m){
+    if(n==0) return m;
+    return mayor_tail_recursion( v , n-1,  ( m > v[n] ) ? m : v[n]);
+} 
+
+int mayor_iterative(int v[], int n, int m){
+    while (n != 0)
+    {
+        m = ( m > v[n] ) ? m : v[n] ;
+        n--;
+    }
+    return m;
+}
