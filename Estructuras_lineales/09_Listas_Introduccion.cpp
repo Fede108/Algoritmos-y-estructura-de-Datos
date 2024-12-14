@@ -22,6 +22,7 @@ public:
 
 template <class T> class Lista {
 private: Nodo<T>* czo;
+        void addO(T d, Nodo<T> *ant);
 public:
     Lista() { czo = new Nodo<T>(); };
     Lista(Nodo<T>* n) { czo = n; };
@@ -38,6 +39,10 @@ public:
     void concat(Lista* l1); // le transfiere los datos de l1 a this
     Lista* copy(void); // hace una copia de la lista
     void tomar(int n); //deja "vivos" los n primeros nodos y borra el resto
+    void addOrdenado(T d); //suma nodos ordenados de menor a mayor
+    bool esta(T d); //retorna true cuando d esta en la lista
+    void borrarDato(T d); // borra el nodo que contiene a d
+    
 };
 template <class T>
 void Lista<T>::add(T d)
@@ -106,7 +111,6 @@ template <class T> int Lista<T> :: size(){
 } 
 
 template <class T> void Lista<T> :: borrar(void){ //borra la cabeza
-   
     Nodo<T>* n = czo;
     czo = czo->get_next();
     delete n;    
@@ -115,12 +119,12 @@ template <class T> void Lista<T> :: borrar(void){ //borra la cabeza
 template <class T> void Lista<T> :: borrar_last(){ //borra el ultimo
     Nodo<T> *n = czo;
     Nodo<T> *aux;
-    while (!n->get_next()->es_vacio()){
+    while (!n->es_vacio()){
         aux = n;
         n = n->get_next();
     }
-    aux->set_next(n->get_next());
-
+    aux->set_next(nullptr); //transformo el nodo penultimo en ultimo
+    delete n; //borro el ultimo nodo, que apuntaba a null
 }
 
 template <class T> void Lista<T> :: concat(Lista* l1){// le transfiere los datos de l1 a this
@@ -128,36 +132,20 @@ template <class T> void Lista<T> :: concat(Lista* l1){// le transfiere los datos
         return;
     }
     Lista *aux = l1;
-    concat(aux->resto());   
+    concat(aux->resto());    
     add(aux->czo->get_dato());
     return;
 }
 
 template <class T> Lista<T>* Lista<T> :: copy(void){// hace una copia de la lista
-    Lista *l = new Lista();      //nueva lista
-    Lista *aux = new Lista(czo); //iterador para recorrer lista vieja
-
-    while (!aux->esvacia())
-    {
-        if (l->esvacia())
-        {
-            l->add(aux->czo->get_dato());    
-        }
-        else {
-        Lista *n = new Lista();
-        n->add(aux->czo->get_dato());
-        n->concat(l);
-        l = n;        
-        }
-        aux = aux->resto();
-    }
-    return l;   
+    Lista *l = new Lista();
+    l->concat(this);
+    return l;
 }
 
 
-
 template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros nodos y borra el resto
-    if(size(0) < n) return;
+    if(size() < n) return;
     Nodo<T> *aux = czo;
     while (n != 1)
     {
@@ -172,6 +160,68 @@ template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros n
     aux->set_next(l->czo);
 
 }
+
+/*
+template <class T> void Lista<T>::tomar(int n)
+{ //deja "vivos" los n primeros nodos y borra el resto
+    if (this->size() > n) {
+        this->borrar_last();
+        this->tomar(n);
+    }
+}
+
+  */
+ template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
+    Nodo<T> *n = czo;
+    Lista *l = new Lista();
+    while (n->get_next() != nullptr)
+    {
+        if (n->get_dato() < d)
+        {
+            l->addOrdenado(n->get_dato());
+            n = n->get_next();
+            borrar();
+        }else{
+            n = n->get_next();
+        }      
+    } 
+    add(d);
+    concat(l); 
+} 
+
+template <class T> void Lista<T> :: addOrdenado(T d){
+    addO(d, nullptr);
+}
+
+template <class T> void Lista<T> :: addO(T d,  Nodo<T>* ant){
+    if (esvacia())
+    {
+        add(d); 
+    } else {
+            if (czo->get_dato() > d){  
+                if(ant == nullptr){
+                    add(d);
+                } else {
+                        Nodo<T>* nuevo = new Nodo<T>(d);
+                        nuevo->set_next(ant->get_next());
+                        ant->set_next(nuevo);
+                        return;
+                }      
+            } 
+            else {
+                    if (czo->get_next()->get_next() == nullptr){
+                        Nodo<T>* nuevo = new Nodo<T>(d);
+                        nuevo->set_next(czo->get_next());
+                        czo->set_next(nuevo);
+                        return;
+                    } else{
+                       resto()->addO(d,czo);
+                    }
+            }
+        }            
+}   
+
+
 
 int main()
 {
@@ -197,7 +247,7 @@ int main()
     cout << "size" << r->size(0)<<endl;
     r->tomar(2); */
 
-    cout << "size l= " << l->size() << endl;
+/*    cout << "size l= " << l->size() << endl;
     cout << "size r= " << r->size() << endl;
     cout << "size l2= " << l2->size() << endl<<endl;
 
@@ -219,12 +269,32 @@ int main()
     cout << l->toPrint(" soy l")<<endl;
     cout << l2->toPrint(" soy l2")<<endl;
     l2->tomar(4);
-    cout << l2->toPrint(" soy l2")<<endl;
+    cout << l2->toPrint(" soy l2")<<endl;*/
+
+    Lista<string>* l3 = new Lista<string>();
+    l3->addOrdenado("alan");
+    cout << l3->toPrint(" soy l3")<<endl;
+    l3->addOrdenado("walter");
+    cout << l3->toPrint(" soy l3")<<endl;
+    l3->addOrdenado("francisco");
+    cout << l3->toPrint(" soy l3")<<endl;
+    l3->addOrdenado("messi");
+    cout << l3->toPrint(" soy l3")<<endl;
+    l3->addOrdenado("ronaldo");
+    cout << l3->toPrint(" soy l3")<<endl;
+    l3->addOrdenado("neymar");
+    cout << l3->toPrint(" soy l3")<<endl;
+    
     system("PAUSE");
     return EXIT_SUCCESS;
 
 }
 
+/*
+void addOrdenado(T d) //suma nodos ordenados de menor a mayor
+bool esta(T d) //retorna true cuando d esta en la lista
+void borrarDato(T d) // borra el nodo que contiene a d
+*/
 
 /*
 int size();// cantidad de nodos de la lista

@@ -22,7 +22,7 @@ public:
 
 template <class T> class Lista {
 private: Nodo<T>* czo;
-     
+        void addO(T d, Nodo<T> *ant);
 public:
     Lista() { czo = new Nodo<T>(); };
     Lista(Nodo<T>* n) { czo = n; };
@@ -40,6 +40,7 @@ public:
     void concat(Lista<T>* l1);// le transfiere los datos de l1 a this
     Lista<T>* copy(void);// hace una copia de la lista
     void tomar(int n);//deja "vivos" los n primeros nodos y borra el resto
+    void addOrdenado(T d); //suma nodos ordenados de menor a mayor
    
 };
 template <class T>
@@ -148,7 +149,7 @@ int main()
 
 /*
 void addOrdenado(T d)// suma nodos ordenados de menor a mayor
-bool esta(T d); //retorna true cuando d está en la lista
+bool esta(T d); //retorna true cuando d estï¿½ en la lista
 void borrarDato(T d)// borra el nodo que contiene a d
 */
 
