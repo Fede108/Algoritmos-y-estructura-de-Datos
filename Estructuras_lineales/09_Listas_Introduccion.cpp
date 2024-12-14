@@ -144,7 +144,7 @@ template <class T> Lista<T>* Lista<T> :: copy(void){// hace una copia de la list
 }
 
 
-template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros nodos y borra el resto
+/*template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros nodos y borra el resto
     if(size() < n) return;
     Nodo<T> *aux = czo;
     while (n != 1)
@@ -159,9 +159,9 @@ template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros n
     }
     aux->set_next(l->czo);
 
-}
+}*/
 
-/*
+
 template <class T> void Lista<T>::tomar(int n)
 { //deja "vivos" los n primeros nodos y borra el resto
     if (this->size() > n) {
@@ -170,8 +170,7 @@ template <class T> void Lista<T>::tomar(int n)
     }
 }
 
-  */
- template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
+/* template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
     Nodo<T> *n = czo;
     Lista *l = new Lista();
     while (n->get_next() != nullptr)
@@ -187,7 +186,7 @@ template <class T> void Lista<T>::tomar(int n)
     } 
     add(d);
     concat(l); 
-} 
+} */ 
 
 template <class T> void Lista<T> :: addOrdenado(T d){
     addO(d, nullptr);
@@ -220,6 +219,29 @@ template <class T> void Lista<T> :: addO(T d,  Nodo<T>* ant){
             }
         }            
 }   
+
+template <class T> bool Lista<T> ::  esta(T d){ //retorna true cuando d esta en la lista
+    if(czo->get_next()->get_next() == nullptr){
+        return false;
+    }
+    if(czo->get_dato() == d){
+        return true;
+    }
+    else{
+        return this->resto()->esta(d);
+    }
+}
+
+template <class T> void  Lista<T> :: borrarDato(T d){ // borra el nodo que contiene a d
+    if(czo->get_next()->get_next() == nullptr){
+        return;
+    }
+    if(czo->get_dato() == d){
+        borrar();
+    }else{
+        this->resto()->borrarDato(d);
+    }
+}
 
 
 
@@ -283,6 +305,10 @@ int main()
     l3->addOrdenado("ronaldo");
     cout << l3->toPrint(" soy l3")<<endl;
     l3->addOrdenado("neymar");
+    cout << l3->toPrint(" soy l3")<<endl;
+
+    cout<< l3->esta("mes")<<endl;
+    l3->borrarDato("ronald");
     cout << l3->toPrint(" soy l3")<<endl;
     
     system("PAUSE");
