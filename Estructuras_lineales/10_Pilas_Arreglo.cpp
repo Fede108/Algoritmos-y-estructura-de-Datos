@@ -8,7 +8,7 @@
 #define MAX 100
 using namespace std;
 
-
+// Pila arreglo con estructura estatica
 
 template <class T> class Pila {
 private:

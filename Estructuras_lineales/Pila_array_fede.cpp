@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Pila arreglo con estructura dinamica
 template <class T> class Pila{
         private:
                 T *ptr;
@@ -113,5 +114,4 @@ int main()
     cout << cont << endl;
     system("PAUSE");
     return EXIT_SUCCESS;
-
 }
