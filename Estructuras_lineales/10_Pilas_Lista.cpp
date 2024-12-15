@@ -66,7 +66,7 @@ T Lista<T>::cabeza(void)
 {
     if (this->esvacia()) {
         cout << " Error, Cabeza de lista vacia";
-        return NULL;
+        return '\0';
     }
     return czo->get_dato();
 }
@@ -221,6 +221,8 @@ void Lista<T>::borrarD(T d, Nodo<T>* ant)
     }
 }
 
+
+
 template <class T> class Pila:public Lista<T>{
       public:
              Pila(){Lista<T>();};
@@ -233,7 +235,7 @@ template <class T> class Pila:public Lista<T>{
 
 int main()
 {
-    Pila<string> *p= new Pila<string>();
+/*    Pila<string> *p= new Pila<string>();
   p->apilar("10");  p->apilar("11");
   p->apilar("12");  p->apilar("13");
   if (!p->pilavacia()) cout<<p->tope()<<endl;
@@ -241,29 +243,55 @@ int main()
   if (!p->pilavacia())cout<<p->tope()<<endl;
   if (!p->pilavacia())p->desapilar();
   if (!p->pilavacia())cout<<p->tope()<<endl;
-  
+*/  
 // ingresar una cadena que contendra ([{ y )]}
 // el programa debera determinar si el "balance" de los ([{ es correcto
 // errores posibles
 // hay mas ((( que )) o [[[ que ] o { que }}}
 // que no se corresponda un cerrado con el ultimo abierto {  ]
 
-/*
+  Pila<char> *p = new Pila<char>();
   string cadena;
   cout<<endl<<"Ingrese cadena= "; cin>>cadena;
   int error=0;
-  for(int i=0;(i<cadena.length());i++){
+  int cont = 0;
+  for(int i=0;i<cadena.length();i++){
           cout<<cadena.at(i)<<endl;
-  
-  
+          if (cadena.at(i) == '(' || cadena.at(i) == '{' || cadena.at(i) == '[')
+          {
+            p->apilar(cadena.at(i));
+            cont++;
+          }
+          switch (cadena.at(i))
+          {
+          case ')' :   
+            if( ! p->esvacia()){
+                if(p->tope() != '(') error = 1; 
+                p->desapilar();
+            }
+            cont--;
+            break;
+         case '}' :
+            if( ! p->esvacia()){
+                if(p->tope() != '{') error = 1; 
+                p->desapilar();
+            }
+            cont--;
+         case ']' :
+            if( ! p->esvacia()){
+                if(p->tope() != '[') error = 1; 
+                p->desapilar();
+            }
+            cont--;
+          default:
+            break;
+          }
   }
-*/
-
-
-
-    cout << endl << endl;
+    error = (cont == 0) ? error : 1;
+    cout << error << endl;
+    cout << cont << endl;
     system("PAUSE");
     return EXIT_SUCCESS;
-
 }
+
 

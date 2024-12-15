@@ -23,14 +23,16 @@ public:
 template <class T> class Lista {
 private: Nodo<T>* czo;
         void addO(T d, Nodo<T> *ant);
+        void borrarD(T d, Nodo<T>* ant);
 public:
     Lista() { czo = new Nodo<T>(); };
     Lista(Nodo<T>* n) { czo = n; };
     //~Lista(void);
-    void add(T d);
+    void add(T d); //sumar nodos a la lista
     bool esvacia(void);
-    T cabeza(void);
-    Lista* resto(void);
+    T cabeza(void); //retorna el dato del primer nodo
+    Lista* resto(void); //retorna el puntero al "resto" de la lista
+                        //resto= lo que queda de la lista sin la cabeza
     string toPrint(string p);
     T suma(T i);
     int size(); //cantidad de nodos de la lista
@@ -170,7 +172,7 @@ template <class T> void Lista<T>::tomar(int n)
     }
 }
 
-/* template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
+ template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
     Nodo<T> *n = czo;
     Lista *l = new Lista();
     while (n->get_next() != nullptr)
@@ -186,9 +188,10 @@ template <class T> void Lista<T>::tomar(int n)
     } 
     add(d);
     concat(l); 
-} */ 
+} 
 
-template <class T> void Lista<T> :: addOrdenado(T d){
+
+/*template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
     addO(d, nullptr);
 }
 
@@ -218,7 +221,8 @@ template <class T> void Lista<T> :: addO(T d,  Nodo<T>* ant){
                     }
             }
         }            
-}   
+}   */
+
 
 template <class T> bool Lista<T> ::  esta(T d){ //retorna true cuando d esta en la lista
     if(czo->get_next()->get_next() == nullptr){
@@ -233,15 +237,23 @@ template <class T> bool Lista<T> ::  esta(T d){ //retorna true cuando d esta en 
 }
 
 template <class T> void  Lista<T> :: borrarDato(T d){ // borra el nodo que contiene a d
-    if(czo->get_next()->get_next() == nullptr){
+   borrarD(d,nullptr);
+}
+
+template <class T> void  Lista<T> :: borrarD(T d, Nodo<T>* ant){
+     if(czo->get_next()->get_next() == nullptr){
         return;
     }
     if(czo->get_dato() == d){
-        borrar();
+        if(ant == nullptr) borrar();
+        else {
+            ant->set_next(czo->get_next());
+            delete czo;
+        }
     }else{
-        this->resto()->borrarDato(d);
+        this->resto()->borrarD(d,czo);
     }
-}
+ }
 
 
 
@@ -308,7 +320,7 @@ int main()
     cout << l3->toPrint(" soy l3")<<endl;
 
     cout<< l3->esta("mes")<<endl;
-    l3->borrarDato("ronald");
+    l3->borrarDato("francisco");
     cout << l3->toPrint(" soy l3")<<endl;
     
     system("PAUSE");
