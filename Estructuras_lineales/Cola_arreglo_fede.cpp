@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define MAX 2
+#define MAX 4
 template <class T> class Cola  {
 private:
     int cola[MAX];
@@ -22,29 +22,22 @@ public:
     };
     void desencolar(void) { if(!colavacia()) p2 = (p2 == MAX) ? 0 : p2 + 1; };
     T ultimo(void) { return cola[p2]; };
-    string imprimir(string s) { return this->toPrint(s,this); };
-    string toPrint(string p, Cola* col);
+    string imprimir(string s) { return this->toPrint(); };
+    string toPrint();
 };
 
 
 template <class T>
-string Cola<T>::toPrint(string p, Cola* col)
+string Cola<T>::toPrint()
 {   
-    Cola *c1 = new Cola();
-    *c1 = *col;
-    if (c1->colavacia()) {
-        return p;
+    if (!colavacia()) {
+       for (int i = p2; i != (p1 ) % MAX; i = (i + 1) % MAX)
+            cout << cola[i] << "--";
     }
-    else {
-        //std::ostringstream stm;
-        ostringstream stm;
-        c1->desencolar();
-        stm << col->tope() << "-" << toPrint(p,c1) << endl;
-        //cout<<endl<<" stm.str()= "<<stm.str()<<endl;
-        return stm.str();
-    }
-  //  delete c1;
+
+    return " <<< Q";
 }
+
 
 int main()
 {
@@ -62,14 +55,14 @@ int main()
     if (!c->colavacia())cout << c->imprimir(" >>>") << endl;
     if (!c->colavacia())c->desencolar();
 
-    cout << "en cola:" << c->tope() << endl;
+    if (!c->colavacia())cout << "en cola:" << c->tope() << endl;
     cout << c->imprimir(" >>>") << endl;
     if (!c->colavacia())c->desencolar();
-    cout << "en cola:" << c->tope() << endl;
+     if (!c->colavacia())cout << "en cola:" << c->tope() << endl;
     cout << c->imprimir(" >>>") << endl;
 
     c->encolar(44);
-    cout << "en cola:" << c->tope() << endl;
+    if (!c->colavacia())cout << "en cola:" << c->tope() << endl;
     cout << c->imprimir(" >>>") << endl;
     if (!c->colavacia())c->desencolar();
     cout << c->imprimir(" >>>") << endl;
