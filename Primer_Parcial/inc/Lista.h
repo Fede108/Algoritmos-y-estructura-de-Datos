@@ -6,6 +6,8 @@
 
 using namespace std;
 
+#ifndef LISTA_H
+#define LISTA_H
 template <class T> class Nodo {
 private:
     T dato;
@@ -255,5 +257,6 @@ template <class T> void  Lista<T> :: borrarD(T d, Nodo<T>* ant){
     }
  }
 
+#endif
 
 

@@ -5,6 +5,10 @@
 #include <iostream>
 #include <sstream>
 
+#ifndef PILA_H
+#define PILA_H
+
+
 #define MAX 100
 using namespace std;
 
@@ -21,3 +25,5 @@ public:
     void desapilar(void) { p--; };
     bool pilavacia() { return p == -1; };
 };
+
+#endif
