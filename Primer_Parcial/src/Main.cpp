@@ -14,30 +14,33 @@ using namespace std;
 
 //------------------------------------------------------
 
-template <class T> class Llave_valor : public Expresion<T> {
+class Llave_valor : public Expresion{
     private:
-      
+       string cadena_llave;
+       string cadena_valor; 
     public:
-        Llave_valor(string cadena): Expresion<T>(cadena) {}
+        Llave_valor(string linea): Expresion(linea) {}
         bool validar();
         bool validar_ultimaLinea();
 };
 
-template <class T> bool Llave_valor<T> :: validar_ultimaLinea(){
-    if(this->llave('\n','"','"')){
-        string valor = this->getCadena().substr(this->getPosSeparador());
-        this->setCadena(valor);
-        return  this->llave(':','"','"') && ! this->separador(',') ;                   
-    } 
+bool Llave_valor :: validar(){
+    cadena_llave = this->getLinea().substr(0, this->getPosSeparador());
+    cadena_valor = this->getLinea().substr(this->getPosSeparador());
+    if (verificarExpresion(cadena_llave,'\n','"','"') && verificarExpresion(cadena_valor,':','"','"'))
+    {
+        return cadena_valor[cadena_valor.length() - 1] == ',' && cadena_valor[cadena_valor.length() - 2] == '"';
+    }              
     return false;
 }
 
-template <class T> bool Llave_valor<T> :: validar(){ 
-    if(this->llave('\n','"','"')){
-        string valor = this->getCadena().substr(this->getPosSeparador());
-        this->setCadena(valor);
-        return  this->llave(':','"','"') && this->separador(',') ;                   
-    } 
+bool Llave_valor :: validar_ultimaLinea(){ 
+    cadena_llave = this->getLinea().substr(0, this->getPosSeparador());
+    cadena_valor = this->getLinea().substr(this->getPosSeparador());
+    if (verificarExpresion(cadena_llave,'\n','"','"') && verificarExpresion(cadena_valor,':','"','"'))
+    {
+        return cadena_valor[cadena_valor.length() - 1] == '"' ;
+    }                 
     return false;
 }
 
@@ -91,12 +94,14 @@ void analizador_linea(Lista<string>* l){
     {
         return;
     }
-    Expresion<string>* e = new Llave_valor<string>(l->cabeza());
+    Expresion* e = new Llave_valor(l->cabeza());
     if (l->resto()->esvacia())
     {
-        cout<<e->validar_ultimaLinea()<<endl;    
+        cout<<e->validar_ultimaLinea()<<endl; 
+        cout<<e->guardarLinea()<<endl;
     } else{
         cout<<e->validar()<<endl;
+        cout<<e->guardarLinea()<<endl;
     }
     analizador_linea(l->resto());
 }
