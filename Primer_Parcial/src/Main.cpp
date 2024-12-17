@@ -10,43 +10,8 @@ using namespace std;
 #include "../inc/Pila.h"
 #include "../inc/Lista.h"
 #include "../inc/Expresion.h"
+#include "../inc/Llave_valor.h"
 
-
-//------------------------------------------------------
-
-class Llave_valor : public Expresion{
-    private:
-       string cadena_llave;
-       string cadena_valor; 
-    public:
-        Llave_valor(string linea): Expresion(linea) {}
-        bool validar();
-        bool validar_ultimaLinea();
-};
-
-bool Llave_valor :: validar(){
-    cadena_llave = this->getLinea().substr(0, this->getPosSeparador());
-    cadena_valor = this->getLinea().substr(this->getPosSeparador());
-    if (verificarExpresion(cadena_llave,'\n','"','"') && verificarExpresion(cadena_valor,':','"','"'))
-    {
-        return cadena_valor[cadena_valor.length() - 1] == ',' && cadena_valor[cadena_valor.length() - 2] == '"';
-    }              
-    return false;
-}
-
-bool Llave_valor :: validar_ultimaLinea(){ 
-    cadena_llave = this->getLinea().substr(0, this->getPosSeparador());
-    cadena_valor = this->getLinea().substr(this->getPosSeparador());
-    if (verificarExpresion(cadena_llave,'\n','"','"') && verificarExpresion(cadena_valor,':','"','"'))
-    {
-        return cadena_valor[cadena_valor.length() - 1] == '"' ;
-    }                 
-    return false;
-}
-
-
-
-//-----------------------------------------------------
 
 void lector_linea(int indice,string cadena,Lista<string>* l);
 void analizador_linea(Lista<string>* l);  
@@ -100,7 +65,7 @@ void analizador_linea(Lista<string>* l){
         cout<<e->validar_ultimaLinea()<<endl; 
         cout<<e->guardarLinea()<<endl;
     } else{
-        cout<<e->validar()<<endl;
+        cout<<e->validar_linea()<<endl;
         cout<<e->guardarLinea()<<endl;
     }
     analizador_linea(l->resto());
