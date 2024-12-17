@@ -5,16 +5,7 @@ using namespace std;
 #include "../inc/Expresion.h"
 #include "../inc/Llave_valor.h" 
 
-class Llave_valor : public Expresion{
-    private:
-       string clave;
-       string valor; 
-    public:
-        Llave_valor(const string& linea): Expresion(linea) {}
-        bool validar_linea();
-        bool validar();
-        bool validar_ultimaLinea();
-};
+Llave_valor :: Llave_valor(const string& linea): Expresion(linea) {}
 
 bool Llave_valor :: validar(){
     clave = this->getLinea().substr(0, this->getPosSeparador());

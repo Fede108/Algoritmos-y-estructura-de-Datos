@@ -9,6 +9,7 @@
                 "-g",
                 "${file}",
                 "-o",
+             //   "-I${workspaceFolder}/Primer_Parcial/inc",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {
