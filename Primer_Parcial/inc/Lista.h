@@ -147,25 +147,6 @@ template <class T> Lista<T>* Lista<T> :: copy(void){// hace una copia de la list
     return l;
 }
 
-
-/*template <class T> void Lista<T> :: tomar(int n){//deja "vivos" los n primeros nodos y borra el resto
-    if(size() < n) return;
-    Nodo<T> *aux = czo;
-    while (n != 1)
-    {
-        aux = aux->get_next();
-        n--;
-    }
-    Lista *l = new Lista(czo);
-    while (!l->esvacia())
-    {
-        l = l->resto();
-    }
-    aux->set_next(l->czo);
-
-}*/
-
-
 template <class T> void Lista<T>::tomar(int n)
 { //deja "vivos" los n primeros nodos y borra el resto
     if (this->size() > n) {
@@ -191,39 +172,6 @@ template <class T> void Lista<T>::tomar(int n)
     add(d);
     concat(l); 
 } 
-
-
-/*template <class T> void Lista<T> :: addOrdenado(T d){ //suma nodos ordenados de menor a mayor
-    addO(d, nullptr);
-}
-
-template <class T> void Lista<T> :: addO(T d,  Nodo<T>* ant){
-    if (esvacia())
-    {
-        add(d); 
-    } else {
-            if (czo->get_dato() > d){  
-                if(ant == nullptr){
-                    add(d);
-                } else {
-                        Nodo<T>* nuevo = new Nodo<T>(d);
-                        nuevo->set_next(ant->get_next());
-                        ant->set_next(nuevo);
-                        return;
-                }      
-            } 
-            else {
-                    if (czo->get_next()->get_next() == nullptr){
-                        Nodo<T>* nuevo = new Nodo<T>(d);
-                        nuevo->set_next(czo->get_next());
-                        czo->set_next(nuevo);
-                        return;
-                    } else{
-                       resto()->addO(d,czo);
-                    }
-            }
-        }            
-}   */
 
 
 template <class T> bool Lista<T> ::  esta(T d){ //retorna true cuando d esta en la lista
