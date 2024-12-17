@@ -7,14 +7,16 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
                 "-o",
-             //   "-I${workspaceFolder}/Primer_Parcial/inc",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}/Primer_Parcial/bin/main.exe",
+                "${workspaceFolder}/Primer_Parcial/src/*.cpp",
+                "-I${workspaceFolder}/PrimerParcial/inc"
             ],
+ 
             "options": {
                 "cwd": "${fileDirname}"
             },
+
             "problemMatcher": [
                 "$gcc"
             ],

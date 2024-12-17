@@ -8,20 +8,20 @@
 using namespace std;
 
 #include "../inc/Pila.h"
-#include "../inc/Lista.h"
 #include "../inc/Expresion.h"
 #include "../inc/Llave_valor.h"
+#include "../inc/Cola.h"
 
 
-void lector_linea(int indice,string cadena,Lista<string>* l);
-void analizador_linea(Lista<string>* l);  
+void lector_linea(int indice,string cadena,Cola<string>* l);
+void analizador_linea(Cola<string>* l);  
 
 int main()
 { 
   ifstream archivo("data_json.txt");
-  Lista<string>* l = new Lista<string>();
+  Cola<string>* l = new Cola<string>();
   string cadena;
-  bool linea_nueva = true;
+  bool linea_nueva = false;
     if (archivo.is_open()) {
         char c;
         while (archivo.get(c)) { 
@@ -44,27 +44,28 @@ int main()
     analizador_linea(l);
 }
 
-void lector_linea(int indice, string cadena, Lista<string>* l){
+void lector_linea(int indice, string cadena, Cola<string>* l){
+    if (cadena.length() == 0) return;
     if (indice == cadena.length())
     {
         string linea = cadena.substr(0,indice); 
-        l->add(linea);
+        l->encolar(linea);
         return;
     }
     lector_linea(indice + 1, cadena, l);
 }
 
-void analizador_linea(Lista<string>* l){
-    if (l->esvacia())
+void analizador_linea(Cola<string>* l){
+    if (l->colavacia())
     {
         return;
     }
-    Expresion* e = new Llave_valor(l->cabeza());
-    if (l->resto()->esvacia())
+    Expresion* e = new Llave_valor(l->tope());
+    if (l->resto()->colavacia())
     {
         cout<<e->validar_ultimaLinea()<<endl; 
         cout<<e->guardarLinea()<<endl;
-    } else{
+    }else{
         cout<<e->validar_linea()<<endl;
         cout<<e->guardarLinea()<<endl;
     }

@@ -6,26 +6,11 @@ using namespace std;
 #include "../inc/Pila.h"
 #include "../inc/Expresion.h"
 
+Expresion::Expresion(const string& linea) :  linea(linea) {}  
 
+void Expresion:: setLinea(const string& linea) { this->linea = linea; }
 
-class Expresion
-{
-private:
-    string linea;
- //   Pila<char> p;
-    string buffer;
-    int posicion;
-public:  
-    Expresion(const string& linea) :  linea(linea) {};
-    bool verificarExpresion( string cadena, char prefijo, char abierto, char cerrado);
-    int getPosSeparador();
-    virtual bool validar_linea() = 0;
-    virtual bool validar_ultimaLinea() = 0;
-    void setLinea(const string& linea) { this->linea = linea; }
-    const string& getLinea() const { return linea; }
-    string guardarLinea();
-};
-
+const string& Expresion:: getLinea() const { return linea; }
 
 
 bool Expresion:: verificarExpresion( string cadena, char prefijo, char abierto, char cerrado){
