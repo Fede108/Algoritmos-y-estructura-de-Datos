@@ -14,17 +14,24 @@ using namespace std;
 template <class T> class Expresion
 {
 private:
+    string cadena;
     Pila<char> p;
     T *buffer;
     int posicion;
 public:  
-      Expresion();
-    bool llave(string cadena, char prefijo, char abierto, char cerrado);
-    int getPosicion();
+    Expresion(string cadena) : cadena(cadena) {};
+    bool llave(char prefijo, char abierto, char cerrado);
+    int getPosSeparador();
+    virtual bool validar();
+    void setCadena(string cadena); 
+    string getCadena();
+    bool separador(char s);
 };
-template <class T> Expresion<T>::Expresion() {}
+//template <class T> Expresion<T>::Expresion(string cadena) : cadena(cadena) {}
 
-template <class T> bool Expresion<T>::llave(string cadena, char prefijo, char abierto, char cerrado){
+template <class T>  bool Expresion<T>::validar(){return false;}
+
+template <class T> bool Expresion<T>::llave( char prefijo, char abierto, char cerrado){
     int indice = 2;
     if(cadena.length()<4) return false;
     if(cadena.at(0) ==  prefijo){
@@ -43,25 +50,38 @@ template <class T> bool Expresion<T>::llave(string cadena, char prefijo, char ab
     return false;    
 }
 
-template <class T> int Expresion<T>:: getPosicion(){
+template <class T> int Expresion<T>:: getPosSeparador(){
     return posicion;
 }
 
+template <class T> bool Expresion<T>:: separador(char s){
+    if (cadena.length() - 1 < getPosSeparador()) { return false; }
+    if (cadena.at(getPosSeparador()) == s){ return true; }
+    return false;    
+}
+
+template <class T> void Expresion<T>::  setCadena(string cadena){
+    this->cadena = cadena;
+}
+
+template <class T> string Expresion<T>::  getCadena(){
+    return cadena;  
+}
 //------------------------------------------------------
 
 template <class T> class llave_valor : public Expresion<T> {
     private:
-    //    char separador;
-        string cadena;
+      
     public:
-        llave_valor(string cadena) : cadena(cadena) {  Expresion<T>(); }  
+        llave_valor(string cadena): Expresion<T>(cadena) {}
         bool validar();
 };
 
 template <class T> bool llave_valor<T> :: validar(){
-    if(this->llave(cadena, '\n','"','"')){
-        string valor = cadena.substr(this->getPosicion());
-        return  this->llave(valor,':','"','"') && valor.at(this->getPosicion()) == ',' ;                   
+    if(this->llave('\n','"','"')){
+        string valor = this->getCadena().substr(this->getPosSeparador());
+        this->setCadena(valor);
+        return  this->llave(':','"','"') && this->separador(',') ;                   
     } 
     return false;
 }
@@ -69,7 +89,8 @@ template <class T> bool llave_valor<T> :: validar(){
 
 //-----------------------------------------------------
 
-void lector_linea(int indice,string cadena,Lista<string>* l);  
+void lector_linea(int indice,string cadena,Lista<string>* l);
+void analizador_linea(Lista<string>* l);  
 
 int main()
 { 
@@ -96,8 +117,7 @@ int main()
     }
 
     lector_linea(0,cadena,l);  
-    llave_valor<string>* p = new llave_valor<string>(l->cabeza());
-    cout<<p->validar()<<endl;
+    analizador_linea(l);
 }
 
 void lector_linea(int indice, string cadena, Lista<string>* l){
@@ -108,4 +128,14 @@ void lector_linea(int indice, string cadena, Lista<string>* l){
         return;
     }
     lector_linea(indice + 1, cadena, l);
+}
+
+void analizador_linea(Lista<string>* l){
+    if (l->esvacia())
+    {
+        return;
+    }
+    Expresion<string>* e = new llave_valor<string>(l->cabeza());
+    cout<<e->validar()<<endl;
+    analizador_linea(l->resto());
 }
