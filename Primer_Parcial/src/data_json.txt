@@ -1,5 +1,2 @@
 
-"valor:"clave",
-"ll[e":"vae",
-"lle":"vae"
-"valor"clave"
+"va:lor" : "clave",

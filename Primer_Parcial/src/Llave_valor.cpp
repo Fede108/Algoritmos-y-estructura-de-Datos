@@ -8,9 +8,10 @@ using namespace std;
 Llave_valor :: Llave_valor(const string& linea): Expresion(linea) {}
 
 bool Llave_valor :: validar(){
-    clave = this->getLinea().substr(0, this->getPosSeparador());
-    valor = this->getLinea().substr(this->getPosSeparador());
-    if (verificarExpresion(clave,'\n','"','"') && verificarExpresion(valor,':','"','"'))
+
+    clave = this->getLinea().substr(0, this->getPosSeparador() + 1 );
+    valor = this->getLinea().substr(this->getPosSeparador() + 1);
+    if (verificarExpresion(clave,':','"','"') && verificarExpresion(valor,',','"','"'))
     {
         return true;
     }               
@@ -20,7 +21,8 @@ bool Llave_valor :: validar(){
 bool Llave_valor :: validar_ultimaLinea(){ 
     if (validar())
     {
-        return valor[valor.length() - 1] == '"' ;
+        return true;
+       // return valor[valor.length() - 1] == '"' ;
     }                 
     return false;
 }
@@ -28,7 +30,8 @@ bool Llave_valor :: validar_ultimaLinea(){
 bool Llave_valor :: validar_linea(){
     if (validar())
     {
-        return valor[valor.length() - 1] == ',' && valor[valor.length() - 2] == '"';
+        return true;
+        //return valor[valor.length() - 1] == ',' && valor[valor.length() - 2] == '"';
     }               
     return false;
 }

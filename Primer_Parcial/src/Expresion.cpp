@@ -13,13 +13,12 @@ void Expresion:: setLinea(const string& linea) { this->linea = linea; }
 const string& Expresion:: getLinea() const { return linea; }
 
 
-bool Expresion:: verificarExpresion( string cadena, char prefijo, char abierto, char cerrado){
-    if ( cadena[0] != prefijo || cadena[1] != abierto || cadena.length() < 4)
+bool Expresion:: verificarExpresion( string cadena, char sufijo, char abierto, char cerrado){
+    if ( cadena[cadena.length() - 1] != sufijo || cadena[0] != abierto || cadena.length() < 4)
         return false;
-
     Pila<char> p;
-    p.apilar(cadena[1]);
-    int indice = 2;
+    p.apilar(cadena[0]);
+    int indice = 1;
             while ( indice<cadena.length() && ! p.pilavacia() )
             {
                 if(cadena[indice] == cerrado){
