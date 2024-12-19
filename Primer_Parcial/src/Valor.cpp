@@ -4,50 +4,43 @@
 using namespace std;    
 
 #include "../inc/Valor.h" 
+#include "../inc/State.h" 
+#include "../inc/Pila.h"
+#include "../inc/Llave.h" 
+#include "../inc/ExpresionJson.h" 
+#include "../inc/Context.h"
 
 
-
-void Valor::apilar(char c){
+/*void Valor::apilar(char c){
     p.apilar(c);
-}
-
-void Valor::desapilar(){
-    p.desapilar();
-}
-
+    void Valor::guardar(string comando){
+    expresion += comando;
+    
 bool Valor::pilavacia(){
     return p.pilavacia();
 }
-
-void Valor::guardar(string comando){
-    expresion += comando;
+    void Valor::desapilar(){
+    p.desapilar();
 }
-
-bool Valor::evaluar_llave(char c ){
-    expresion += c;
-    if (c == '"'  && p.tope() != '"' ){ 
-        p.apilar(c);
-        return false;
-    }
-    if (c == '"' && p.tope() == '"' ){ 
-        p.desapilar();
-        return true;
-    }
-    return false;
 } 
-/* 
-                    else if (c == '"' && llave_valor.pilavacia() && modo_valor){
-                            llave_valor.guardar(comando);
-                            llave_valor.apilar(c);
-                    }
-                    else if (!llave_valor.pilavacia()){
-                            comando += c;                    
-                            if (c == '"')
-                            {   
-                                llave_valor.guardar(comando);
-                                llave_valor.desapilar();
-                                modo_valor = false; 
-                                                     
-                            }
-                    */
+} */
+
+Valor :: Valor(Context *contexto){ ctx = contexto;}
+
+void Valor:: validarExpresion(char c){
+    expresion += c;
+    if (c == '\n' || c == ' ' || c == '\t' ){
+    }
+    else if (c == '"'  && p.pilavacia()){ 
+        p.apilar(c);
+    }
+    else if (c == ',' && ! p.pilavacia()){ 
+        p.desapilar();
+        ctx->setEstado(new Llave(ctx));  
+    }
+    else if(c=='}') {
+       ctx->setEstado(new ExpresionJson(ctx));  
+    }
+} 
+       
 

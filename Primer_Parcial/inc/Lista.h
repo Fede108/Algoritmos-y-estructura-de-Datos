@@ -8,10 +8,10 @@
 using namespace std;    
 
 
-#ifndef VALOR_H
-#define VALOR_H
+#ifndef LISTA_H
+#define LISTA_H
 
-class Valor : public State{
+class Lista : public State{
 private:
     Context* ctx;
     string expresion;
@@ -19,13 +19,9 @@ private:
     string valo;
 
 public:
-    Valor(Context* contexto);
+    Lista(Context* contexto);
     void validarExpresion(char c);
-    bool pilavacia();
-    void guardar(string comando);
-    void desapilar();
-    void apilar(char c);
-    bool evaluar_llave(char c );
+   
 };
 
 #endif 

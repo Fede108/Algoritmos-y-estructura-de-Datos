@@ -1,0 +1,33 @@
+#include <cstdlib>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+#include "../inc/State.h"
+#include "../inc/Context.h"
+#include "../inc/ExpresionJson.h" 
+#include "../inc/Llave.h" 
+#include "../inc/Valor.h" 
+
+#include <vector>
+
+Context :: Context(){
+    estadoActual = new ExpresionJson(this);
+}
+
+void Context ::setEstado(State* estado){
+        estadoActual = estado;
+        estadoActual->setContext(this);
+}
+void Context :: leer_archivo(string nombre_archivo){
+    ifstream archivo(nombre_archivo);
+    if (archivo.is_open()) {
+        char c;
+        while(archivo.get(c)){
+            estadoActual->validarExpresion(c);
+        }
+    }
+}

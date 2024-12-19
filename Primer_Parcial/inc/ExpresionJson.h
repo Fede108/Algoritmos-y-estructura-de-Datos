@@ -7,25 +7,19 @@
 #include "Context.h"
 using namespace std;    
 
-
-#ifndef VALOR_H
-#define VALOR_H
-
-class Valor : public State{
+#ifndef EXPRESIONJSON_H
+#define EXPRESIONJSON_H
+class ExpresionJson : public State
+{
 private:
     Context* ctx;
     string expresion;
     Pila<char> p ;
-    string valo;
-
+   
 public:
-    Valor(Context* contexto);
     void validarExpresion(char c);
-    bool pilavacia();
-    void guardar(string comando);
-    void desapilar();
-    void apilar(char c);
-    bool evaluar_llave(char c );
+    ExpresionJson(Context* contexto);
 };
 
 #endif 
+

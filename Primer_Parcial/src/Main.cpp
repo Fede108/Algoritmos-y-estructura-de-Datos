@@ -7,122 +7,16 @@
 
 using namespace std;
 
-#include "../inc/Pila.h"
-#include "../inc/Valor.h"
-#include "../inc/Cola.h"
-
+#include "../inc/State.h"
+#include "../inc/Context.h"
 #include <vector>
 
-class Json
-{
-private:
-    Pila<char> p ;
-    string comando;
-    string nombre_archivo;
-    vector<string> expresion_json; 
-    Valor valor;
-public:
-    Json(string nombre_archivo) : nombre_archivo(nombre_archivo) {} ;
-    void leer_archivo();
-    void lector_linea(int indice, string comando);
-    bool evaluar_llave(char c);
-    void analizador_archivo();
-};
-
-
-void Json ::  leer_archivo(){
-    ifstream archivo(nombre_archivo);
-    bool llave_correcta = true;
-    bool valor_correcto = true;
-    bool modo_valor = false;
-    bool modo_llave = true;
-    bool incorrecta = false;
-
-    if (archivo.is_open()) {
-        char c;
-        while(archivo.get(c) && ! incorrecta ){
-            if(c=='{'){
-                p.apilar('{');
-            } 
-            else if(!p.pilavacia()){
-                    if (c == '\n' || c == ' ' || c == '\t' ){}
-                    else if (modo_llave){ 
-                        if (evaluar_llave(c))
-                        {
-                            modo_llave = false; 
-                            llave_correcta = true;
-                        }
-                    }
-                    else if( c == ':' &&  llave_correcta ){
-                            comando += c;
-                            modo_valor = true;     
-                    }
-                    else if(modo_valor){ 
-                        valor.guardar(comando);
-                        if(valor.evaluar_llave(c))
-                        {
-                            modo_valor = false; 
-                        }
-                    }  
-                    else if (c == ',' && ! modo_valor )
-                    {   
-                            modo_llave = true;
-                            comando += c;
-                            cout<<comando<<endl;
-                            comando = ""; 
-                    }
-                    else{
-                    incorrecta = true;    
-                    }
-            }
-            if(c=='}') { 
-                p.desapilar();
-            }      
-        }
-        archivo.close();
-    } else {
-    cerr << "No se pudo abrir el archivo." << endl;
-    return ; 
-    }
-}
-
-bool Json::evaluar_llave(char c ){
-    comando += c;
-    if (c == '"'  && p.tope() != '"' ){ 
-        p.apilar(c);
-        return false;
-    }
-    if (c == '"' && p.tope() == '"' ){ 
-        p.desapilar();
-        return true;
-    }
-    return false;
-} 
-  
-
-
-
-/*void Json::lector_linea(int indice, string comando){
-if(comando.length() == 0) return;
-string linea = "";
-     for (int i = 0; i < comando.length(); i++)
-    {
-        if (comando[i] == '\n' || comando[i] == ' ' || comando[i] == '\t' ){}
-        else{
-            linea += comando[i]; 
-        }   
-    }
-    expresion_json.push_back(linea);
-    return;
-} */
 
 int main()
 { 
-  Json* json = new Json("data_json.txt");
-  json->leer_archivo();
- 
+  Context* json = new Context();
+  json->leer_archivo("data_json.txt");
 
-  
 }
 
 
