@@ -1,5 +1,7 @@
 #include <string>
 #include <iostream>
+#include <fstream>
+
 #include "Expresion.h"
 using namespace std;    
 
@@ -11,16 +13,24 @@ using namespace std;
 #include <iostream>
 #include "Expresion.h"
 
-class Llave_valor : public Expresion {
+class Valor{
 private:
-    string clave;
+    string expresion;
+    Pila<char> p ;
     string valor;
 
 public:
-    Llave_valor(const string& linea);
+    Valor() {
+         // Inicialización por defecto
+    }
     bool validar_linea();
     bool validar();
     bool validar_ultimaLinea();
+    bool pilavacia();
+    void guardar(string comando);
+    void desapilar();
+    void apilar(char c);
+    bool evaluar_llave(char c );
 };
 
 #endif 

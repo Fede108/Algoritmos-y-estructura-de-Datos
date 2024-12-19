@@ -16,14 +16,15 @@ private:
     int posicion;
 
 public:
-    Expresion(const string& linea);
+     Expresion() {
+         // Inicialización por defecto
+    }
     bool verificarExpresion(string cadena, char prefijo, char abierto, char cerrado);
     int getPosSeparador();
-    virtual bool validar_linea() = 0;
-    virtual bool validar_ultimaLinea() = 0;
     void setLinea(const string& linea);
     const string& getLinea() const;
     string guardarLinea();
+    
 };
 
 #endif 

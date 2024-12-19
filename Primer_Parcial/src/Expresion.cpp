@@ -6,7 +6,7 @@ using namespace std;
 #include "../inc/Pila.h"
 #include "../inc/Expresion.h"
 
-Expresion::Expresion(const string& linea) :  linea(linea) {}  
+
 
 void Expresion:: setLinea(const string& linea) { this->linea = linea; }
 

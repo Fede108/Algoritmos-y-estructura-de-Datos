@@ -1,2 +1,2 @@
 
-"va:lor" : "clave",
+{ "valor" : "clave", }
