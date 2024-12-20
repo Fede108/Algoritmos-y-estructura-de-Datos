@@ -10,37 +10,33 @@ using namespace std;
 #include "../inc/ExpresionJson.h" 
 #include "../inc/Context.h"
 
-
-/*void Valor::apilar(char c){
-    p.apilar(c);
-    void Valor::guardar(string comando){
-    expresion += comando;
-    
-bool Valor::pilavacia(){
-    return p.pilavacia();
-}
-    void Valor::desapilar(){
-    p.desapilar();
-}
-} 
-} */
-
 Valor :: Valor(Context *contexto){ ctx = contexto;}
 
-void Valor:: validarExpresion(char c){
+bool Valor:: validarExpresion(char c){
     expresion += c;
-    if (c == '\n' || c == ' ' || c == '\t' ){
+    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
     }
-    else if (c == '"'  && p.pilavacia()){ 
-        p.apilar(c);
+    else if (c == ':' && p1.pilavacia()){
+        p1.apilar(c);
+        return true;
+    } 
+    else if (c == '"' && p1.tope() == ':'){
+        p1.desapilar();
+        p1.apilar(c);
+        return true;     
     }
-    else if (c == ',' && ! p.pilavacia()){ 
-        p.desapilar();
-        ctx->setEstado(new Llave(ctx));  
+    else if (c == '"' && p1.tope() == '"'){
+        p1.desapilar();
+        ctx->setEstado(ctx->getExpresionJson());    
+        return true;     
     }
-    else if(c=='}') {
-       ctx->setEstado(new ExpresionJson(ctx));  
-    }
-} 
+    else if(p1.tope() == '"'){ 
+        return true;
+    } 
+    
+    return false;
+}
+
+
        
 

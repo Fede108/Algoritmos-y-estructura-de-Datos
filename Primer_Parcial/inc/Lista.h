@@ -20,7 +20,7 @@ private:
 
 public:
     Lista(Context* contexto);
-    void validarExpresion(char c);
+    bool validarExpresion(char c);
    
 };
 

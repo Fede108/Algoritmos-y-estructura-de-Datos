@@ -12,22 +12,23 @@ using namespace std;
 
 Llave ::Llave(Context *contexto){ ctx = contexto;}
 
-void Llave:: validarExpresion(char c){
+bool Llave:: validarExpresion(char c){
+    char comilla;
     expresion += c;
-    if (c == '\n' || c == ' ' || c == '\t' ){
+    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
     }
-    else if (c == '"'  && p.pilavacia() ){ 
-        p.apilar(c);     
+    else if (c == '"' && p.pilavacia()){ 
+        p.apilar(c);
+        return true;     
     }
-    else if (c == '"'  && !p.pilavacia() ){ 
-        p.desapilar();     
-    }
-    else if (c == ':' &&  !p.pilavacia() ){ 
+    else if (c == '"' && !p.pilavacia()){ 
         p.desapilar();
-          ctx->setEstado(new Lista(ctx));  
+        ctx->setEstado(ctx->getValor());
+        return true;     
     }
-    else if(c=='}') {
-          ctx->setEstado(new ExpresionJson(ctx));  
+    else if (!p.pilavacia()){
+        return true;
     }
+    return false;
 } 
     

@@ -14,23 +14,40 @@ using namespace std;
 
 Lista :: Lista(Context *contexto){ ctx = contexto;}
 
-void Lista:: validarExpresion(char c){
+bool Lista:: validarExpresion(char c){ /*
     expresion += c;
-    if (c == '\n' || c == ' ' || c == '\t' ){
+    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
     }
-    else if (c == '['  && p.pilavacia()){ 
-        p.apilar(c);
-    } 
-    else if (c == '"' && !p.pilavacia())
-    {
-        ctx->setEstado(new Llave(ctx));
+    else if (c == ':'){
+        p1.apilar(c);
+        p2.apilar(c);
     }
-    else if (c == '"' && p.pilavacia()){ 
-        ctx->setEstado(new Valor(ctx));  
+    else if(c == '[' && p1.size() == 1 && p2.pilavacia()){     
+        p1.apilar(c);
+        return true;
     }
-    else if(c=='}') {
-       ctx->setEstado(new ExpresionJson(ctx));  
+    else if(c == ']' && p2.size() == 2){
+        if (p1.tope() == '[' )
+        {
+            p1.desapilar();
+            p1.desapilar();
+            return true;    
+        }
+        return false;    
     }
+    else if (c == '"' && p2.tope() == ':'){
+        p2.apilar(c);
+        return true;     
+    }
+    else if (c == '"' && p2.tope() == '"'){
+        p2.desapilar();
+        if (p1.pilavacia())
+        {
+            ctx->setEstado(new ExpresionJson(ctx));    
+        }
+        return true;     
+    } */
+    return false;
 } 
        
 

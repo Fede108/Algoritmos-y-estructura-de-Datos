@@ -4,7 +4,7 @@
 
 #include "State.h"
 #include "Pila.h" 
-#include "Context.h"
+class Context; 
 using namespace std;    
 
 #ifndef EXPRESIONJSON_H
@@ -17,7 +17,7 @@ private:
     Pila<char> p ;
    
 public:
-    void validarExpresion(char c);
+    bool validarExpresion(char c);
     ExpresionJson(Context* contexto);
 };
 

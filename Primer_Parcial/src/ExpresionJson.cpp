@@ -11,19 +11,26 @@ using namespace std;
 ExpresionJson::ExpresionJson(Context *contexto){
     ctx = contexto;
 }
-void ExpresionJson:: validarExpresion(char c){
+
+bool ExpresionJson:: validarExpresion(char c){
     expresion += c;
-    if(c == '\n' || c == ' ' || c == '\t' ){}
-    else if(c=='{'){
-            p.apilar('{');
-    }
-    else if (!p.pilavacia() && c=='"')
+    if(c == '\n' || c == ' ' || c == '\t' ){ return true; }
+    else if(c=='{')
     {
-       ctx->setEstado(new Llave(ctx));        
+        p.apilar('{');
+        ctx->setEstado(ctx->getLlave());
+        return true;
+    }   
+    else if (!p.pilavacia() && c==',')
+    {
+       ctx->setEstado(ctx->getLlave());
+       return true;        
     }
-    else if(c=='}') {
+    else if(c=='}') 
+    {
        p.desapilar();
-       ctx->setEstado(new ExpresionJson(ctx));  
-    }        
+       return true;
+    }
+     return false;        
 } 
     

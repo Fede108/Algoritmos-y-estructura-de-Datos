@@ -4,10 +4,10 @@
 
 #include "State.h"
 #include "Pila.h" 
-#include "Context.h"
+
 using namespace std;    
 
-
+class Context; 
 #ifndef VALOR_H
 #define VALOR_H
 
@@ -15,17 +15,13 @@ class Valor : public State{
 private:
     Context* ctx;
     string expresion;
-    Pila<char> p ;
+    Pila<char> p1 ;
+    Pila<char> p2 ;    
     string valo;
 
 public:
     Valor(Context* contexto);
-    void validarExpresion(char c);
-    bool pilavacia();
-    void guardar(string comando);
-    void desapilar();
-    void apilar(char c);
-    bool evaluar_llave(char c );
+    bool validarExpresion(char c);
 };
 
 #endif 

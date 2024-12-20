@@ -4,9 +4,8 @@
 
 #include "State.h"
 #include "Pila.h" 
-#include "Context.h"
 using namespace std;    
-
+class Context; 
 
 #ifndef LLAVE_H
 #define LLAVE_H
@@ -19,7 +18,7 @@ private:
     string valor;
 
 public:
-    void validarExpresion(char c);
+    bool validarExpresion(char c);
     Llave(Context* contexto);
     
 };

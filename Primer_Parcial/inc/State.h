@@ -10,7 +10,7 @@ class State{
         void setContext(Context* ctx) {
             contexto = ctx;
         }   
-        virtual void validarExpresion(char c) = 0;
+        virtual bool validarExpresion(char c) = 0;
 
 };
 #endif 

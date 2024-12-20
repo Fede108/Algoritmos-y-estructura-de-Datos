@@ -23,6 +23,7 @@ public:
     void apilar(T x) { d[++p] = x; };
     T tope(void) { return d[p]; };
     void desapilar(void) { p--; };
+    int size(){ return p + 1;}
     bool pilavacia() { return p == -1; };
 };
 
