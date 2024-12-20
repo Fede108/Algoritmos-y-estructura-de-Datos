@@ -37,6 +37,27 @@ bool Valor:: validarExpresion(char c){
     return false;
 }
 
+class ListaString
+{
+private:
+    Pila<char> p;
+    String string;
+public:
+   void validarListaString(char c);
+};
+
+
+class String
+{
+private:
+    Pila<char> p;
+public:
+    void validarString(char c);
+};
+
+
+
+
 
        
 
