@@ -13,6 +13,7 @@ private:
     ExpresionJson expresionJson; // Instancia única
     Llave llave;                 // Instancia única
     Valor valor;                 // Instancia única
+
 public:
     Context() : expresionJson(this), llave(this), valor(this) {
         estadoActual = &expresionJson; // Estado inicial
@@ -22,6 +23,7 @@ public:
     State* getExpresionJson() { return &expresionJson; };
     State* getLlave() { return &llave; };
     State* getValor() { return &valor; };
+   
 };
 #endif 
 

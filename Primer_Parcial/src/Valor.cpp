@@ -10,50 +10,80 @@ using namespace std;
 #include "../inc/ExpresionJson.h" 
 #include "../inc/Context.h"
 
-Valor :: Valor(Context *contexto){ ctx = contexto;}
+String :: String(Valor *v){ valor = v;}
+
+bool String :: validarExpresion(char c){
+   if (c == '"' && p.pilavacia()){ 
+        p.apilar(c);
+        return true;
+    }   
+    if (c == '"' && !p.pilavacia()){ 
+        p.desapilar();
+        valor->setEstadoInterno(valor->getValor_listaString());
+        return valor->getValor_listaString()->validarExpresion(c);
+    }
+    else if (!p.pilavacia()){
+        return true;
+    }
+    return false;     
+}
+
+ListaString :: ListaString(Valor *v){ valor = v;}
+
+bool ListaString :: validarExpresion(char c){
+   if (c == '[' && p.pilavacia()){ 
+        p.apilar(c);
+        valor->setEstadoInterno(valor->getValor_string());
+        return true;
+    } else if (c == ']' && p.tope() == '['){ 
+        p.desapilar();
+        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
+        valor->setEstadoInterno(nullptr);
+        return true;     
+    } else if (c == ',' && p.tope() == '[')
+    {
+         valor->setEstadoInterno(valor->getValor_string());
+         return true;
+    }  
+    else if(p.pilavacia()){
+        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
+        valor->setEstadoInterno(nullptr);
+        return true;  
+    } else if (!p.pilavacia() && (c == '\n' || c == ' ' || c == '\t' || c == '"' ))
+    {
+        return true;
+    }
+    return false;     
+}
 
 bool Valor:: validarExpresion(char c){
     expresion += c;
     if (c == '\n' || c == ' ' || c == '\t' ){ return true;
+    } if (estadoInterno != nullptr)
+    {
+        return estadoInterno->validarExpresion(c);
     }
-    else if (c == ':' && p1.pilavacia()){
+    else if (c == ':'){
         p1.apilar(c);
         return true;
-    } 
-    else if (c == '"' && p1.tope() == ':'){
-        p1.desapilar();
-        p1.apilar(c);
-        return true;     
+    }else if (!p1.pilavacia() && c == '"')
+    {
+        setEstadoInterno(getValor_string());
+        return estadoInterno->validarExpresion(c);
+    }else if (!p1.pilavacia() && c =='{')
+    {
+        getContext()->setEstado(getContext()->getExpresionJson());
+        return getContext()->getExpresionJson()->validarExpresion(c);
     }
-    else if (c == '"' && p1.tope() == '"'){
-        p1.desapilar();
-        ctx->setEstado(ctx->getExpresionJson());    
-        return true;     
+    else if (!p1.pilavacia() && c =='[')
+    {
+        setEstadoInterno(getValor_listaString());
+        return estadoInterno->validarExpresion(c);
     }
-    else if(p1.tope() == '"'){ 
-        return true;
-    } 
-    
     return false;
 }
 
-class ListaString
-{
-private:
-    Pila<char> p;
-    String string;
-public:
-   void validarListaString(char c);
-};
 
-
-class String
-{
-private:
-    Pila<char> p;
-public:
-    void validarString(char c);
-};
 
 
 

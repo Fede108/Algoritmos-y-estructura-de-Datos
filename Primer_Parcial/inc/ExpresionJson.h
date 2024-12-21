@@ -19,6 +19,7 @@ private:
 public:
     bool validarExpresion(char c);
     ExpresionJson(Context* contexto);
+    bool validarJson( ){return p.pilavacia();};
 };
 
 #endif 
