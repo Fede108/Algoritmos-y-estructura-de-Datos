@@ -16,6 +16,7 @@ int main()
 { 
   Context* json = new Context();
   json->leer_archivo("data_json.txt");
+  //json->imprimir_archivo();
   system("PAUSE");
   return EXIT_SUCCESS;
 

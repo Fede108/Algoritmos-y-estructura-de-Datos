@@ -8,27 +8,39 @@ using namespace std;
 #include "../inc/Valor.h" 
 #include "../inc/ExpresionJson.h" 
 #include "../inc/Context.h"
-#include "../inc/Lista.h"
 
-Llave ::Llave(Context *contexto){ ctx = contexto;}
+
+
+
 
 bool Llave:: validarExpresion(char c){
-    char comilla;
-    expresion += c;
     if (c == '\n' || c == ' ' || c == '\t' ){ return true;
     }
-    else if (c == '"' && p.pilavacia()){ 
+    if (c == '"' && p.size()<2){ 
         p.apilar(c);
         return true;     
     }
-    else if (c == '"' && !p.pilavacia()){ 
+    else if (c == ':' && p.size() == 2)
+    {
         p.desapilar();
-        ctx->setEstado(ctx->getValor());
-        return true;     
-    }
-    else if (!p.pilavacia()){
+        p.desapilar();
+        getContext()->setEstado(getContext()->getValor());
+        return true;
+    }     
+    else if (p.size() == 1 && p.tope() == '"'){
         return true;
     }
+    cout<<endl;
+    cout<<"llave no valida"<<endl;
     return false;
-} 
+}
+
+void Llave::guardarExpresion(char c){
+   if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
+     expresion += c;
+}
+
+string Llave::print(){
+    return expresion;
+}
     

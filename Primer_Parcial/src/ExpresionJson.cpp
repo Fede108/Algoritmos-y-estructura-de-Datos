@@ -8,22 +8,20 @@ using namespace std;
 #include "../inc/Llave.h" 
 #include "../inc/Context.h"
 
-ExpresionJson::ExpresionJson(Context *contexto){
-    ctx = contexto;
-}
+
+
 
 bool ExpresionJson:: validarExpresion(char c){
-    expresion += c;
     if(c == '\n' || c == ' ' || c == '\t' ){ return true; }
-    else if(c=='{')
+    if(c=='{')
     {
         p.apilar('{');
-        ctx->setEstado(ctx->getLlave());
+        getContext()->setEstado(getContext()->getLlave());
         return true;
     }   
     else if (!p.pilavacia() && c==',')
     {
-       ctx->setEstado(ctx->getLlave());
+       getContext()->setEstado(getContext()->getLlave());
        return true;        
     }
     else if(c=='}') 
@@ -33,4 +31,12 @@ bool ExpresionJson:: validarExpresion(char c){
     }
      return false;        
 } 
+
+void ExpresionJson ::guardarExpresion(char c){
+    if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
+     expresion += c;
+}   
+string ExpresionJson ::print(){
+    return expresion;
+}
     

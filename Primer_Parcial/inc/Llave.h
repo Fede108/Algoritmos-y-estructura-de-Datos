@@ -12,15 +12,15 @@ class Context;
 
 class Llave : public State{
 private:
-    Context* ctx;
     string expresion;
     Pila<char> p;
     string valor;
 
 public:
     bool validarExpresion(char c);
-    Llave(Context* contexto);
-    
+    void guardarExpresion(char c);
+    string print();
+   
 };
 
 #endif 

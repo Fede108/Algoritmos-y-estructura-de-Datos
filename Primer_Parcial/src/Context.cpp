@@ -25,6 +25,9 @@ void Context :: leer_archivo(string nombre_archivo){
         char c;
         while(archivo.get(c) && correcto){
             correcto = estadoActual->validarExpresion(c);
+            estadoActual->guardarExpresion(c);
+          //  cout<<endl;
+           // cout<< estadoActual->print()<<endl;
         }
         correcto = expresionJson.validarJson();
         cout<<endl;

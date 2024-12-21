@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include "Pila.h" 
+#include "Cola.h"
 
 using namespace std;    
 
@@ -18,6 +19,7 @@ class EstadoInterno{
     protected:
         Valor* valor;
     public:
+        EstadoInterno* getEstadoInterno(){ return this;};
         void setValor(Valor* valor) { this->valor = valor; }  
         virtual bool validarExpresion(char c) = 0;
 };
@@ -33,9 +35,11 @@ public:
 class ListaString : public EstadoInterno{
 private:
     Pila<char> p;
+    Cola<char> cola;  
 public:
     ListaString(Valor* valor);
     bool validarExpresion(char c);
+    void agregar(char c){ cola.add(c);}
 };
 
 
@@ -45,22 +49,23 @@ private:
     String valor_string;
     ListaString lista_string;
     string expresion;
-    Pila<char> p1 ;
-    Pila<char> p2 ;  
-protected:
-    Context* ctx;
+    Pila<char> p1 ;  
+
 
 public:
-    Valor(Context *contexto) : valor_string(this), lista_string(this) { ctx = contexto; estadoInterno = nullptr; }
+    Valor() : valor_string(this), lista_string(this) {  estadoInterno = nullptr; }
     bool validarExpresion(char c);
-    void setEstadoInterno(EstadoInterno* estado){
+    void guardarExpresion(char c);
+    string print();
+    void setEstadoInterno(EstadoInterno *estado)
+    {
         estadoInterno=estado;
         if(estadoInterno == nullptr) return;
         estadoInterno->setValor(this);
     }
     EstadoInterno* getValor_string() { return &valor_string; };
     EstadoInterno* getValor_listaString() { return &lista_string; };
-    Context* getContext(){return ctx;}
+   
 };
 
 

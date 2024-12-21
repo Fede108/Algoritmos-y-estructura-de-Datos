@@ -12,13 +12,13 @@ using namespace std;
 class ExpresionJson : public State
 {
 private:
-    Context* ctx;
     string expresion;
     Pila<char> p ;
    
 public:
     bool validarExpresion(char c);
-    ExpresionJson(Context* contexto);
+    void guardarExpresion(char c);
+    string print();
     bool validarJson( ){return p.pilavacia();};
 };
 

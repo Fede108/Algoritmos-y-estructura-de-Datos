@@ -15,11 +15,13 @@ private:
     Valor valor;                 // Instancia única
 
 public:
-    Context() : expresionJson(this), llave(this), valor(this) {
+    Context() {
         estadoActual = &expresionJson; // Estado inicial
+        estadoActual->setContext(this);
     }
     void setEstado(State* estado);
     void leer_archivo(string nombre_archivo);
+ //   string imprimir_archivo();
     State* getExpresionJson() { return &expresionJson; };
     State* getLlave() { return &llave; };
     State* getValor() { return &valor; };
