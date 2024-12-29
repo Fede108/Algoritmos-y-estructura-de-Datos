@@ -11,77 +11,75 @@ using namespace std;
 #include "../inc/Context.h"
 
 
-String :: String(Valor *v){ valor = v;}
+String :: String(Valor *v){ 
+    valor = v;
+    str = new String_();
+    }
 
 bool String :: validarExpresion(char c){
-   if (c == '"' && p.pilavacia()){ 
-        p.apilar(c);
-        return true;
-    }   
-    if (c == '"' && !p.pilavacia()){ 
-        p.desapilar();
-        valor->setEstadoInterno(valor->getValor_listaString());
-        return valor->getValor_listaString()->validarExpresion(c);
+    bool correcta = str->validarExpresion(c);
+    if (str->getExpresionEsCorrecta())
+    {   
+        str = new String_();
+        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
+        valor->setEstadoInterno(nullptr);
     }
-    else if (!p.pilavacia()){
-        return true;
-    }
-    return false;     
+    return correcta;
 }
 
-ListaString :: ListaString(Valor *v){ valor = v;}
+ListaString :: ListaString(Valor *v){ valor = v; str = new String_();}
 
 bool ListaString :: validarExpresion(char c){
-   if (c == '[' && p.pilavacia()){ 
+    agregar(c);
+    if (c == '[' && p.pilavacia()){ 
         p.apilar(c);
-        valor->setEstadoInterno(valor->getValor_string());
         return true;
-    } else if (c == ']' && p.tope() == '['){ 
-        p.desapilar();
-        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-        valor->setEstadoInterno(nullptr);
-        return true;     
-    } else if (c == ',' && p.tope() == '[')
+    } 
+    else if (p.tope() == '[')
     {
-         valor->setEstadoInterno(valor->getValor_string());
-         return true;
-    }  
-    else if(p.pilavacia()){
-        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-        valor->setEstadoInterno(nullptr);
-        return true;  
-    } else if (!p.pilavacia() && (c == '\n' || c == ' ' || c == '\t' || c == '"' ))
-    {
-        return true;
+        if (str->getExpresionEsCorrecta()){
+            str = new String_();
+            if (c == ',')
+            {
+              return true;
+            }
+            else if (c == ']')
+            {
+               p.desapilar();
+               valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
+               valor->setEstadoInterno(nullptr);
+               return true;
+            }
+            else{
+                return false;
+            }      
+        }
+        return str->validarExpresion(c);
     }
     return false;     
 }
 
 bool Valor:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
-    } 
+    if (c == '\n' || c == ' ' || c == '\t' ) return true;
     if (estadoInterno != nullptr)
     {
-        if ( estadoInterno->getEstadoInterno() == getValor_listaString() ){ lista_string.agregar(c); }
         return estadoInterno->validarExpresion(c);
     }
     else if ( c == '"')
     {
         setEstadoInterno(getValor_string());
-        p1.desapilar();
         return estadoInterno->validarExpresion(c);
-    }else if ( c =='{')
-    {
-        getContext()->setEstado(getContext()->getExpresionJson());
-        p1.desapilar();
-        return getContext()->getExpresionJson()->validarExpresion(c);
     }
     else if ( c =='[')
     {
         setEstadoInterno(getValor_listaString());
-        p1.desapilar();
         lista_string.agregar(c);
         return estadoInterno->validarExpresion(c);
+    }
+    else if ( c =='{')
+    {
+        getContext()->setEstado(getContext()->getExpresionJson());
+        return getContext()->getExpresionJson()->validarExpresion(c);
     }
     cout<<endl;
     cout<<"valor no valida"<<endl;

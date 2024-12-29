@@ -4,6 +4,7 @@
 #include "ExpresionJson.h"
 #include <string>
 using namespace std;    
+
 #ifndef CONTEXT_H
 #define CONTEXT_H
 class Context
@@ -20,8 +21,9 @@ public:
         estadoActual->setContext(this);
     }
     void setEstado(State* estado);
-    void leer_archivo(string nombre_archivo);
- //   string imprimir_archivo();
+    bool leer_archivo(string nombre_archivo);
+    void generar_archivo();
+    // string imprimir_archivo();
     State* getExpresionJson() { return &expresionJson; };
     State* getLlave() { return &llave; };
     State* getValor() { return &valor; };

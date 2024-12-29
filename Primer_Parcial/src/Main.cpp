@@ -15,11 +15,10 @@ using namespace std;
 int main()
 { 
   Context* json = new Context();
-  json->leer_archivo("data_json.txt");
+  cout<<json->leer_archivo("data_json.txt")<<endl;
   //json->imprimir_archivo();
   system("PAUSE");
   return EXIT_SUCCESS;
-
 }
 
 

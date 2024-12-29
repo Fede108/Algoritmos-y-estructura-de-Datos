@@ -9,38 +9,61 @@ using namespace std;
 #include "../inc/ExpresionJson.h" 
 #include "../inc/Context.h"
 
-
-
-
-
-bool Llave:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
-    }
-    if (c == '"' && p.size()<2){ 
+bool String_ :: validarExpresion(char c){
+    str += c;
+    if (c == '"' && p.pilavacia()){ 
         p.apilar(c);
-        return true;     
-    }
-    else if (c == ':' && p.size() == 2)
-    {
-        p.desapilar();
-        p.desapilar();
-        getContext()->setEstado(getContext()->getValor());
         return true;
-    }     
-    else if (p.size() == 1 && p.tope() == '"'){
+    }   
+    if (c == '"' && !p.pilavacia()){ 
+        p.desapilar();
+        expresionCorrecta = true;
         return true;
     }
-    cout<<endl;
-    cout<<"llave no valida"<<endl;
-    return false;
+    else if (!p.pilavacia()){
+        return true;
+    }
+    return false;    
 }
 
-void Llave::guardarExpresion(char c){
-   if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-     expresion += c;
+bool String_ :: getExpresionEsCorrecta(){
+    return expresionCorrecta;
+}
+
+void String_ :: reiniciarExpresion(){
+    expresionCorrecta = false;
+}
+
+string String_ ::print(){
+    return str;
+}
+
+bool Llave:: validarExpresion(char c){
+    if (c == '\n' || c == ' ' || c == '\t' ) return true;
+    if (str->getExpresionEsCorrecta())
+    {   
+        llaves.push_back(*str);
+        delete str;
+        str = new String_();
+        if (c == ':')
+        {
+            getContext()->setEstado(getContext()->getValor());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return str->validarExpresion(c);
 }
 
 string Llave::print(){
-    return expresion;
+    return llaves.at(0).print();
 }
-    
+
+void Llave::guardarExpresion(char c){
+    if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
+    expresion += c;
+}
+

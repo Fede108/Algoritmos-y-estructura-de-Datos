@@ -9,8 +9,6 @@ using namespace std;
 #include "../inc/Context.h"
 
 
-
-
 bool ExpresionJson:: validarExpresion(char c){
     if(c == '\n' || c == ' ' || c == '\t' ){ return true; }
     if(c=='{')
@@ -35,7 +33,8 @@ bool ExpresionJson:: validarExpresion(char c){
 void ExpresionJson ::guardarExpresion(char c){
     if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
      expresion += c;
-}   
+}
+
 string ExpresionJson ::print(){
     return expresion;
 }

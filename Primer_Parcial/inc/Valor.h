@@ -5,6 +5,7 @@
 #include "State.h"
 #include "Pila.h" 
 #include "Cola.h"
+#include "Llave.h"
 
 using namespace std;    
 
@@ -27,6 +28,7 @@ class EstadoInterno{
 class String:public EstadoInterno{
 private:
     Pila<char> p;
+    String_ *str;
 public:
     String(Valor* valor);
     bool validarExpresion(char c);
@@ -35,7 +37,8 @@ public:
 class ListaString : public EstadoInterno{
 private:
     Pila<char> p;
-    Cola<char> cola;  
+    Cola<char> cola;
+    String_ *str;  
 public:
     ListaString(Valor* valor);
     bool validarExpresion(char c);
@@ -50,7 +53,6 @@ private:
     ListaString lista_string;
     string expresion;
     Pila<char> p1 ;  
-
 
 public:
     Valor() : valor_string(this), lista_string(this) {  estadoInterno = nullptr; }
@@ -67,8 +69,6 @@ public:
     EstadoInterno* getValor_listaString() { return &lista_string; };
    
 };
-
-
 
 
 #endif 
