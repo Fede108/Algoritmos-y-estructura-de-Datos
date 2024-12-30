@@ -25,11 +25,16 @@ bool Context :: leer_archivo(string nombre_archivo){
         char c;
         while(archivo.get(c) && correcto){
             correcto = estadoActual->validarExpresion(c);
-            estadoActual->guardarExpresion(c);
         }
       //  correcto = expresionJson.validarJson();
       //  cout<<endl;
       //  cout<<correcto<<endl;
     }
+    
+    for (int i = 0; i < expresionJson.size() ; i++)
+    {
+        json += estadoActual->print();
+    }
+    cout<<json<<endl;
     return correcto;
 }

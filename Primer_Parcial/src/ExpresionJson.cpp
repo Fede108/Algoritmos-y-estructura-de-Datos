@@ -9,8 +9,9 @@ using namespace std;
 #include "../inc/Context.h"
 
 
-bool ExpresionJson:: validarExpresion(char c){
+bool ExpresionJson:: validarExpresion(char c){  
     if(c == '\n' || c == ' ' || c == '\t' ){ return true; }
+    expresion += c;
     if(c=='{')
     {
         p.apilar('{');
@@ -30,12 +31,15 @@ bool ExpresionJson:: validarExpresion(char c){
      return false;        
 } 
 
-void ExpresionJson ::guardarExpresion(char c){
-    if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-     expresion += c;
+int ExpresionJson ::size(){
+    return expresion.length();
 }
 
-string ExpresionJson ::print(){
-    return expresion;
+string ExpresionJson :: print(){
+    static int i = 0; 
+    if (expresion.empty()) return "";
+    char resultado = expresion[i++];
+    if( i == expresion.size()) return "}";
+    return resultado + getContext()->getLlave()->print();
 }
     

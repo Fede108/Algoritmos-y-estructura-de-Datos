@@ -11,23 +11,7 @@ using namespace std;
 #include "../inc/Context.h"
 
 
-String :: String(Valor *v){ 
-    valor = v;
-    str = new String_();
-    }
-
-bool String :: validarExpresion(char c){
-    bool correcta = str->validarExpresion(c);
-    if (str->getExpresionEsCorrecta())
-    {   
-        str = new String_();
-        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-        valor->setEstadoInterno(nullptr);
-    }
-    return correcta;
-}
-
-ListaString :: ListaString(Valor *v){ valor = v; str = new String_();}
+ListaString :: ListaString(){ str = new String_();}
 
 bool ListaString :: validarExpresion(char c){
     agregar(c);
@@ -46,8 +30,7 @@ bool ListaString :: validarExpresion(char c){
             else if (c == ']')
             {
                p.desapilar();
-               valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-               valor->setEstadoInterno(nullptr);
+               expresionCorrecta = true;
                return true;
             }
             else{
@@ -59,40 +42,57 @@ bool ListaString :: validarExpresion(char c){
     return false;     
 }
 
+bool ListaString :: getExpresionEsCorrecta(){
+    return expresionCorrecta;
+}
+
+string ListaString :: print(){
+    static int i = 0;
+    for (int i = 0; i < strings.size(); i++)
+    {
+        cadena += strings.at(i).print();
+    }
+    return cadena;
+}
+
+
 bool Valor:: validarExpresion(char c){
     if (c == '\n' || c == ' ' || c == '\t' ) return true;
-    if (estadoInterno != nullptr)
+    if (valorDato != nullptr)
     {
-        return estadoInterno->validarExpresion(c);
+        if(valorDato->getExpresionEsCorrecta()){
+            getContext()->setEstado(getContext()->getExpresionJson());
+            valores.push_back(valorDato);
+            valorDato = nullptr;
+            return getContext()->getExpresionJson()->validarExpresion(c);
+        }
+        return valorDato->validarExpresion(c);
     }
     else if ( c == '"')
     {
-        setEstadoInterno(getValor_string());
-        return estadoInterno->validarExpresion(c);
+        tipo = STRING;
+        valorDato = new String_();
+        return valorDato->validarExpresion(c);
     }
-    else if ( c =='[')
+    else if ( c == '[')
     {
-        setEstadoInterno(getValor_listaString());
-        lista_string.agregar(c);
-        return estadoInterno->validarExpresion(c);
-    }
+        tipo = LISTA;
+        valorDato = new ListaString();
+        return valorDato->validarExpresion(c);    
+   }
     else if ( c =='{')
     {
         getContext()->setEstado(getContext()->getExpresionJson());
         return getContext()->getExpresionJson()->validarExpresion(c);
     }
-    cout<<endl;
-    cout<<"valor no valida"<<endl;
     return false;
 }
 
-void Valor::guardarExpresion(char c){
-   if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-     expresion += c;
-}
-
 string Valor::print(){
-    return expresion;
+    static int i = 0;
+    if (valores.empty()) return "";
+    string resultado = valores[i++]->print();
+    return resultado;
 }
 
 

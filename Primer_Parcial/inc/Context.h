@@ -14,7 +14,7 @@ private:
     ExpresionJson expresionJson; // Instancia única
     Llave llave;                 // Instancia única
     Valor valor;                 // Instancia única
-
+    string json;
 public:
     Context() {
         estadoActual = &expresionJson; // Estado inicial

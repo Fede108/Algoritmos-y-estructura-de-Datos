@@ -13,7 +13,6 @@ class State{
         }   
         Context* getContext(){return contexto;}
         virtual bool validarExpresion(char c) = 0;
-        virtual void guardarExpresion(char c) = 0;
         virtual string print() = 0;
 }; 
 #endif 

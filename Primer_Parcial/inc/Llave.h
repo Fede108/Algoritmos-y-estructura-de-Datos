@@ -11,7 +11,16 @@ class Context;
 #ifndef LLAVE_H
 #define LLAVE_H
 
-class String_
+class Dato
+{
+public:
+    virtual bool validarExpresion(char c)= 0;
+    virtual bool  getExpresionEsCorrecta() = 0;
+    virtual string print() = 0;
+};
+
+
+class String_ : public Dato
 {
 private:
     Pila<char> p;
@@ -20,7 +29,6 @@ private:
 public:
     bool validarExpresion(char c);
     bool getExpresionEsCorrecta();
-    void reiniciarExpresion();
     string print();
 };
 
@@ -37,9 +45,7 @@ public:
     bool validarExpresion(char c);
     void guardarExpresion(char c);
     string print();
-   
 };
-
 
 
 #endif 

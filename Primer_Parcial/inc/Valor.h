@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
+
 
 #include "State.h"
 #include "Pila.h" 
@@ -16,59 +18,34 @@ class Valor;
 #define VALOR_H
 
 
-class EstadoInterno{
-    protected:
-        Valor* valor;
-    public:
-        EstadoInterno* getEstadoInterno(){ return this;};
-        void setValor(Valor* valor) { this->valor = valor; }  
-        virtual bool validarExpresion(char c) = 0;
-};
-
-class String:public EstadoInterno{
+class ListaString: public Dato
+{
 private:
-    Pila<char> p;
-    String_ *str;
-public:
-    String(Valor* valor);
-    bool validarExpresion(char c);
-};
-
-class ListaString : public EstadoInterno{
-private:
+    bool expresionCorrecta = false;
     Pila<char> p;
     Cola<char> cola;
+    vector <String_> strings; //BUFFER
     String_ *str;  
+    string cadena;
 public:
-    ListaString(Valor* valor);
+    ListaString();
+    bool getExpresionEsCorrecta();
     bool validarExpresion(char c);
     void agregar(char c){ cola.add(c);}
+    string print();
 };
 
 
 class Valor : public State{
 private:
-    EstadoInterno* estadoInterno;
-    String valor_string;
-    ListaString lista_string;
-    string expresion;
-    Pila<char> p1 ;  
-
+    enum TipoValor { NULO, STRING, LISTA } tipo;
+    Dato *valorDato;
+    vector <Dato*> valores; //BUFFER
+    Pila<char> p1;  
 public:
-    Valor() : valor_string(this), lista_string(this) {  estadoInterno = nullptr; }
+    Valor()  { valorDato = nullptr;}
     bool validarExpresion(char c);
-    void guardarExpresion(char c);
     string print();
-    void setEstadoInterno(EstadoInterno *estado)
-    {
-        estadoInterno=estado;
-        if(estadoInterno == nullptr) return;
-        estadoInterno->setValor(this);
-    }
-    EstadoInterno* getValor_string() { return &valor_string; };
-    EstadoInterno* getValor_listaString() { return &lista_string; };
-   
 };
-
 
 #endif 

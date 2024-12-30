@@ -30,10 +30,6 @@ bool String_ :: getExpresionEsCorrecta(){
     return expresionCorrecta;
 }
 
-void String_ :: reiniciarExpresion(){
-    expresionCorrecta = false;
-}
-
 string String_ ::print(){
     return str;
 }
@@ -59,11 +55,12 @@ bool Llave:: validarExpresion(char c){
 }
 
 string Llave::print(){
-    return llaves.at(0).print();
+    static int i = 0;
+    if (llaves.empty()) return "";
+    string resultado = llaves[i].print();
+    i = (i + 1) % llaves.size();
+    return resultado + ":" + getContext()->getValor()->print();
 }
 
-void Llave::guardarExpresion(char c){
-    if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-    expresion += c;
-}
+
 
