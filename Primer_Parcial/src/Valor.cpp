@@ -22,6 +22,8 @@ bool ListaString :: validarExpresion(char c){
     else if (p.tope() == '[')
     {
         if (str->getExpresionEsCorrecta()){
+            strings.push_back(*str);
+            delete str;
             str = new String_();
             if (c == ',')
             {
@@ -52,12 +54,11 @@ string ListaString :: print(){
     {
         cadena += strings.at(i).print();
     }
-    return cadena;
+    return "[" + cadena + "]";
 }
 
 
 bool Valor:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ) return true;
     if (valorDato != nullptr)
     {
         if(valorDato->getExpresionEsCorrecta()){
@@ -70,16 +71,14 @@ bool Valor:: validarExpresion(char c){
     }
     else if ( c == '"')
     {
-        tipo = STRING;
         valorDato = new String_();
         return valorDato->validarExpresion(c);
     }
     else if ( c == '[')
     {
-        tipo = LISTA;
         valorDato = new ListaString();
         return valorDato->validarExpresion(c);    
-   }
+    }
     else if ( c =='{')
     {
         getContext()->setEstado(getContext()->getExpresionJson());
@@ -89,10 +88,13 @@ bool Valor:: validarExpresion(char c){
 }
 
 string Valor::print(){
-    static int i = 0;
     if (valores.empty()) return "";
-    string resultado = valores[i++]->print();
-    return resultado;
+    ostringstream resultado;
+    // Accede y procesa el primer elemento
+    resultado << valores.front()->print(); 
+    // Elimina el primer elemento
+    valores.erase(valores.begin());  // Elimina el primer elemento
+    return resultado.str();
 }
 
 

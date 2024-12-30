@@ -33,18 +33,21 @@ public:
     bool validarExpresion(char c);
     void agregar(char c){ cola.add(c);}
     string print();
+    bool pilaEmpty( ){return p.pilavacia();};
 };
 
 
 class Valor : public State{
 private:
-    enum TipoValor { NULO, STRING, LISTA } tipo;
     Dato *valorDato;
     vector <Dato*> valores; //BUFFER
     Pila<char> p1;  
 public:
     Valor()  { valorDato = nullptr;}
     bool validarExpresion(char c);
+    bool validarValor(){ 
+        if (valorDato == nullptr) return true;
+        return valorDato->pilaEmpty();};
     string print();
 };
 

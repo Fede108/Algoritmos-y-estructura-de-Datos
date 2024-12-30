@@ -21,16 +21,20 @@ void Context :: setEstado(State* estado){
 bool Context :: leer_archivo(string nombre_archivo){
     bool correcto = true;
     ifstream archivo(nombre_archivo);
-    if (archivo.is_open() ) {
+    if (archivo.is_open() ){
         char c;
         while(archivo.get(c) && correcto){
-            correcto = estadoActual->validarExpresion(c);
+            if (c != '\n' && c != ' ' && c != '\t' ){
+                correcto = estadoActual->validarExpresion(c);
+            } 
         }
-      //  correcto = expresionJson.validarJson();
-      //  cout<<endl;
-      //  cout<<correcto<<endl;
     }
-    
+
+    correcto = correcto & llave.validarLlave();
+    correcto = correcto & valor.validarValor();
+    correcto = correcto & expresionJson.validarJson();
+
+    setEstado(getExpresionJson());
     for (int i = 0; i < expresionJson.size() ; i++)
     {
         json += estadoActual->print();

@@ -10,7 +10,6 @@ using namespace std;
 
 
 bool ExpresionJson:: validarExpresion(char c){  
-    if(c == '\n' || c == ' ' || c == '\t' ){ return true; }
     expresion += c;
     if(c=='{')
     {
@@ -18,28 +17,29 @@ bool ExpresionJson:: validarExpresion(char c){
         getContext()->setEstado(getContext()->getLlave());
         return true;
     }   
-    else if (!p.pilavacia() && c==',')
+    if (!p.pilavacia() && c==',')
     {
        getContext()->setEstado(getContext()->getLlave());
        return true;        
     }
-    else if(c=='}') 
+    if(c=='}') 
     {
        p.desapilar();
        return true;
     }
-     return false;        
-} 
+    return false;        
+}
+ 
 
 int ExpresionJson ::size(){
     return expresion.length();
 }
 
 string ExpresionJson :: print(){
-    static int i = 0; 
+    ostringstream resultado;
     if (expresion.empty()) return "";
-    char resultado = expresion[i++];
-    if( i == expresion.size()) return "}";
-    return resultado + getContext()->getLlave()->print();
+    resultado << expresion.front() << getContext()->getLlave()->print();
+    expresion.erase(expresion.begin());
+    return resultado.str();
 }
     

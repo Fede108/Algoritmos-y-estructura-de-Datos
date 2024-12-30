@@ -11,16 +11,16 @@ using namespace std;
 
 bool String_ :: validarExpresion(char c){
     str += c;
-    if (c == '"' && p.pilavacia()){ 
-        p.apilar(c);
+    if (c == '"' && p.pilavacia()) { 
+        p.apilar(c); // Abre una comilla
         return true;
     }   
-    if (c == '"' && !p.pilavacia()){ 
-        p.desapilar();
+    if (c == '"' && !p.pilavacia()) { 
+        p.desapilar(); // Cierra una comilla
         expresionCorrecta = true;
         return true;
     }
-    else if (!p.pilavacia()){
+    if (!p.pilavacia()){ // Cualquier caracter dentro de las comillas es valido
         return true;
     }
     return false;    
@@ -34,32 +34,41 @@ string String_ ::print(){
     return str;
 }
 
+//-------------------------------------------------------------------------------
+
 bool Llave:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ) return true;
-    if (str->getExpresionEsCorrecta())
-    {   
-        llaves.push_back(*str);
-        delete str;
+    if (str->getExpresionEsCorrecta())  // Evalua expresion actual 
+    {   delete str;
         str = new String_();
         if (c == ':')
-        {
-            getContext()->setEstado(getContext()->getValor());
+        { 
+            p.apilar(c); // Procesa el carácter `:`
+            getContext()->setEstado(getContext()->getValor()); // Proxima expresion a evaluar  
             return true;
         }
-        else
-        {
-            return false;
-        }
+            return false; // Error: no hay `:` después de una llave válida
     }
-    return str->validarExpresion(c);
+
+    if (!p.pilavacia()) {
+        p.desapilar(); 
+    }
+
+    bool correcta = str->validarExpresion(c); // Continúa validando la llave actual
+    if (str->getExpresionEsCorrecta())
+    {
+        llaves.push_back(*str);
+    }
+    return correcta;
 }
 
 string Llave::print(){
-    static int i = 0;
     if (llaves.empty()) return "";
-    string resultado = llaves[i].print();
-    i = (i + 1) % llaves.size();
-    return resultado + ":" + getContext()->getValor()->print();
+    ostringstream resultado;
+    // Accede y procesa el primer elemento
+    resultado << llaves.front().print() << p.tope() << getContext()->getValor()->print();
+    // Elimina el primer elemento
+    llaves.erase(llaves.begin());  // Elimina el primer elemento
+    return resultado.str();
 }
 
 

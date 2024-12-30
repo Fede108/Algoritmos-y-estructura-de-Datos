@@ -17,6 +17,7 @@ public:
     virtual bool validarExpresion(char c)= 0;
     virtual bool  getExpresionEsCorrecta() = 0;
     virtual string print() = 0;
+    virtual bool pilaEmpty() = 0;
 };
 
 
@@ -30,21 +31,26 @@ public:
     bool validarExpresion(char c);
     bool getExpresionEsCorrecta();
     string print();
+    bool pilaEmpty(){return p.pilavacia();};
 };
 
 class Llave : public State{
 private:
-    Pila<char> p;
     String_ *str;
     vector <String_> llaves; //buffer de strings
-
+    Pila<char> p;
 public:
     Llave(){
         str = new String_();
     }
+    ~Llave() {
+        delete str;
+    }
     bool validarExpresion(char c);
-    void guardarExpresion(char c);
     string print();
+    bool validarLlave( ){ 
+        return !p.pilavacia() && str->pilaEmpty();
+    };
 };
 
 
