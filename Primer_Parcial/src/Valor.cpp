@@ -53,14 +53,14 @@ bool ListaString :: getExpresionEsCorrecta(){
 string ListaString :: print(){
     ostringstream resultado;
     
-    while (cadena.size()>0)
+    while (cadena.size()>1)
     {
         resultado << cadena.front() + strings.front().print(); 
         strings.erase(strings.begin());
         cadena.erase(cadena.begin());
         resultado << this->print();
     }
-    return resultado.str();
+    return resultado.str() + cadena.front();
 }
 
 
