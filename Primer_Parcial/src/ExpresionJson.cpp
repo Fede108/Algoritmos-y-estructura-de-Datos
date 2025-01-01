@@ -30,15 +30,19 @@ bool ExpresionJson:: validarExpresion(char c){
     return false;        
 }
  
-
 int ExpresionJson ::size(){
-    return expresion.length();
+    return  expresion.size();
 }
 
 string ExpresionJson :: print(){
     ostringstream resultado;
-    if (expresion.empty()) return "";
-    resultado << expresion.front() << getContext()->getLlave()->print();
+    if(expresion.empty()) return "";
+    if(expresion.front() == '}' )
+    {
+        resultado << expresion.front(); 
+    }else{
+        resultado << expresion.front() << getContext()->getLlave()->print();
+    }
     expresion.erase(expresion.begin());
     return resultado.str();
 }

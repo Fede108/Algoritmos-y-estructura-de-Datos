@@ -17,11 +17,13 @@ bool ListaString :: validarExpresion(char c){
     agregar(c);
     if (c == '[' && p.pilavacia()){ 
         p.apilar(c);
+        cadena += c;
         return true;
     } 
     else if (p.tope() == '[')
     {
         if (str->getExpresionEsCorrecta()){
+            cadena += c;
             strings.push_back(*str);
             delete str;
             str = new String_();
@@ -49,12 +51,16 @@ bool ListaString :: getExpresionEsCorrecta(){
 }
 
 string ListaString :: print(){
-    static int i = 0;
-    for (int i = 0; i < strings.size(); i++)
+    ostringstream resultado;
+    
+    while (cadena.size()>0)
     {
-        cadena += strings.at(i).print();
+        resultado << cadena.front() + strings.front().print(); 
+        strings.erase(strings.begin());
+        cadena.erase(cadena.begin());
+        resultado << this->print();
     }
-    return "[" + cadena + "]";
+    return resultado.str();
 }
 
 
@@ -81,8 +87,11 @@ bool Valor:: validarExpresion(char c){
     }
     else if ( c =='{')
     {
+        valorDato = new ExpresionJson();
+        valores.push_back(valorDato);
+        valorDato = nullptr;
         getContext()->setEstado(getContext()->getExpresionJson());
-        return getContext()->getExpresionJson()->validarExpresion(c);
+        return getContext()->getExpresionJson()->validarExpresion(c); 
     }
     return false;
 }
@@ -90,10 +99,14 @@ bool Valor:: validarExpresion(char c){
 string Valor::print(){
     if (valores.empty()) return "";
     ostringstream resultado;
+    if(dynamic_cast<ExpresionJson*>(valores.front())){
+      valores.erase(valores.begin()); 
+      return "";
+    }
     // Accede y procesa el primer elemento
     resultado << valores.front()->print(); 
     // Elimina el primer elemento
-    valores.erase(valores.begin());  // Elimina el primer elemento
+    valores.erase(valores.begin());  
     return resultado.str();
 }
 

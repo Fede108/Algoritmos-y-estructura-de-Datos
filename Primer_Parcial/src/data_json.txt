@@ -1,4 +1,6 @@
-
-{ "doo": "Sa",
-"conyuge":"Ana Castro"
+{
+    "nombre":"Carlos",
+    "domicilio": {
+            "calle":"San martin"},
+    "hijos":["678990","23455"]
 }

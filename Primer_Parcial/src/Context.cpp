@@ -35,10 +35,11 @@ bool Context :: leer_archivo(string nombre_archivo){
     correcto = correcto & expresionJson.validarJson();
 
     setEstado(getExpresionJson());
-    for (int i = 0; i < expresionJson.size() ; i++)
+    while (expresionJson.size()>0)
     {
         json += estadoActual->print();
     }
+    
     cout<<json<<endl;
     return correcto;
 }
