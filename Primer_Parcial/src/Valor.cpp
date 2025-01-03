@@ -37,11 +37,12 @@ bool Valor:: validarExpresion(char c){
         getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves());
         return getExpresionJson()->getEntreLlaves()->validarExpresion(c); 
     }
+    expresion = c;
     return false;
 }
   
 string Valor::print(){
-    if (valores.empty()) return "";
+    if (valores.empty()) return expresion + "";
     ostringstream resultado;
     if(dynamic_cast<JsonAyed*>(valores.front())){
       resultado << "";
@@ -53,7 +54,7 @@ string Valor::print(){
     delete valores.front(); 
     // Elimina el primer elemento
     valores.erase(valores.begin());  
-    return resultado.str();
+    return expresion + resultado.str();
 }
 
 

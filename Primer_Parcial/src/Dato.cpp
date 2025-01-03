@@ -36,26 +36,35 @@ bool ListaString :: validarExpresion(char c){
     } 
     if (p.tope() == '[')
     {
+
         if (str == nullptr){
-            str = new String();
-            strings.push_back(str);
-        }
-        if (str->getExpresionEsCorrecta()){
-            str = nullptr;
             cadena += c;
-            if (c == ',')
-            {
-              return true;
-            }
             if (c == ']')
             {
                p.desapilar();
                expresionCorrecta = true;
                return true;
             }
-            return false;          
+            if(strings.empty()){
+                str = new String();
+                strings.push_back(str);
+            }
+            else if (c == ',')
+            {
+                str = new String();
+                strings.push_back(str);
+                return true;
+            } else {
+                return false;
+            } 
+            
         }
-        return str->validarExpresion(c);
+       
+        bool valida = str->validarExpresion(c);
+        if (str->getExpresionEsCorrecta()){
+            str = nullptr;
+        }          
+        return valida;
     }
     return false;     
 }
@@ -67,7 +76,7 @@ bool ListaString :: getExpresionEsCorrecta(){
 string ListaString :: print(){
     ostringstream resultado;
     
-    if (cadena.size()>1)
+    if (cadena.size()>1 && !strings.empty())
     {
         resultado << cadena.front() + strings.front()->print(); 
         delete strings.front();

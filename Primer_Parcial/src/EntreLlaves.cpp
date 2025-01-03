@@ -20,7 +20,7 @@ bool EntreLlaves :: validarExpresion(char c){
        getExpresionJson()->setEstado(getExpresionJson()->getLlave());
        return true;        
     }
-    if(c=='}') 
+    if(!p.pilavacia() && c=='}') 
     {
        p.desapilar();
        return true;

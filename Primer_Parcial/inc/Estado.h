@@ -9,7 +9,7 @@ class ExpresionJson;
 class Estado{
     protected:
        ExpresionJson* expresionJson;
-       string expresion;
+       string expresion = "";
     public:
         virtual ~Estado() = default;
         void setExpresionJson(ExpresionJson* ctx) {
