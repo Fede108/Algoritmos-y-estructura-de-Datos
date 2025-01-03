@@ -8,39 +8,38 @@ using namespace std;
 
 
 bool Llave :: validarExpresion(char c){
-    if (str->getExpresionEsCorrecta())  // Evalua expresion actual 
-    {   delete str;
+    if (str == nullptr)
+    {
         str = new String();
+        strings.push_back(str);
+    }
+    
+    if (str->getExpresionEsCorrecta())  // Evalua expresion actual 
+    {   str = nullptr;
         llaves += c; // Guarda el caracter
         if (c == ':')
         { 
-            p.apilar(c); // Procesa el carácter `:`
             getExpresionJson()->setEstado(getExpresionJson()->getValor()); // Proxima expresion a evaluar  
             return true;
         }
             return false; // Error: no hay `:` después de una llave válida
     }
 
-    if (!p.pilavacia()) {
-        p.desapilar(); 
-    }
-
-    bool correcta = str->validarExpresion(c); // Continúa validando el string actual
-    if (str->getExpresionEsCorrecta())
-    {
-        strings.push_back(*str);
-    }
-    return correcta;
+    return str->validarExpresion(c); // Continúa validando el string actual;
 }
 
 string Llave :: print(){
     if (strings.empty()) return "";
     ostringstream resultado;
-    // Accede y procesa el primer elemento
-    resultado << strings.front().print() << llaves.front() << getExpresionJson()->getValor()->print();
-    // Elimina el primer elemento
-    strings.erase(strings.begin());  // Elimina el primer elemento
-    llaves.erase(llaves.begin());
+    if(llaves.empty()){
+        resultado << strings.front()->print() << getExpresionJson()->getValor()->print(); 
+    } else{
+       resultado << strings.front()->print() << llaves.front() << getExpresionJson()->getValor()->print();
+       llaves.erase(llaves.begin());
+    }
+    delete strings.front(); // Elimina el primer elemento
+    strings.erase(strings.begin());  
+   
     return resultado.str();
 }
 

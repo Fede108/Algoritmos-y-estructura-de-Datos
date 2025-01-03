@@ -15,7 +15,7 @@ int main()
 { 
   ExpresionJson* json = new ExpresionJson();
   cout<<json->leer_archivo("data_json.txt")<<endl;
-  //json->imprimir_archivo();
+  json->generar_archivo();
   system("PAUSE");
   return EXIT_SUCCESS;
 }

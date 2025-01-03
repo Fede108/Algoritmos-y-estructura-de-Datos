@@ -34,26 +34,26 @@ bool ListaString :: validarExpresion(char c){
         cadena += c;
         return true;
     } 
-    else if (p.tope() == '[')
+    if (p.tope() == '[')
     {
-        if (str->getExpresionEsCorrecta()){
-            cadena += c;
-            strings.push_back(*str);
-            delete str;
+        if (str == nullptr){
             str = new String();
+            strings.push_back(str);
+        }
+        if (str->getExpresionEsCorrecta()){
+            str = nullptr;
+            cadena += c;
             if (c == ',')
             {
               return true;
             }
-            else if (c == ']')
+            if (c == ']')
             {
                p.desapilar();
                expresionCorrecta = true;
                return true;
             }
-            else{
-                return false;
-            }      
+            return false;          
         }
         return str->validarExpresion(c);
     }
@@ -69,10 +69,17 @@ string ListaString :: print(){
     
     if (cadena.size()>1)
     {
-        resultado << cadena.front() + strings.front().print(); 
+        resultado << cadena.front() + strings.front()->print(); 
+        delete strings.front();
         strings.erase(strings.begin());
         cadena.erase(cadena.begin());
         resultado << this->print();
+        return resultado.str();
+    }
+
+    if(strings.size()==1){
+        resultado << cadena.front() << strings.front()->print();
+        strings.erase(strings.begin());
         return resultado.str();
     }
     return resultado.str() + cadena.front();

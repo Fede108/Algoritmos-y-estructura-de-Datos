@@ -12,25 +12,26 @@ using namespace std;
 bool Valor:: validarExpresion(char c){
     if (valorDato != nullptr)
     {
-        if(valorDato->getExpresionEsCorrecta()){
-            getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves());
-            valores.push_back(valorDato);
+        bool valida = valorDato->validarExpresion(c);
+        if( valorDato->getExpresionEsCorrecta() ){  
             valorDato = nullptr;
-            return getExpresionJson()->getEntreLlaves()->validarExpresion(c);
-        }
-        return valorDato->validarExpresion(c);
+            getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves());
+        } 
+        return valida;
     }
-    else if ( c == '"')
+    if ( c == '"')
     {
         valorDato = new String();
+        valores.push_back(valorDato);
         return valorDato->validarExpresion(c);
     }
-    else if ( c == '[')
+    if ( c == '[')
     {
         valorDato = new ListaString();
+        valores.push_back(valorDato);
         return valorDato->validarExpresion(c);    
     }
-    else if ( c =='{')
+    if ( c =='{')
     {
         valores.push_back(new JsonAyed());
         getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves());

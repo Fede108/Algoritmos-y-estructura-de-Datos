@@ -24,7 +24,7 @@ class Estado{
 
 class EntreLlaves : public Estado {
 private:
-    string expresion;
+    string expresion; //buffer de caracteres
     Pila<char> p;
 public:
     // Métodos de ExpresionJson
@@ -40,12 +40,13 @@ public:
 class Llave : public Estado{
 private:
     String *str;
-    vector <String> strings; //buffer de strings
+    vector <String*> strings; //buffer de strings
     Pila<char> p;
     string llaves;
 public:
     Llave(){
         str = new String();
+        strings.push_back(str);
     }
     ~Llave() {
         delete str;
@@ -62,7 +63,7 @@ public:
 class Valor : public Estado{
 private:
     Dato *valorDato;
-    vector <Dato*> valores; //BUFFER
+    vector <Dato*> valores; //buffer de valores
     Pila<char> p1;  
 public:
     Valor()  { valorDato = nullptr;}

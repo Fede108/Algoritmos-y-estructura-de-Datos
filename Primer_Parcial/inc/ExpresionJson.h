@@ -13,10 +13,13 @@ private:
     Llave llave;                 // Instancia única
     Valor valor;                 // Instancia única
     string json;
+    int caracter;
+    bool correcto;
 public:
     ExpresionJson() {
         estadoActual = &entreLlaves; // Estado inicial
         estadoActual->setExpresionJson(this);
+        caracter = 0;
     }
     void setEstado(Estado* estado);
     bool leer_archivo(string nombre_archivo);

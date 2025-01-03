@@ -60,11 +60,11 @@ private:
     bool expresionCorrecta = false;
     Pila<char> p;
     Cola<char> cola;
-    vector <String> strings; //BUFFER
+    vector <String*> strings; //BUFFER
     String *str;  
     string cadena;
 public:
-    ListaString(){ str = new String();}
+    ListaString(){ str = nullptr;}
     bool getExpresionEsCorrecta();
     bool validarExpresion(char c);
     void agregar(char c){ cola.add(c);}
