@@ -1,6 +1,7 @@
 {
-    "nombre":"Carlos",
+"nombre":"Carlos",
     "domicilio": {
-            "calle":"San martin"},
-    "hijos":["678990","23455"]
+        "calle":{"San martin":"22"},
+        "hijos":["678990","23455"],
+   "ciudad:":"cipo" 
 }

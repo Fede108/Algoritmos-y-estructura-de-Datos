@@ -1,34 +1,35 @@
+#include "Estado.h"
 #include <string>
-#include <iostream>
-#include <fstream>
-
-#include "State.h"
-#include "Pila.h" 
-#include "Llave.h"
-
-class Context; 
 using namespace std;    
 
 #ifndef EXPRESIONJSON_H
 #define EXPRESIONJSON_H
 
-class ExpresionJson : public State, public Dato {
+class ExpresionJson
+{
 private:
-    string expresion;
-    Pila<char> p;
-
+    Estado* estadoActual;
+    EntreLlaves entreLlaves; // Instancia única
+    Llave llave;                 // Instancia única
+    Valor valor;                 // Instancia única
+    string json;
 public:
-    // Métodos de ExpresionJson
-    bool validarExpresion(char c) override;
-    void guardarExpresion(char c);
-    string print() override;
-    int size();
-    bool validarJson() { return p.pilavacia(); }
-
-    // Implementaciones de los métodos virtuales de Dato
-    bool getExpresionEsCorrecta() override { return validarJson(); }
-    bool pilaEmpty() override { return p.pilavacia(); }
+    ExpresionJson() {
+        estadoActual = &entreLlaves; // Estado inicial
+        estadoActual->setExpresionJson(this);
+    }
+    void setEstado(Estado* estado);
+    bool leer_archivo(string nombre_archivo);
+    void generar_archivo();
+    // string imprimir_archivo();
+    Estado* getEntreLlaves() { return &entreLlaves; };
+    Estado* getLlave() { return &llave; };
+    Estado* getValor() { return &valor; };
+   
 };
 
 #endif 
 
+
+
+     

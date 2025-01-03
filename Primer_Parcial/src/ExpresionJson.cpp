@@ -1,49 +1,40 @@
+#include <cstdlib>
 #include <iostream>
-#include <string>
+#include <sstream>
 #include <fstream>
-using namespace std;    
+#include <string>
 
-#include "../inc/ExpresionJson.h" 
-#include "../inc/State.h" 
-#include "../inc/Llave.h" 
-#include "../inc/Context.h"
+using namespace std;
+
+#include "../inc/Estado.h"
+#include "../inc/ExpresionJson.h"
 
 
-bool ExpresionJson:: validarExpresion(char c){  
-    expresion += c;
-    if(c=='{')
-    {
-        p.apilar('{');
-        getContext()->setEstado(getContext()->getLlave());
-        return true;
-    }   
-    if (!p.pilavacia() && c==',')
-    {
-       getContext()->setEstado(getContext()->getLlave());
-       return true;        
-    }
-    if(c=='}') 
-    {
-       p.desapilar();
-       return true;
-    }
-    return false;        
-}
- 
-int ExpresionJson ::size(){
-    return  expresion.size();
+void ExpresionJson :: setEstado(Estado* estado){
+        estadoActual = estado;
+        estadoActual->setExpresionJson(this);
 }
 
-string ExpresionJson :: print(){
-    ostringstream resultado;
-    if(expresion.empty()) return "";
-    if(expresion.front() == '}' )
-    {
-        resultado << expresion.front(); 
-    }else{
-        resultado << expresion.front() << getContext()->getLlave()->print();
+bool ExpresionJson :: leer_archivo(string nombre_archivo){
+    bool correcto = true;
+    ifstream archivo(nombre_archivo);
+    if (archivo.is_open() ){
+        char c;
+        while(archivo.get(c) && correcto){
+            if (c != '\n' && c != ' ' && c != '\t' ){
+                correcto = estadoActual->validarExpresion(c);
+            } 
+        }
     }
-    expresion.erase(expresion.begin());
-    return resultado.str();
-}
+
+    correcto = correcto & llave.validarLlave() & valor.validarValor() & entreLlaves.validarJson(); 
     
+    setEstado(getEntreLlaves());
+    while (entreLlaves.size()>0)
+    {
+        json += estadoActual->print();
+    }
+    
+    cout<<json<<endl;
+    return correcto;
+}

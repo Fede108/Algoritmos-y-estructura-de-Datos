@@ -7,14 +7,13 @@
 
 using namespace std;
 
-#include "../inc/State.h"
-#include "../inc/Context.h"
-#include <vector>
+#include "../inc/Estado.h"
+#include "../inc/ExpresionJson.h"
 
 
 int main()
 { 
-  Context* json = new Context();
+  ExpresionJson* json = new ExpresionJson();
   cout<<json->leer_archivo("data_json.txt")<<endl;
   //json->imprimir_archivo();
   system("PAUSE");
