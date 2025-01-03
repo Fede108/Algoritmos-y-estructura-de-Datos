@@ -11,7 +11,7 @@ bool Llave :: validarExpresion(char c){
     if (str == nullptr)
     {
         str = new String();
-        strings.push_back(str);
+        strings.encolar(str);
     }
     
     if (str->getExpresionEsCorrecta())  // Evalua expresion actual 
@@ -29,17 +29,15 @@ bool Llave :: validarExpresion(char c){
 }
 
 string Llave :: print(){
-    if (strings.empty()) return "";
+    if (strings.esvacia()) return "";
     ostringstream resultado;
     if(llaves.empty()){
-        resultado << strings.front()->print() << getExpresionJson()->getValor()->print(); 
+        resultado << strings.last()->print() << getExpresionJson()->getValor()->print(); 
     } else{
-       resultado << strings.front()->print() << llaves.front() << getExpresionJson()->getValor()->print();
+       resultado << strings.last()->print() << llaves.front() << getExpresionJson()->getValor()->print();
        llaves.erase(llaves.begin());
     }
-    delete strings.front(); // Elimina el primer elemento
-    strings.erase(strings.begin());  
-   
+    strings.borrar_last(); // Elimina el primer elemento
     return resultado.str();
 }
 

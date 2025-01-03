@@ -45,14 +45,14 @@ bool ListaString :: validarExpresion(char c){
                expresionCorrecta = true;
                return true;
             }
-            if(strings.empty()){
+            if(strings.esvacia()){
                 str = new String();
-                strings.push_back(str);
+                strings.encolar(str);
             }
             else if (c == ',')
             {
                 str = new String();
-                strings.push_back(str);
+                strings.encolar(str);
                 return true;
             } else {
                 return false;
@@ -75,21 +75,23 @@ bool ListaString :: getExpresionEsCorrecta(){
 
 string ListaString :: print(){
     ostringstream resultado;
-    
-    if (cadena.size()>1 && !strings.empty())
-    {
-        resultado << cadena.front() + strings.front()->print(); 
-        delete strings.front();
-        strings.erase(strings.begin());
-        cadena.erase(cadena.begin());
-        resultado << this->print();
-        return resultado.str();
-    }
 
-    if(strings.size()==1){
-        resultado << cadena.front() << strings.front()->print();
-        strings.erase(strings.begin());
-        return resultado.str();
+    if(cadena.size()>0 || !strings.esvacia()){
+
+        if (cadena.size()>0)
+        {
+            resultado << cadena.front();
+            cadena.erase(cadena.begin());
+        }
+        if (!strings.esvacia())
+        {
+            resultado << strings.last()->print(); 
+            strings.borrar_last();
+        }
+
+        resultado << this->print();
+
     }
-    return resultado.str() + cadena.front();
+ 
+    return resultado.str(); 
 }

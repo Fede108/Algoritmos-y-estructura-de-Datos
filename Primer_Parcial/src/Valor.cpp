@@ -8,7 +8,6 @@ using namespace std;
 #include "../inc/ExpresionJson.h"
 
 
-
 bool Valor:: validarExpresion(char c){
     if (valorDato != nullptr)
     {
@@ -22,38 +21,34 @@ bool Valor:: validarExpresion(char c){
     if ( c == '"')
     {
         valorDato = new String();
-        valores.push_back(valorDato);
+        valores.encolar(valorDato);
         return valorDato->validarExpresion(c);
     }
     if ( c == '[')
     {
         valorDato = new ListaString();
-        valores.push_back(valorDato);
+        valores.encolar(valorDato);
         return valorDato->validarExpresion(c);    
     }
     if ( c =='{')
     {
-        valores.push_back(new JsonAyed());
+        valores.encolar(new JsonAyed());
         getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves());
         return getExpresionJson()->getEntreLlaves()->validarExpresion(c); 
     }
-    expresion = c;
+    expresion = c; // Guarda char invalido
     return false;
 }
   
 string Valor::print(){
-    if (valores.empty()) return expresion + "";
+    if (valores.esvacia()) return expresion + "";
     ostringstream resultado;
-    if(dynamic_cast<JsonAyed*>(valores.front())){
-      resultado << "";
+    if(dynamic_cast<JsonAyed*>(valores.last())){
+        resultado << "";
     } else{
-         // Accede y procesa el primer elemento
-        resultado << valores.front()->print(); 
+        resultado << valores.last()->print();  // Accede y procesa el primer elemento
     }
-    // Libera la memoria del objeto al que apunta el primer puntero
-    delete valores.front(); 
-    // Elimina el primer elemento
-    valores.erase(valores.begin());  
+    valores.borrar_last(); // Libera la memoria del objeto al que apunta el primer puntero
     return expresion + resultado.str();
 }
 

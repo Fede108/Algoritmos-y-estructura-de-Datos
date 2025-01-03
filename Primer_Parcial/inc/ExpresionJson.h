@@ -9,7 +9,7 @@ class ExpresionJson
 {
 private:
     Estado* estadoActual;
-    EntreLlaves entreLlaves; // Instancia única
+    EntreLlaves entreLlaves;     // Instancia única
     Llave llave;                 // Instancia única
     Valor valor;                 // Instancia única
     string json;

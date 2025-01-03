@@ -60,7 +60,7 @@ private:
     bool expresionCorrecta = false;
     Pila<char> p;
     Cola<char> cola;
-    vector <String*> strings; //BUFFER
+    Cola <String*> strings; //buffer de strings
     String *str;  
     string cadena;
 public:
