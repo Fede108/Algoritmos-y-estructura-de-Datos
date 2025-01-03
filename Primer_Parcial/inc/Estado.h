@@ -46,17 +46,13 @@ private:
     string llaves;
 public:
     Llave(){
-        str = new String();
-        strings.encolar(str);
+        str = nullptr;
     }
     ~Llave() {
         delete str;
     }
     bool validarExpresion(char c);
     string print();
-    bool validarLlave( ){ 
-        return !p.pilavacia() && str->pilaEmpty();
-    };
 };
 
 //-------------------------------------------------------------------------------
@@ -68,6 +64,7 @@ private:
     Pila<char> p1;  
 public:
     Valor()  { valorDato = nullptr;}
+    ~Valor() { delete valorDato; }
     bool validarExpresion(char c);
     bool validarValor(){ 
         if (valorDato == nullptr) return true;

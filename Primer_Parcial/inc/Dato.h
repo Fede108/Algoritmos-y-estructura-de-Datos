@@ -65,6 +65,7 @@ private:
     string cadena;
 public:
     ListaString(){ str = nullptr;}
+    ~ListaString() { delete str; }
     bool getExpresionEsCorrecta();
     bool validarExpresion(char c);
     void agregar(char c){ cola.add(c);}

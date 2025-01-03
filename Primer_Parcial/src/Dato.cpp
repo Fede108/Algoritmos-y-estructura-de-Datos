@@ -38,9 +38,8 @@ bool ListaString :: validarExpresion(char c){
     {
 
         if (str == nullptr){
-            cadena += c;
             if (c == ']')
-            {
+            {   cadena += c;
                p.desapilar();
                expresionCorrecta = true;
                return true;
@@ -51,10 +50,12 @@ bool ListaString :: validarExpresion(char c){
             }
             else if (c == ',')
             {
+                 cadena += c;
                 str = new String();
                 strings.encolar(str);
                 return true;
             } else {
+                 cadena += c;
                 return false;
             } 
             

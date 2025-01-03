@@ -8,6 +8,7 @@ using namespace std;
 
 
 bool Llave :: validarExpresion(char c){
+    
     if (str == nullptr)
     {
         str = new String();
@@ -30,14 +31,13 @@ bool Llave :: validarExpresion(char c){
 
 string Llave :: print(){
     if (strings.esvacia()) return "";
+    if (llaves.empty())    return "";
+
     ostringstream resultado;
-    if(llaves.empty()){
-        resultado << strings.last()->print() << getExpresionJson()->getValor()->print(); 
-    } else{
-       resultado << strings.last()->print() << llaves.front() << getExpresionJson()->getValor()->print();
-       llaves.erase(llaves.begin());
-    }
+    resultado << strings.last()->print() << llaves.front() << getExpresionJson()->getValor()->print();
+    llaves.erase(llaves.begin());
     strings.borrar_last(); // Elimina el primer elemento
+    
     return resultado.str();
 }
 
