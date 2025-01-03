@@ -1,0 +1,114 @@
+@startuml diagrama
+skinparam classAttributeIconSize 0
+
+class Dato {
+    +virtual bool validarExpresion(char c) = 0
+    +virtual bool getExpresionEsCorrecta() = 0
+    +virtual string print() = 0
+    +virtual bool pilaEmpty() = 0
+}
+
+class JsonAyed {
+    +bool validarExpresion(char c)
+    +bool getExpresionEsCorrecta()
+    +string print()
+    +bool pilaEmpty()
+}
+
+class String {
+    -Pila<char> p
+    -bool expresionCorrecta
+    -string str
+    +bool validarExpresion(char c)
+    +bool getExpresionEsCorrecta()
+    +string print()
+    +bool pilaEmpty()
+}
+
+class ListaString {
+    -bool expresionCorrecta
+    -Pila<char> p
+    -Cola<char> cola
+    -vector<String*> strings
+    -String *str
+    -string cadena
+    +bool getExpresionEsCorrecta()
+    +bool validarExpresion(char c)
+    +void agregar(char c)
+    +string print()
+    +bool pilaEmpty()
+}
+
+class Estado {
+    #ExpresionJson* expresionJson
+    #string expresion
+    +virtual ~Estado()
+    +void setExpresionJson(ExpresionJson* ctx)
+    +ExpresionJson* getExpresionJson()
+    +virtual bool validarExpresion(char c) = 0
+    +virtual string print() = 0
+}
+
+class EntreLlaves {
+    -string expresion
+    -Pila<char> p
+    +bool validarExpresion(char c)
+    +void guardarExpresion(char c)
+    +string print()
+    +int size()
+    +bool validarJson()
+}
+
+class Llave {
+    -String *str
+    -vector<String*> strings
+    -Pila<char> p
+    -string llaves
+    +Llave()
+    +~Llave()
+    +bool validarExpresion(char c)
+    +string print()
+    +bool validarLlave()
+}
+
+class Valor {
+    -Dato *valorDato
+    -vector<Dato*> valores
+    -Pila<char> p1
+    +Valor()
+    +bool validarExpresion(char c)
+    +bool validarValor()
+    +string print()
+}
+
+class ExpresionJson {
+    -Estado* estadoActual
+    -EntreLlaves entreLlaves
+    -Llave llave
+    -Valor valor
+    -string json
+    -int caracter
+    -bool correcto
+    +ExpresionJson()
+    +void setEstado(Estado* estado)
+    +bool leer_archivo(string nombre_archivo)
+    +void generar_archivo()
+    +Estado* getEntreLlaves()
+    +Estado* getLlave()
+    +Estado* getValor()
+}
+
+Dato <|-- JsonAyed
+Dato <|-- String
+Dato <|-- ListaString
+Estado <|-- EntreLlaves
+Estado <|-- Llave
+Estado <|-- Valor
+ExpresionJson --> Estado
+ExpresionJson --> EntreLlaves
+ExpresionJson --> Llave
+ExpresionJson --> Valor
+ListaString --> String
+Llave --> String
+Valor --> Dato
+@enduml
