@@ -8,6 +8,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                "-fsanitize=address",
                 "-o",
                 "${workspaceFolder}/Primer_Parcial/bin/main.exe",
                 "${workspaceFolder}/Primer_Parcial/src/*.cpp",

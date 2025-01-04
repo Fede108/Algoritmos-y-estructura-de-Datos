@@ -36,8 +36,9 @@ string Llave :: print(){
     ostringstream resultado;
     resultado << strings.last()->print() << llaves.front() << getExpresionJson()->getValor()->print();
     llaves.erase(llaves.begin());
+    delete strings.last();
     strings.borrar_last(); // Elimina el primer elemento
-    
+
     return resultado.str();
 }
 

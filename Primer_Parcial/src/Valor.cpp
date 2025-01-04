@@ -48,6 +48,7 @@ string Valor::print(){
     } else{
         resultado << valores.last()->print();  // Accede y procesa el primer elemento
     }
+    delete valores.last();
     valores.borrar_last(); // Libera la memoria del objeto al que apunta el primer puntero
     return expresion + resultado.str();
 }

@@ -50,7 +50,7 @@ bool ListaString :: validarExpresion(char c){
             }
             else if (c == ',')
             {
-                 cadena += c;
+                cadena += c;
                 str = new String();
                 strings.encolar(str);
                 return true;
@@ -87,6 +87,7 @@ string ListaString :: print(){
         if (!strings.esvacia())
         {
             resultado << strings.last()->print(); 
+            delete strings.last();
             strings.borrar_last();
         }
 
