@@ -182,8 +182,8 @@ template <class T> void arbol<T>::bor(nodo<T>*& d)
     if (d->der != NULL) bor(d->der);//busca el elemento mas a la derecha
     else {
         q->info = d->info; // realizo intercambio
-        q = d; // apunta al nodo a eliminar
-        d = d->izq; // d izq (si existe) toma lugar de d 
+        q = d; // apunta al nodo a eliminar (nodo reemplaza al seleccionado)
+        d = d->izq; // d izq (si existe) toma lugar de d , nodo der es nulo
     }
 }
 

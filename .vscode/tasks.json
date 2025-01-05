@@ -8,10 +8,9 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "-fsanitize=address",
                 "-o",
-                "${workspaceFolder}/Primer_Parcial/bin/main.exe",
-                "${workspaceFolder}/Primer_Parcial/src/*.cpp",
+                "${workspaceFolder}/Arboles/programa.exe",
+                "${workspaceFolder}/Arboles/ArbolBusquedaConBorrado.cpp",
                 "-I${workspaceFolder}/PrimerParcial/inc"
             ],
  
