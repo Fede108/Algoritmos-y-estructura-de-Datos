@@ -5,28 +5,30 @@
 #include <iostream>
 using namespace std;
 
-#define MAX 5000
+#define MAX 5
 
 void impre(int *v);
 
 int main(int argc, char *argv[])
 {int i,j,pos,men,m=0,c=0;
- int a[MAX];//={50,40,30,20,10}; //
- for(i=0;i<MAX;i++){
+ int a[MAX] ={50,40,30,20,10}; //
+/*/ for(i=0;i<MAX;i++){
                     a[i]=int(rand());
- }
+ }*/
  //impre(a);
  cout<<"\n---------------------------------"<<endl;
- for(i=0;i<MAX;i++){
-   men=a[i]; pos=i; m++;
-   for(j=i+1;j<MAX;j++){
-     c++;
-     if(a[j]<men){
-       men=a[j]; m++;
-       pos=j;
-     }
-   }
-   a[pos]=a[i]; m++; a[i]=men; m++ ;
+ for(i=0;i<MAX-1;i++){
+    men=a[i]; pos=i; m++;  // n-1 movimientos
+
+      for(j=i+1;j<MAX;j++){  // n-1 veces
+          c++; // n-i-1 comparaciones 
+          if(a[j]<men){ 
+          men=a[j]; m++; // aprox n/2 veces por iteracion en el peor caso, max a min 
+          pos=j;
+        }
+      }
+
+   a[pos]=a[i]; m++; a[i]=men; m++ ; // 2*(n-1) movimientos
  }
   impre(a);
 // ---------       Mmin= 3(n-1)

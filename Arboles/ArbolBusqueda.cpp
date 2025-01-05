@@ -33,7 +33,8 @@ public:
     bool esta(int x){ return Esta(x,raiz);}
     T menor(nodo<T>* aux );
     T Menor(){ return menor(raiz);} // retorna el menor valor del arbol
-     void borrar(int x, nodo<T>* aux, nodo<T>* Q);
+    void borrar(nodo<T>*& p, T x);
+    void bor(nodo<T>*& d);
     void Borrar(int x){borrar(x,raiz,q)}; // elimina el nodo que contiene el dato x
 };
 
@@ -112,19 +113,27 @@ template <class T> T arbol<T>:: menor(nodo<T>* aux ){
     return aux->info;    
 }
 
-template <class T> void arbol<T> :: borrar(int x,nodo<T>* aux,nodo<T>* Q){
-    if (x > aux->info) borrar(x, aux->der,aux->der);
-    if (x < aux->info) borrar(x, aux->izq,aux->izq);
-    if (aux->der != null){
-        if(Q->izq != null){
-            borrar(x,aux,Q->der);
-            aux->info = Q->der->info;
-        }else{
-            aux->info = Q->info;
-        }   
+template <class T> void arbol<T>::borrar(nodo<T>*& p, T x)
+{
+    if (p == NULL) cout << "\n El dato NO esta\n\n";
+    else if (x > p->info) borrar(p->der, x);
+    else if (x < p->info) borrar(p->izq, x);
+    else {// lo encontre en el nodo p
+        q = p;
+        if (q->der == NULL) p = q->izq;// raiz<=raiz del subarbol izq
+        else if (q->izq == NULL) p = q->der;//raiz<=raiz del subarbol der
+        else bor(q->izq);//busca en el sub arbol izq
+        delete q; //elimina nodo
     }
-    
-
+}
+template <class T> void arbol<T>::bor(nodo<T>*& d)
+{
+    if (d->der != NULL) bor(d->der);//busca el elemento mas a la derecha
+    else {
+        q->info = d->info; // realizo intercambio
+        q = d; // apunta al nodo a eliminar (nodo que reemplaza al seleccionado)
+        d = d->izq; // d izq (si existe) toma lugar de d , nodo der es nulo
+    }
 }
 
 //-------------------------------------------------------

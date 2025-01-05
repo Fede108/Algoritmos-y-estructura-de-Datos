@@ -6,10 +6,11 @@ using namespace std;
 
 typedef int tarbol;
 struct nodoAVL{
-       tarbol dato;
+       tarbol dato; // de tipo arbol
        int FB; // FB es la altura del subarbol izq menos la altura del subarbol der
        nodoAVL *izq, *der;
 };
+
 typedef nodoAVL * pnodo;
 class arbolAVL{
     pnodo raiz;
@@ -99,7 +100,7 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
 }
 
 void arbolAVL::rotarLL(nodoAVL* &A){ 
-        cout<<"\ LL>> "<<A->dato<<endl<<endl;
+        cout<<"\n LL>> "<<A->dato<<endl<<endl;
         nodoAVL* aux = A->izq->der;
         A->izq->der = A;
         A->izq->FB = 0; 
@@ -110,7 +111,7 @@ void arbolAVL::rotarLL(nodoAVL* &A){
 }
  
 void arbolAVL::rotarRR(nodoAVL* &A){ 
-        cout<<"\ RR>> "<<A->dato<<endl<<endl;
+        cout<<"\n RR>> "<<A->dato<<endl<<endl;
         nodoAVL* aux = A->der->izq;
         A->der->izq = A;
         A->der->FB = 0; 
@@ -121,14 +122,14 @@ void arbolAVL::rotarRR(nodoAVL* &A){
 }
  
 void arbolAVL::rotarLRalter(nodoAVL* &A){ 
-        cout<<"\ Rotacion Doble RR+LL"<<endl;
+        cout<<"\n Rotacion Doble RR+LL"<<endl;
         rotarRR(A->izq);
         VerArbol();
         rotarLL(A);
 }
  
 void arbolAVL::rotarRLalter(nodoAVL* &A){ 
-        cout<<"\ Rotacion Doble LL+RR"<<endl;
+        cout<<"\n Rotacion Doble LL+RR"<<endl;
         rotarLL(A->der);
         VerArbol();
         rotarRR(A);

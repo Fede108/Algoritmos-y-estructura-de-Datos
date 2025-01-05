@@ -9,8 +9,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
-                "${workspaceFolder}/Arboles/programa.exe",
-                "${workspaceFolder}/Arboles/ArbolBusquedaConBorrado.cpp",
+                "${workspaceFolder}/Ordenamiento/programa.exe",
+                "${workspaceFolder}/Ordenamiento/seleccion.cpp",
                 "-I${workspaceFolder}/PrimerParcial/inc"
             ],
  
