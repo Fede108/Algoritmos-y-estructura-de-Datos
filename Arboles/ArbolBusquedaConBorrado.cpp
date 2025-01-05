@@ -174,15 +174,17 @@ template <class T> void arbol<T>::borrar(nodo<T>*& p, T x)
         if (q->der == NULL) p = q->izq;// raiz<=raiz del subarbol izq
         else if (q->izq == NULL) p = q->der;//raiz<=raiz del subarbol der
         else bor(q->izq);//busca en el sub arbol izq
-        delete q;
+        delete q; //elimina nodo
     }
 }
 template <class T> void arbol<T>::bor(nodo<T>*& d)
 {
     if (d->der != NULL) bor(d->der);//busca el elemento mas a la derecha
     else {
-        q->info = d->info;
-        q = d;
-        d = d->izq;
+        q->info = d->info; // realizo intercambio
+        q = d; // apunta al nodo a eliminar
+        d = d->izq; // d izq (si existe) toma lugar de d 
     }
 }
+
+
