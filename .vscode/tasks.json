@@ -10,7 +10,7 @@
                 "-g",
                 "-o",
                 "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
-                "${workspaceFolder}/Segundo_Parcial/.cpp",
+                "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
                 "-I${workspaceFolder}/Segundo_Parcial/inc"
             ],
  

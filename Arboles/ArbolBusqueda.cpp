@@ -52,6 +52,7 @@ template <class T> void arbol<T>::ArbolBusq(T x, nodo<T>*& nuevo)
     if (x > nuevo->info) ArbolBusq(x, nuevo->der);
     if (x < nuevo->info) ArbolBusq(x, nuevo->izq);
 }
+
 template <class T> void arbol<T>::ird(nodo<T>* aux)
 {
     if (aux != NULL) {

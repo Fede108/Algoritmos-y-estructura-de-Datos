@@ -42,7 +42,6 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
                 A->izq = NULL;
                 A->der = NULL;
                 aumento = true;
-                
         }else{
                 if (x < A->dato){                       
                         Insert(x, aumento, A->izq);                     

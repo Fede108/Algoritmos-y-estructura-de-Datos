@@ -1,9 +1,35 @@
-#include "../inc/Arbol.h"
+#include "../inc/ListaConABB.h"
 
 void ArbolAVL::CreaArbolAVL(string x)
 {    bool aumento;
      aumento=false;
      Insert(x,aumento,raiz);
+}
+
+void ArbolAVL::ird(Nodo* aux)
+{
+    if (aux != NULL) {
+        ird(aux->izq);
+        cout << "\n" << aux->info->palabra;
+        ird(aux->der);
+    }
+}
+
+void ArbolAVL::impre(Nodo* aux){
+    if (aux != NULL) {
+        cout << "\n" << aux->info->palabra;
+        impre(aux->siguiente);
+    }
+}
+
+ArbolAVL* ArbolAVL::copy(Nodo* aux, ArbolAVL* &arbol){
+        if (aux != NULL)
+        { 
+                copy(aux->izq, arbol);
+                arbol->CreaArbolAVL(aux->info->palabra); 
+                copy(aux->der, arbol);
+        } 
+        return arbol;     
 }
 
 void ArbolAVL::Insert(string x, bool &aumento, Nodo* &A){
@@ -12,6 +38,8 @@ void ArbolAVL::Insert(string x, bool &aumento, Nodo* &A){
                 A->FB = 0;
                 A->izq = NULL;
                 A->der = NULL;
+                A->setNext(czo);  // sumar nodos a la lista
+                czo = A;
                 aumento = true;        
         }else{
                 if (x < A->info->palabra){                       
@@ -40,7 +68,7 @@ void ArbolAVL::Insert(string x, bool &aumento, Nodo* &A){
                                 }//fin switch
                         }//fin aumento==true
                 }//fin subarbol izquierdo
-                else{
+                else if (x > A->info->palabra){
                         Insert(x, aumento, A->der);                     
                         if (aumento){
                                 switch (A->FB){
@@ -66,6 +94,9 @@ void ArbolAVL::Insert(string x, bool &aumento, Nodo* &A){
                                 }//fin switch
                         }//fin aumento==true
                 }//fin subarbol derecho
+                else{
+                        A->incrContador();
+                }
         }//fin A!=NULL
 }
 
@@ -115,8 +146,4 @@ int i;
        show(aux->izq, n+1);
    }
 }
-
-
-                                    
-
 

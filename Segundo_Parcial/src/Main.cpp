@@ -1,21 +1,15 @@
 #include <string>
 #include <fstream>
 
-#include "../inc/Lista.h"
-#include "../inc/Arbol.h"
+#include "../inc/ListaConAbb.h"
 
 using namespace std;
 
-int main(){
-    Lista *list = new Lista();
-    ArbolAVL T;
-    leer_archivo("data", *list,T);
-    T.VerArbol();
-    cout<<endl;system("PAUSE");
-    
+void add(string palabra, ArbolAVL &T) {
+  T.CreaArbolAVL(palabra);
 }
 
-void leer_archivo(string archivo_, Lista &list, ArbolAVL &T){
+void leer_archivo(string archivo_,  ArbolAVL &T){
     string palabra;
     ifstream archivo(archivo_);
     if (archivo.is_open() ){
@@ -25,7 +19,7 @@ void leer_archivo(string archivo_, Lista &list, ArbolAVL &T){
               palabra += c;  
             } else if (!palabra.empty())
             {    
-                add(palabra, list, T);
+                add(palabra, T);
                 palabra = ""; 
             }   
         }
@@ -33,7 +27,14 @@ void leer_archivo(string archivo_, Lista &list, ArbolAVL &T){
     }
 }
 
-void add(string palabra, Lista &list, ArbolAVL &T) {
-  list.add(palabra);
-  T.CreaArbolAVL(palabra);
+int main(){
+    ArbolAVL T;
+    ArbolAVL *T_copy;
+    leer_archivo("data.txt", T);
+    T_copy = T.Copy();
+    T.VerArbol();
+    T.IRD();
+    cout << "\n";
+    T.print();
+    cout<<endl;system("PAUSE");
 }
