@@ -9,9 +9,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
-                "${workspaceFolder}/Ordenamiento/programa.exe",
-                "${workspaceFolder}/Ordenamiento/seleccion.cpp",
-                "-I${workspaceFolder}/PrimerParcial/inc"
+                "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
+                "${workspaceFolder}/Segundo_Parcial/.cpp",
+                "-I${workspaceFolder}/Segundo_Parcial/inc"
             ],
  
             "options": {
