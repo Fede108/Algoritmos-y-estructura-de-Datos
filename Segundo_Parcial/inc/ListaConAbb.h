@@ -14,39 +14,39 @@ struct Dato
     int repeticiones;
 };
 
-class Nodo {
+class NodoAbb {
 public:
     Dato* info;
-    Nodo* der, * izq, *siguiente;
+    NodoAbb* der, * izq, *siguiente;
     int FB;
  
-    Nodo(string d){ 
+    NodoAbb(string d){ 
         info = new Dato;
         info->palabra = d;
         info->repeticiones = 1;
     }
-    ~Nodo(){
+    ~NodoAbb(){
         delete info;
     }
  
-    void setNext(Nodo *next){siguiente = next;};
+    void setNext(NodoAbb *next){siguiente = next;};
     void incrContador(){ info->repeticiones++;}
 };
 
 class ArbolAVL
 {
 private:
-    Nodo* raiz;
-    Nodo* czo;
-    void Insert(string x, bool &aumento, Nodo* &A);
-    void show(Nodo* aux, int n);
-    void rotarLL(Nodo* &A);
-    void rotarRR(Nodo* &A);
-    void rotarLRalter(Nodo* &A);
-    void rotarRLalter(Nodo* &A);
-    void ird(Nodo* A);
-    void impre(Nodo* A);
-    ArbolAVL* copy(Nodo* A,ArbolAVL* &Arbol);
+    NodoAbb* raiz;
+    NodoAbb* czo;
+    void Insert(string x, bool &aumento, NodoAbb* &A);
+    void show(NodoAbb* aux, int n);
+    void rotarLL(NodoAbb* &A);
+    void rotarRR(NodoAbb* &A);
+    void rotarLRalter(NodoAbb* &A);
+    void rotarRLalter(NodoAbb* &A);
+    void ird(NodoAbb* A);
+    void impre(NodoAbb* A);
+    ArbolAVL* copy(NodoAbb* A,ArbolAVL* &Arbol);
 public:
     ArbolAVL(){raiz=NULL; czo = NULL;};
     ~ArbolAVL(){};
@@ -56,7 +56,7 @@ public:
     void print(){impre(czo);}; // imprime la lista
     ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia de la lista en inorden 
         return copy(raiz, arbol);}; 
-    Nodo* last(); // devuelve el primer nodo de la lista
+    NodoAbb* last(); // devuelve el primer NodoAbb de la lista
 };
 
 #endif 
