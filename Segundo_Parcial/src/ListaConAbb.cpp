@@ -1,5 +1,9 @@
 #include "../inc/ListaConABB.h"
 
+Nodo* ArbolAVL::last(){
+        return czo;
+}
+
 void ArbolAVL::CreaArbolAVL(string x)
 {    bool aumento;
      aumento=false;

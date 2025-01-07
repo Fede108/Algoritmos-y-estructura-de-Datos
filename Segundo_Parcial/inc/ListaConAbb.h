@@ -54,8 +54,9 @@ public:
     void VerArbol(){ show(raiz,0); } 
     void IRD(){ird(raiz);}; // recorrido inorden del arbol  
     void print(){impre(czo);}; // imprime la lista
-    ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); 
-        return copy(raiz, arbol);};
+    ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia de la lista en inorden 
+        return copy(raiz, arbol);}; 
+    Nodo* last(); // devuelve el primer nodo de la lista
 };
 
 #endif 
