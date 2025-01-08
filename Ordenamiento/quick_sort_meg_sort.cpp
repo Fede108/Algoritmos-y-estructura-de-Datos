@@ -18,15 +18,15 @@ void impre(int v[], int n);
 int cc,cm;
 
 int main(int argc, char *argv[])
-{   //int A[10]={30,45,130,70,100,150,30,140,18,110};
-    //int A[10]={30,45,130,170,200,15,30,40,81,110};
-    int A[MAX];
-    for(int i=0;i<MAX;i++){
-                    A[i]=int(rand());
- }
+{ //  int A[10]={30,45,130,70,100,150,30,140,18,110};
+   int A[5]={45,30,200,170,130};
+//   int A[MAX];
+//    for(int i=0;i<MAX;i++){
+//                    A[i]=int(rand());
+// }
     cc=cm=0;
-    //ordenaQS(A,0,MAX-1);
-    ordenaMS(A,0,MAX);
+    ordenaQS(A,0,5-1);
+ //   ordenaMS(A,0,MAX);
     cout<<"\n -----------------------------";
     //impre(A,MAX);
     cout<<"comparaciones= "<<cc<<" movimientos= "<<cm<<endl;
@@ -36,23 +36,37 @@ int main(int argc, char *argv[])
 }
 
 void ordenaQS(int v[], int primero, int ultimo)
-{ int i,j,k,pivot,aux;
+{ int i,j,k,pivot,aux,cm,cc;
       if(ultimo>primero){
-             pivot=v[ultimo];cm++;
-             //printf("\n -> %d  %d <-%4i",primero,ultimo,pivot);
-             i=primero-1; j=ultimo;      
-             for(;;){
-                     while(v[++i]<pivot)cc++;
-                     while(v[ --j ] >pivot)cc++;
-                     if(i>=j)break;
-                     aux=v[i];v[i]=v[j];v[j]=aux; cm=cm+3;     
-             }// fin for
-             aux=v[i];v[i]=v[ultimo];v[ultimo]=aux;cm=cm+3;
-             //for(k=0;k<10;k++)printf("\n a[%d]=%d",k,v[k]);
-             //printf("\n ------------------------------------");
-             ordenaQS(v,primero,i-1);
-             ordenaQS(v,i+1,ultimo);
-             //printf("\nRETORNO -> %d  %d <-",primero,ultimo);
+            pivot=v[ultimo];cm++;
+            
+            i=primero; j=ultimo;    
+            while (i < j) { // El bucle se detendrá cuando i > j
+                while (v[i] < pivot){ 
+                    cc++;
+                    i++;
+                    if(i>ultimo) break;
+                }    
+                while (v[j] >= pivot){
+                    cc++;
+                    j--;
+                    if(j<primero) break;
+                } 
+                if (i < j) { // Solo intercambiar si i < j
+                    aux = v[i];
+                    v[i] = v[j];
+                    v[j] = aux;
+                    cm += 3;
+                }
+            }
+            aux=v[i];
+            v[i]=v[ultimo]; // pivot se mueve a v[i]
+            v[ultimo]=aux;  //  v[i] se mueve a pivot
+            cm=cm+3;
+
+            ordenaQS(v,primero,i-1);
+            ordenaQS(v,i+1,ultimo);
+             
       } //fin if 
 }// fin ordena
 

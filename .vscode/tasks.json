@@ -9,7 +9,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
-                "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
+//                "${workspaceFolder}/Ordenamiento/programa.exe",
+//               "${workspaceFolder}/Ordenamiento/quick_sort_meg_sort.cpp",
+               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
                 "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
                 "-I${workspaceFolder}/Segundo_Parcial/inc"
             ],
