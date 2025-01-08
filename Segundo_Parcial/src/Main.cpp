@@ -98,7 +98,7 @@ void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){
             return;
         }
     }
-    else if (!nuevo->der)
+    if (!nuevo->der)
     {
         nuevo->der = new Nodo;
         nuevo->der->altura = nuevo->altura - 1;
@@ -112,15 +112,14 @@ void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){
             ArbolPos(lista, nuevo->der);
             return;
         }
-    }    
-    
+    }  
     pila.pop();
     if (!pila.empty())
     {
         ArbolPos(lista, pila.top());
         return;
     }
-
+    // Si se completo el nivel actual, crear una nueva raíz
     Nodo *nuevaRaiz = new Nodo; 
     nuevaRaiz->altura = raiz->altura + 1;
     nuevaRaiz->izq = raiz;
@@ -229,13 +228,12 @@ void ordenaSeleccion(ArbolPosicional &P,int N){
 
 int mapear(ArbolPosicional &P, ArbolAVL *T){
     int N = 0;
-    ArbolAVL* lista = new ArbolAVL;
-    lista = T;
-    while (lista->last() != NULL)
+    ArbolAVL* czo = T;
+    while (czo->last() != NULL)
     {
-      P.CreaArbolPos(lista->last());
-      lista = lista->resto();
-      N++;
+      P.CreaArbolPos(czo->last());
+      czo = czo->resto();
+      N++;                                                                      
     }
     return N;
 }
