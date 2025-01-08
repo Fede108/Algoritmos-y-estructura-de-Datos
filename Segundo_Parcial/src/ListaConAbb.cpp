@@ -1,5 +1,11 @@
 #include "../inc/ListaConABB.h"
 
+ArbolAVL* ArbolAVL::resto(){
+        ArbolAVL* l = new ArbolAVL();
+        l->czo = this->czo->siguiente;
+        return (l);
+}
+
 NodoAbb* ArbolAVL::last(){
         return czo;
 }

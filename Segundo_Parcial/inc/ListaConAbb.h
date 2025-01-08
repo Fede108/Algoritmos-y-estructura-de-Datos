@@ -57,6 +57,7 @@ public:
     ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia de la lista en inorden 
         return copy(raiz, arbol);}; 
     NodoAbb* last(); // devuelve el primer NodoAbb de la lista
+    ArbolAVL* resto(); //retorna el puntero al "resto" de la lista
 };
 
 #endif 
