@@ -1,9 +1,9 @@
 #include "../inc/ListaConABB.h"
 
 ArbolAVL* ArbolAVL::resto(){
-        ArbolAVL* l = new ArbolAVL();
-        l->czo = this->czo->siguiente;
-        return (l);
+        ArbolAVL* aux = new ArbolAVL();
+        aux->czo = this->czo->siguiente;
+        return (aux);
 }
 
 NodoAbb* ArbolAVL::last(){
@@ -20,14 +20,14 @@ void ArbolAVL::ird(NodoAbb* aux)
 {
     if (aux != NULL) {
         ird(aux->izq);
-        cout << "\n" << aux->info->palabra;
+        cout << "\n" << aux->info->palabra<<" "<<aux->info->repeticiones<<" "<<aux->n;
         ird(aux->der);
     }
 }
 
 void ArbolAVL::impre(NodoAbb* aux){
     if (aux != NULL) {
-        cout << "\n" << aux->info->palabra;
+        cout << "\n" << aux->info->palabra <<" "<<aux->info->repeticiones<<" "<<aux->n;
         impre(aux->siguiente);
     }
 }
@@ -35,9 +35,8 @@ void ArbolAVL::impre(NodoAbb* aux){
 ArbolAVL* ArbolAVL::copy(NodoAbb* aux, ArbolAVL* &arbol){
         if (aux != NULL)
         { 
-                copy(aux->izq, arbol);
+                copy(aux->siguiente, arbol);
                 arbol->CreaArbolAVL(aux->info->palabra); 
-                copy(aux->der, arbol);
         } 
         return arbol;     
 }
@@ -50,6 +49,7 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                 A->der = NULL;
                 A->setNext(czo);  // sumar NodoAbbs a la lista
                 czo = A;
+                if(A->siguiente) A->n = A->siguiente->n + 1; // seteo nro de nodo
                 aumento = true;        
         }else{
                 if (x < A->info->palabra){                       
@@ -111,7 +111,6 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
 }
 
 void ArbolAVL::rotarLL(NodoAbb* &A){ 
-        cout<<"\n LL>> "<<A->info->palabra<<endl<<endl;
         NodoAbb* aux = A->izq->der;
         A->izq->der = A;
         A->izq->FB = 0; 
@@ -122,7 +121,6 @@ void ArbolAVL::rotarLL(NodoAbb* &A){
 }
  
 void ArbolAVL::rotarRR(NodoAbb* &A){ 
-        cout<<"\n RR>> "<<A->info->palabra<<endl<<endl;
         NodoAbb* aux = A->der->izq;
         A->der->izq = A;
         A->der->FB = 0; 
@@ -133,16 +131,12 @@ void ArbolAVL::rotarRR(NodoAbb* &A){
 }
  
 void ArbolAVL::rotarLRalter(NodoAbb* &A){ 
-        cout<<"\n Rotacion Doble RR+LL"<<endl;
         rotarRR(A->izq);
-        VerArbol();
         rotarLL(A);
 }
  
 void ArbolAVL::rotarRLalter(NodoAbb* &A){ 
-        cout<<"\n Rotacion Doble LL+RR"<<endl;
         rotarLL(A->der);
-        VerArbol();
         rotarRR(A);
 }
 

@@ -19,11 +19,12 @@ public:
     Dato* info;
     NodoAbb* der, * izq, *siguiente;
     int FB;
- 
+    int n; // nro de nodo
     NodoAbb(string d){ 
         info = new Dato;
         info->palabra = d;
         info->repeticiones = 1;
+        n = 1;  
     }
     ~NodoAbb(){
         delete info;
@@ -54,10 +55,10 @@ public:
     void VerArbol(){ show(raiz,0); } 
     void IRD(){ird(raiz);}; // recorrido inorden del arbol  
     void print(){impre(czo);}; // imprime la lista
-    ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia de la lista en inorden 
-        return copy(raiz, arbol);}; 
-    NodoAbb* last(); // devuelve el primer NodoAbb de la lista
-    ArbolAVL* resto(); //retorna el puntero al "resto" de la lista
+    ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
+        return copy(czo, arbol);}; 
+    NodoAbb* last(); // devuelve el primer nodo de la lista
+    ArbolAVL* resto(); // retorna el puntero al "resto" de la lista
 };
 
 #endif 

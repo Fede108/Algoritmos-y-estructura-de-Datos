@@ -29,6 +29,7 @@ private:
     stack<Nodo*> pila;
     void ArbolPos(NodoAbb *lista, Nodo*& nuevo);
     void imprimir(Nodo* NodoAbb);
+    int calcularAltura(int numElementos);
 public:
     ArbolPosicional(){
         raiz=new Nodo;
@@ -47,9 +48,9 @@ NodoAbb* ArbolPosicional::recorrer(int bin, Nodo* Nodo)
     while (Nodo->altura > 0)
     {
         int msb = (bin >> (Nodo->altura - 1)) & 1;
-        if (msb) { // Si el bit mas significativo es 1
+        if (msb) { 
             Nodo = Nodo->der; // recorre por el lado derecho 
-        } else { // Si el bit mas significativo es 0
+        } else { 
             Nodo = Nodo->izq; // recorre por el lado izquierdo
         }
       if(Nodo == NULL) return nullptr;
@@ -70,19 +71,43 @@ Dato* ArbolPosicional :: posicion(int p){
     return recorrer(p,raiz)->info;
 }
 
-void ArbolPosicional ::imprimir(Nodo* NodoAbb)
+void ArbolPosicional ::imprimir(Nodo* Nodo)
 {
-    if(NodoAbb == NULL) return;
-    if (NodoAbb->altura == 0)
+    if(Nodo == NULL) return;
+    if (Nodo->altura == 0)
     {
-        cout<<NodoAbb->hoja->info->palabra<<endl;
+        cout<<Nodo->hoja->info->palabra<<" "<<Nodo->hoja->info->repeticiones<<" "<<Nodo->hoja->n<<endl;
         return;
     }
-    imprimir(NodoAbb->izq);
-    imprimir(NodoAbb->der);
+    imprimir(Nodo->izq);
+    imprimir(Nodo->der);
 }
 
-void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){  
+int calcularAltura(int numElementos) {
+    int altura = 0;
+    while ((1 << altura) < numElementos) {
+        altura++;
+    }
+    return altura;
+}
+
+void ArbolPos(ArbolAVL *T, Nodo*& nuevo, int altura) {
+    if (!nuevo) {
+        nuevo = new Nodo;
+        nuevo->altura = altura;
+    }
+
+    if (altura == 0) {
+        nuevo->hoja = T->last(); 
+        return;
+    }
+
+    ArbolPos(T->resto(), nuevo->izq,  altura - 1);
+    ArbolPos(T->resto(), nuevo->der,  altura - 1);
+}
+
+
+/* void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){  
     if (!nuevo->izq)
     {
         nuevo->izq = new Nodo;
@@ -114,59 +139,62 @@ void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){
         }
     }  
     pila.pop();
-    if (!pila.empty())
+    if (!pila.empty()) // sigue con el nivel superior
     {
         ArbolPos(lista, pila.top());
         return;
     }
-    // Si se completo el nivel actual, crear una nueva raíz
+    // si se completaron los niveles se crea una nueva raíz
     Nodo *nuevaRaiz = new Nodo; 
     nuevaRaiz->altura = raiz->altura + 1;
     nuevaRaiz->izq = raiz;
     raiz = nuevaRaiz;    
     ArbolPos(lista,nuevaRaiz);
-}
+}*/
 
-//--------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
 
 
-void ordenaSeleccion(ArbolPosicional &P,int N);
+void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc);
 int mapear(ArbolPosicional &P, ArbolAVL *T);
 void leer_archivo(string archivo_,  ArbolAVL &T);
-void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo);
+void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &cc);
+string convertirMayuscula(string palabra);
 
 int main(){
+    int cm1 = 0, cc1=0, cm2 = 0, cc2=0;
     ArbolAVL T;
     ArbolAVL *T_copy;
     ArbolPosicional P;
-    leer_archivo("data.txt", T);
+    leer_archivo("archivo_texto_tarea.txt", T);
     T_copy = T.Copy();
-    T.VerArbol();
-    T.IRD();
+//    T.VerArbol();
+//    T.IRD();
+    cout << "\n";
     cout << "\n";
 //    T.print();
-    T_copy->VerArbol();
+//    T_copy->VerArbol();
     T_copy->IRD();
-    cout << "\n";
     cout << "\n";
     cout << "\n";
     int N = mapear(P, &T);
  //   P.ImprimirHojas();
-    ordenaSeleccion(P,N);
+    ordenaSeleccion(P,N,cm1,cc1);
+//    P.ImprimirHojas();
     cout << "\n";
     cout << "\n";
-    P.ImprimirHojas();
+    ordenaQuickSort(P,1,N,cm2,cc2);
+//    P.ImprimirHojas();
+    T.IRD();
     cout << "\n";
-    cout << "\n";
-    ordenaQuickSort(P,1,N);
-    P.ImprimirHojas();
-//    T.print();
+    cout << "\n" <<cm1<<" "<<cc1<<" "<<cm2<<" "<<cc2<<" ";
+    
+
     cout<<endl;system("PAUSE");
 }
 
-void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo){
-    int i,j,k,cm,cc;
-    Dato* aux;
+void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &cc){
+    int i,j;
     Dato* pivot;
       if(ultimo>primero){
             pivot = P.posicion(ultimo);cm++;
@@ -193,35 +221,32 @@ void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo){
             P.swap(i,ultimo);
             cm=cm+3;
 
-            ordenaQuickSort(P,primero,i-1);
-            ordenaQuickSort(P,i+1,ultimo);
+            ordenaQuickSort(P,primero,i-1,cm,cc);
+            ordenaQuickSort(P,i+1,ultimo,cm,cc);
              
       } //fin if 
 }// fin ordena
 
 
-void ordenaSeleccion(ArbolPosicional &P,int N){
-    int i,j,pos,m=0,c=0;
-    Dato* max;
+void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc){
+    int i,j,pos;
+    
     for(i=1;i<N;i++){ // recorro desde pos 1 a N-1
-
-        max = P.posicion(i); // supone el max como primer posicion subconjunto [i:N-1]
-        pos=i; m++;  // n-1 movimientos
+     //   max = P.posicion(i); // supone el max como primer posicion subconjunto [i:N-1]
+        pos = i; 
+    //    m++;  // n-1 movimientos
 
         for(j=i+1;j<=N;j++){  // recorre el subconjunto [i+1:N] n-1 veces
-            c++; // n-i-1 comparaciones 
-            if( P.posicion(j)->repeticiones > max->repeticiones ){ // si encuentra un elemento con mas repeticiones
-                max = P.posicion(j); // actualiza el max del subconjunto
-                m++; // aprox n/2 veces por iteracion en el peor caso, max a min 
+            cc++; // n-i-1 comparaciones 
+            if( P.posicion(j)->repeticiones > P.posicion(pos)->repeticiones ){ // si encuentra un elemento con mas repeticiones
+            //    max = P.posicion(j); // actualiza el max del subconjunto
+               // m++; // aprox n/2 veces por iteracion en el peor caso, max a min 
                 pos = j; // guarda posicion del max
             }
         }
 
-        P.swap(pos,i); 
- //       P.posicion(pos) = P.posicion(i); // mueve la primer posicion del subconjunto a la posicion del max
- //       m++; // (n-1) movimientos
- //       P.posicion(i) = max; // mueve el max a la primer posicion del subconjunto [i:N]
-//        m++;  // (n-1) movimientos
+        P.swap(pos,i);  // intercambia la primer posicion del subconjunto [i:N] con el max 
+        cm = cm + 3; // 3(n-1) movimientos
     }
 }
 
@@ -245,11 +270,11 @@ void leer_archivo(string archivo_,  ArbolAVL &T){
     if (archivo.is_open() ){
         char c;
         while(archivo.get(c)){
-            if (isalnum(c)){
+            if (c != '\n' && c != ' ' && c != '\t'){
               palabra += c;  
             } else if (!palabra.empty())
             {    
-                T.CreaArbolAVL(palabra);
+                T.CreaArbolAVL(convertirMayuscula(palabra));
                 palabra = ""; 
             }   
         }
@@ -257,4 +282,14 @@ void leer_archivo(string archivo_,  ArbolAVL &T){
     }
 }
 
-
+string convertirMayuscula(string palabra){
+    string palabraMayus;
+    for (int i = 0; i < palabra.length(); i++) {
+             if (palabra[i] >= 'a' && palabra[i] <= 'z') {
+                palabraMayus += palabra[i] - 32; // Convertir a mayúscula
+            }else{
+                palabraMayus += palabra[i]; // Mantener otros caracteres
+            }
+    }
+    return palabraMayus;
+}
