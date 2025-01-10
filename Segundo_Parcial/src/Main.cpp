@@ -2,8 +2,6 @@
 #include <fstream>
 
 #include "../inc/ListaConAbb.h"
-#include <queue>
-#include <stack>
 
 using namespace std;
 
@@ -26,17 +24,20 @@ class ArbolPosicional
 {
 private:
     Nodo* raiz;
-    stack<Nodo*> pila;
-    void ArbolPos(NodoAbb *lista, Nodo*& nuevo);
+ //   stack<Nodo*> pila;
+    void ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura); // modifica el puntero lista (que es copia del original) usando *&T  
     void imprimir(Nodo* NodoAbb);
     int calcularAltura(int numElementos);
 public:
     ArbolPosicional(){
-        raiz=new Nodo;
-        raiz->altura = 1;
-        pila.push(raiz);  
+          raiz = NULL;
+    //    raiz=new Nodo;
+    //    raiz->altura = 1;
+    //    pila.push(raiz);  
     };
-    void CreaArbolPos(NodoAbb *lista){ ArbolPos(lista,pila.top());};
+    void CreaArbolPos(ArbolAVL *lista){  // recibe una copia del puntero llamado lista, no puede modificar direccion del original
+        ArbolPos(lista,raiz,calcularAltura(lista->last()->n));
+        };
     void ImprimirHojas(){imprimir(raiz);};
     void swap(int p1, int p2);
     NodoAbb* recorrer(int bin, Nodo* Nodo);
@@ -49,14 +50,14 @@ NodoAbb* ArbolPosicional::recorrer(int bin, Nodo* Nodo)
     {
         int msb = (bin >> (Nodo->altura - 1)) & 1;
         if (msb) { 
-            Nodo = Nodo->der; // recorre por el lado derecho 
+        Nodo = Nodo->der; // recorre por el lado derecho 
         } else { 
-            Nodo = Nodo->izq; // recorre por el lado izquierdo
+        Nodo = Nodo->izq; // recorre por el lado izquierdo
         }
-      if(Nodo == NULL) return nullptr;
+        if(Nodo == NULL) return nullptr;
     }
     return Nodo->hoja;
-}
+}    
 
 void ArbolPosicional :: swap(int p1, int p2){
     p1 = p1 - 1;
@@ -83,27 +84,29 @@ void ArbolPosicional ::imprimir(Nodo* Nodo)
     imprimir(Nodo->der);
 }
 
-int calcularAltura(int numElementos) {
+int ArbolPosicional :: calcularAltura(int nroNodo) {
     int altura = 0;
-    while ((1 << altura) < numElementos) {
+    while (nroNodo > 0) {
+        nroNodo = nroNodo / 2; // Dividir por 2 en cada iteración
         altura++;
     }
     return altura;
 }
 
-void ArbolPos(ArbolAVL *T, Nodo*& nuevo, int altura) {
-    if (!nuevo) {
+ void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) {
+    if (!nuevo && T->last()->siguiente) {
         nuevo = new Nodo;
         nuevo->altura = altura;
-    }
+    } else { return; }
 
     if (altura == 0) {
         nuevo->hoja = T->last(); 
+        T = T->resto();
         return;
     }
 
-    ArbolPos(T->resto(), nuevo->izq,  altura - 1);
-    ArbolPos(T->resto(), nuevo->der,  altura - 1);
+    ArbolPos(T, nuevo->izq,  altura - 1);
+    ArbolPos(T, nuevo->der,  altura - 1);
 }
 
 
@@ -152,45 +155,59 @@ void ArbolPos(ArbolAVL *T, Nodo*& nuevo, int altura) {
     ArbolPos(lista,nuevaRaiz);
 }*/
 
-//------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 
 
 void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc);
-int mapear(ArbolPosicional &P, ArbolAVL *T);
+void mapear(ArbolPosicional &P, ArbolAVL *T);
 void leer_archivo(string archivo_,  ArbolAVL &T);
 void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &cc);
 string convertirMayuscula(string palabra);
+void salida();
 
 int main(){
-    int cm1 = 0, cc1=0, cm2 = 0, cc2=0;
+    int cm1 = 0, cc1=0, cm2 = 0, cc2=0, N = 0;
     ArbolAVL T;
     ArbolAVL *T_copy;
     ArbolPosicional P;
-    leer_archivo("archivo_texto_tarea.txt", T);
+    leer_archivo("data.txt", T);
+    N = T.last()->n + 1;
     T_copy = T.Copy();
 //    T.VerArbol();
-//    T.IRD();
-    cout << "\n";
-    cout << "\n";
+    salida();
+    T.IRD();
+    salida();
 //    T.print();
 //    T_copy->VerArbol();
     T_copy->IRD();
-    cout << "\n";
-    cout << "\n";
-    int N = mapear(P, &T);
+    
+    mapear(P, &T);
  //   P.ImprimirHojas();
     ordenaSeleccion(P,N,cm1,cc1);
-//    P.ImprimirHojas();
-    cout << "\n";
-    cout << "\n";
+    salida();
+    P.ImprimirHojas();
+    salida();
     ordenaQuickSort(P,1,N,cm2,cc2);
-//    P.ImprimirHojas();
-    T.IRD();
-    cout << "\n";
-    cout << "\n" <<cm1<<" "<<cc1<<" "<<cm2<<" "<<cc2<<" ";
+    P.ImprimirHojas();
+    salida();
+    T.print();
+    salida();
+    T_copy->print();
+//    T.IRD();
+//    T_copy->IRD();
+    cout << "\n " <<" algoritmo seleccion: nro movimientos = "<<cm1<<" nro de comparaciones = "<<cc1<<endl;
+    cout << "\n" <<" algoritmo quickSort: nro movimientos = "<<cm2<<" nro de comparaciones = "<<cc2<<endl;
     
 
     cout<<endl;system("PAUSE");
+}
+
+void salida(){
+    
+    cout << "\n";
+    cout << "\n";
+    cout << "----palabra " << "repeticiones " << "nro nodo----"<<endl;
+   
 }
 
 void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &cc){
@@ -232,16 +249,15 @@ void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc){
     int i,j,pos;
     
     for(i=1;i<N;i++){ // recorro desde pos 1 a N-1
-     //   max = P.posicion(i); // supone el max como primer posicion subconjunto [i:N-1]
-        pos = i; 
-    //    m++;  // n-1 movimientos
+    
+        pos = i; // supone el max como primer posicion subconjunto [i:N-1]
 
         for(j=i+1;j<=N;j++){  // recorre el subconjunto [i+1:N] n-1 veces
             cc++; // n-i-1 comparaciones 
             if( P.posicion(j)->repeticiones > P.posicion(pos)->repeticiones ){ // si encuentra un elemento con mas repeticiones
-            //    max = P.posicion(j); // actualiza el max del subconjunto
-               // m++; // aprox n/2 veces por iteracion en el peor caso, max a min 
-                pos = j; // guarda posicion del max
+
+                pos = j; // actualiza posicion del max del subconjunto
+
             }
         }
 
@@ -251,16 +267,8 @@ void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc){
 }
 
 
-int mapear(ArbolPosicional &P, ArbolAVL *T){
-    int N = 0;
-    ArbolAVL* czo = T;
-    while (czo->last() != NULL)
-    {
-      P.CreaArbolPos(czo->last());
-      czo = czo->resto();
-      N++;                                                                      
-    }
-    return N;
+void mapear(ArbolPosicional &P, ArbolAVL *T){  
+    P.CreaArbolPos(T);                                                                      
 }
     
 

@@ -26,14 +26,14 @@ void ArbolAVL::ird(NodoAbb* aux)
 }
 
 void ArbolAVL::impre(NodoAbb* aux){
-    if (aux != NULL) {
+    if (aux->siguiente != NULL) {
         cout << "\n" << aux->info->palabra <<" "<<aux->info->repeticiones<<" "<<aux->n;
         impre(aux->siguiente);
     }
 }
 
 ArbolAVL* ArbolAVL::copy(NodoAbb* aux, ArbolAVL* &arbol){
-        if (aux != NULL)
+        if (aux->siguiente != NULL)
         { 
                 copy(aux->siguiente, arbol);
                 arbol->CreaArbolAVL(aux->info->palabra); 

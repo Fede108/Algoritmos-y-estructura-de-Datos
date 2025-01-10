@@ -24,7 +24,8 @@ public:
         info = new Dato;
         info->palabra = d;
         info->repeticiones = 1;
-        n = 1;  
+        siguiente = NULL;
+        n = -1;  // empiezo a enumerar desde el cero
     }
     ~NodoAbb(){
         delete info;
@@ -49,7 +50,7 @@ private:
     void impre(NodoAbb* A);
     ArbolAVL* copy(NodoAbb* A,ArbolAVL* &Arbol);
 public:
-    ArbolAVL(){raiz=NULL; czo = NULL;};
+    ArbolAVL(){raiz=NULL; czo = new NodoAbb("");};
     ~ArbolAVL(){};
     void CreaArbolAVL(string x);
     void VerArbol(){ show(raiz,0); } 
