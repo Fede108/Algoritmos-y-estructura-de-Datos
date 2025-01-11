@@ -45,12 +45,12 @@ void ordenaQS(int v[], int primero, int ultimo)
                 while (v[i] < pivot){ 
                     cc++;
                     i++;
-                    if(i>ultimo) break;
+                    if(i>ultimo) break; // no salga del rango del arreglo
                 }    
                 while (v[j] >= pivot){
                     cc++;
                     j--;
-                    if(j<primero) break;
+                    if(j<primero) break; // no salga del rango del arreglo
                 } 
                 if (i < j) { // Solo intercambiar si i < j
                     aux = v[i];

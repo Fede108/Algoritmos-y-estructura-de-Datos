@@ -28,6 +28,7 @@ private:
     void ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura); // modifica el puntero lista (que es copia del original) usando *&T  
     void imprimir(Nodo* NodoAbb);
     int calcularAltura(int numElementos);
+    void show(Nodo* aux, int n);
 public:
     ArbolPosicional(){
           raiz = NULL;
@@ -42,7 +43,18 @@ public:
     void swap(int p1, int p2);
     NodoAbb* recorrer(int bin, Nodo* Nodo);
     Dato* posicion(int p);
+    void verArbol(){ show(raiz,0);}
 };
+
+void ArbolPosicional::show(Nodo* aux, int n){
+     if (aux != NULL) {
+        show(aux->der, n+1);
+        for(int i=1; i<=n; i++) cout <<"        ";
+        if(aux->hoja) cout  << "   "<< aux->hoja->info->palabra << "\n";
+        else cout  << "nodInt alt:"<<aux->altura << "\n";
+        show(aux->izq, n+1);
+    }
+}
 
 NodoAbb* ArbolPosicional::recorrer(int bin, Nodo* Nodo)
 {
@@ -94,16 +106,17 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {
 }
 
  void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) {
-    if (!nuevo && T->last()->siguiente) {
+    if (!nuevo && altura == 0 && T->last()->siguiente) {
         nuevo = new Nodo;
         nuevo->altura = altura;
-    } else { return; }
-
-    if (altura == 0) {
         nuevo->hoja = T->last(); 
         T = T->resto();
         return;
-    }
+    }else if (!nuevo && altura != 0 ) {
+        nuevo = new Nodo;
+        nuevo->altura = altura;
+    } 
+    else  { return; }
 
     ArbolPos(T, nuevo->izq,  altura - 1);
     ArbolPos(T, nuevo->der,  altura - 1);
@@ -173,28 +186,27 @@ int main(){
     leer_archivo("data.txt", T);
     N = T.last()->n + 1;
     T_copy = T.Copy();
-//    T.VerArbol();
-    salida();
-    T.IRD();
-    salida();
-//    T.print();
-//    T_copy->VerArbol();
-    T_copy->IRD();
+    //T.VerArbol();
+    salida(); cout <<"IRD original"<<endl;
+    T.IRD(); cout<<endl;
+
+
     
+   cout <<"Arbol pos semicompleto"<<endl;
     mapear(P, &T);
- //   P.ImprimirHojas();
+    P.verArbol();
+ 
     ordenaSeleccion(P,N,cm1,cc1);
-    salida();
+    salida(); cout <<"Hojas ordenadas seleccion"<<endl;
     P.ImprimirHojas();
-    salida();
+    salida(); cout <<"Hojas ordenadas quick"<<endl;
     ordenaQuickSort(P,1,N,cm2,cc2);
     P.ImprimirHojas();
-    salida();
-    T.print();
-    salida();
-    T_copy->print();
-//    T.IRD();
-//    T_copy->IRD();
+
+
+    salida(); cout <<"IRD copia"<<endl;
+    T_copy->IRD();
+
     cout << "\n " <<" algoritmo seleccion: nro movimientos = "<<cm1<<" nro de comparaciones = "<<cc1<<endl;
     cout << "\n" <<" algoritmo quickSort: nro movimientos = "<<cm2<<" nro de comparaciones = "<<cc2<<endl;
     
@@ -203,10 +215,9 @@ int main(){
 }
 
 void salida(){
-    
     cout << "\n";
     cout << "\n";
-    cout << "----palabra " << "repeticiones " << "nro nodo----"<<endl;
+    cout << "palabra " << "repeticiones " << "nro nodo----";
    
 }
 
