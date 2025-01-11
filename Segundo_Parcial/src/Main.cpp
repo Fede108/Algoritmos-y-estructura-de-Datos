@@ -51,7 +51,7 @@ void ArbolPosicional::show(Nodo* aux, int n){
         show(aux->der, n+1);
         for(int i=1; i<=n; i++) cout <<"        ";
         if(aux->hoja) cout  << "   "<< aux->hoja->info->palabra << "\n";
-        else cout  << "nodInt alt:"<<aux->altura << "\n";
+        else cout  << "nodInt h="<<aux->altura << "\n";
         show(aux->izq, n+1);
     }
 }
@@ -190,9 +190,7 @@ int main(){
     salida(); cout <<"IRD original"<<endl;
     T.IRD(); cout<<endl;
 
-
-    
-   cout <<"Arbol pos semicompleto"<<endl;
+    cout <<"Arbol pos semicompleto"<<endl;
     mapear(P, &T);
     P.verArbol();
  
@@ -202,7 +200,6 @@ int main(){
     salida(); cout <<"Hojas ordenadas quick"<<endl;
     ordenaQuickSort(P,1,N,cm2,cc2);
     P.ImprimirHojas();
-
 
     salida(); cout <<"IRD copia"<<endl;
     T_copy->IRD();
