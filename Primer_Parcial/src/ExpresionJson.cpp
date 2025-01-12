@@ -47,7 +47,7 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
 }
 
 void ExpresionJson :: generar_archivo(){
-    cout << "Longitud de json calculada: " << json.size() << endl;
+    cout << "Longitud de json calculada: " << json.length() << endl;
     string marcador = ""; 
     ofstream archivoSalida("salida_json");
        if (archivoSalida.is_open()) {
