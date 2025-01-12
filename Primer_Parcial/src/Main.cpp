@@ -17,12 +17,9 @@ int main()
  
 
   ExpresionJson* json = new ExpresionJson();
-  cout<<json->leer_archivo("data_json.txt")<<endl;
+  cout<<json->leer_archivo("data_json")<<endl;
   json->generar_archivo();
-
-   int* prueba = new int[5]; // Fuga intencional
-   
-    
+     
   system("PAUSE");
 
  

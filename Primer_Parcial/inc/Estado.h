@@ -1,7 +1,7 @@
 #include "Pila.h"
 #include "Dato.h"
 #include "Cola.h"
-#include <vector> 
+
 class ExpresionJson; 
 
 #ifndef ESTADO_H

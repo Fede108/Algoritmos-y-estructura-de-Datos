@@ -8,17 +8,11 @@ using namespace std;
 
 
 bool EntreLlaves :: validarExpresion(char c){  
-    
-    if (!p.pilavacia() && c=='"')
-    {
-        getExpresionJson()->setEstado(getExpresionJson()->getLlave());
-        return getExpresionJson()->getLlave()->validarExpresion(c);
-    }
-
     expresion += c;
     if(c=='{')
     {
         p.apilar('{');
+        getExpresionJson()->setEstado(getExpresionJson()->getLlave());
         return true;
     } 
     if (!p.pilavacia() && c==',')

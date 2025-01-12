@@ -9,10 +9,12 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
-                "${workspaceFolder}/Arboles/programa.exe",
-               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
+//                "${workspaceFolder}/Arboles/programa.exe",
+//               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
 //               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
 //                "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
+                "${workspaceFolder}/Primer_Parcial/bin/main.exe",
+               "${workspaceFolder}/Primer_Parcial/src/*.cpp",
                 "-I${workspaceFolder}/Segundo_Parcial/inc"
             ],
  
