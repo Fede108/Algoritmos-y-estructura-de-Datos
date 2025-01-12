@@ -1,11 +1,15 @@
-
-{ 
-"archivo": "",
-    "titulo": "Libro de Cuentos",
-    "autor": "Gabriel García Márquez",
-    "capitulos": ["Un día de estos", "La luz es como el agua"] 
-    ,"vamos":"" }
-
+{
+    "nombre": "Carlos",
+    "apellido": "Garciarena",
+      "calle": "San Martin",
+      "altura": "33",
+      "ciudad": "Jujuy",
+      "telefonos": ["351-4555666", "351-5012789"]
+    ,
+    "conyuge": "Ana Castro",
+    "hijos": ["Ana Garciarena", "Lucas Garciarena"]
+    ,"sigue" : tr
+  }
 
 
 

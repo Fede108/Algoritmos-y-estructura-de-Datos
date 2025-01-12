@@ -30,15 +30,16 @@ bool Llave :: validarExpresion(char c){
 }
 
 string Llave :: print(){
-    if (strings.esvacia()) return "";
-    if (llaves.empty())    return "";
-
     ostringstream resultado;
-    resultado << strings.last()->print() << llaves.front() << getExpresionJson()->getValor()->print();
-    llaves.erase(llaves.begin());
-    delete strings.last();
-    strings.borrar_last(); // Elimina el primer elemento
+    if (!strings.esvacia())     resultado << strings.last()->print();
+    if (!llaves.empty())        resultado << llaves.front();
+                                resultado << getExpresionJson()->getValor()->print();
 
+    
+    if (!llaves.empty())  llaves.erase(llaves.begin());
+    if (!strings.esvacia()){ delete strings.last();
+    strings.borrar_last(); // Elimina el primer elemento
+    }
     return resultado.str();
 }
 

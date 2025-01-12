@@ -43,7 +43,7 @@ bool Valor:: validarExpresion(char c){
 }
   
 string Valor::print(){
-    if (valores.esvacia()) return expresion + "";
+    if (valores.esvacia()) return expresion + ""; 
 
     ostringstream resultado ;
     if(dynamic_cast<JsonAyed*>(valores.last())){  // Si el valor guardado es de tipo subexpresion no retorna nada

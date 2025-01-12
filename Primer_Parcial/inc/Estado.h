@@ -10,7 +10,6 @@ class ExpresionJson;
 class Estado{
     protected:
        ExpresionJson* expresionJson;
-       string expresion = "";
     public:
         virtual ~Estado() = default;
         void setExpresionJson(ExpresionJson* ctx) {
@@ -62,6 +61,7 @@ private:
     Dato *valorDato;
     Cola <Dato*> valores; //buffer de valores
     Pila<char> p1;  
+    string expresion = "";
 public:
     Valor()  { valorDato = nullptr;}
     ~Valor() { delete valorDato; }
