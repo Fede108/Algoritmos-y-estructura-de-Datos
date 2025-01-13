@@ -32,7 +32,7 @@ public:
     void guardarExpresion(char c);
     string print() override;
     int size();
-    bool validarJson() { return p.pilavacia(); }
+    bool pilaVacia() { return p.pilavacia(); }
 };
 
 //-------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ public:
     Valor()  { componenteJson = nullptr;}
     ~Valor() { delete componenteJson; }
     bool validarExpresion(char c);
-    bool validarValor(){ 
+    bool pilaVacia(){ 
         if (componenteJson == nullptr) return true;
         return componenteJson->pilaEmpty();};
     string print();

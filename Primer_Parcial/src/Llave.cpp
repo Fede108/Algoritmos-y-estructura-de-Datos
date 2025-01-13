@@ -15,18 +15,19 @@ bool Llave :: validarExpresion(char c){
         strings.encolar(str);
     }
     
-    if (str->getExpresionEsCorrecta())  // Evalua expresion actual 
+    if (str->getExpresionEsCorrecta())  // string ingresado es correcto 
     {   str = nullptr;
-        llaves += c; // Guarda el caracter
+        llaves += c; // guarda el caracter
         if (c == ':')
         { 
-            getExpresionJson()->setEstado(getExpresionJson()->getValor()); // Proxima expresion a evaluar  
+            // llave correcta
+            getExpresionJson()->setEstado(getExpresionJson()->getValor()); // siguiente modo a validar es un valor   
             return true;
         }
-            return false; // Error: no hay `:` después de una llave válida
+            return false; // error, no hay : después de un string valido
     }
 
-    return str->validarExpresion(c); // Continúa validando el string actual;
+    return str->validarExpresion(c); // continua validando el string actual
 }
 
 string Llave :: print(){
@@ -38,7 +39,7 @@ string Llave :: print(){
     
     if (!llaves.empty())  llaves.erase(llaves.begin());
     if (!strings.esvacia()){ delete strings.last();
-    strings.borrar_last(); // Elimina el primer elemento
+    strings.borrar_last(); // elimina el primer elemento
     }
     return resultado.str();
 }

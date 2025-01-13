@@ -24,7 +24,7 @@ public:
     void setEstado(Estado* estado);
     bool leer_archivo(string nombre_archivo);
     void generar_archivo();
-    // string imprimir_archivo();
+   
     Estado* getEntreLlaves() { return &entreLlaves; };
     Estado* getLlave() { return &llave; };
     Estado* getValor() { return &valor; };

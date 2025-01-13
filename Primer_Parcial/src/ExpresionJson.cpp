@@ -9,7 +9,7 @@ using namespace std;
 #include "../inc/Estado.h"
 #include "../inc/ExpresionJson.h"
 
-
+// cambia el modo de evaluacion de la expresion 
 void ExpresionJson :: setEstado(Estado* estado){
         estadoActual = estado;
         estadoActual->setExpresionJson(this);
@@ -20,17 +20,18 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
     ifstream archivo(nombre_archivo);
     if (archivo.is_open() ){
         char c;
-        while(archivo.get(c) && correcto){
+        while(archivo.get(c) && correcto){    // lee los caracteres del archivo de a uno mientras sea correcto
             if (c != '\n' && c != ' ' && c != '\t' ){
-                correcto = estadoActual->validarExpresion(c);
+                correcto = estadoActual->validarExpresion(c);   // determina la validez del caracter
                 caracter++;
             } 
         }
     }
 
-    if (correcto)
+    if (correcto)   
     {
-        if(!entreLlaves.validarJson() || ! valor.validarValor()){  
+    // se evalua si las expresiones cerraron correctamente 
+        if(!entreLlaves.pilaVacia() || ! valor.pilaVacia()){  
             caracter++;
             correcto = false;
         }    

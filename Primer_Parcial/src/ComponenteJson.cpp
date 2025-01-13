@@ -38,18 +38,20 @@ bool ListaString :: validarExpresion(char c){
     if (p.tope() == '[')
     {
 
-        if (str == nullptr){
-            if (c == ']')
+        if (str == nullptr){ // no hay string a evaluar
+            if (c == ']')  
             {  
                 cadena += c;
                 p.desapilar();
-                expresionCorrecta = true;
+                expresionCorrecta = true;   
                 return true;
             }
+            // primer string de la lista
             if(strings.esvacia()){
                 str = new String();
                 strings.encolar(str);
             }
+            // siguientes strings de la lista
             else if (c == ',')
             {
                 cadena += c;
@@ -62,9 +64,9 @@ bool ListaString :: validarExpresion(char c){
             } 
             
         }
-       
+        // se continua validando el ultimo string
         bool valida = str->validarExpresion(c);
-        if (str->getExpresionEsCorrecta()){
+        if (str->getExpresionEsCorrecta()){  
             str = nullptr;
         }          
         return valida;
