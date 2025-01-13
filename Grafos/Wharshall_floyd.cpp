@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #define INFI  9000
-#define MAXNODOS  5
+#define MAXNODOS  4
 
 
 void warshall(int peso[][MAXNODOS], int caminos[][MAXNODOS]);
@@ -11,11 +11,10 @@ void caminoFloyd(int cf[][MAXNODOS], int s, int t);
 using namespace std;
 
 int main(int argc, char *argv[])
-{   int peso[MAXNODOS][MAXNODOS]={INFI, INFI,    4,   13, INFI,
-                                  INFI, INFI,    1, INFI, INFI,
-                                  INFI, INFI, INFI,    2,   11,
-                                  INFI, INFI, INFI,INFI,     2,
-                                  INFI, INFI, INFI,    1, INFI      
+{   int peso[MAXNODOS][MAXNODOS]={INFI, 3,    INFI,   10, 
+                                  INFI, INFI,    1,   INFI, 
+                                  INFI, INFI, INFI,    2,  
+                                  INFI, INFI, INFI, INFI,     
                                  };
     int caminos[MAXNODOS][MAXNODOS];
     int cf[MAXNODOS][MAXNODOS];
@@ -23,7 +22,7 @@ int main(int argc, char *argv[])
     int *pdist, i, j, precede[MAXNODOS],s,t;
     
     s=0;  // vertice de inicio
-    t=4;  // vertice final
+    t=3;  // vertice final  
     
     cout<<endl<<"Matriz de pesos";   
     for(i=0;i<MAXNODOS;i++){

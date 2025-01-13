@@ -11,11 +11,14 @@
                 "-o",
 //                "${workspaceFolder}/Arboles/programa.exe",
 //               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
-//               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
-//                "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
-                "${workspaceFolder}/Primer_Parcial/bin/main.exe",
-               "${workspaceFolder}/Primer_Parcial/src/*.cpp",
-                "-I${workspaceFolder}/Segundo_Parcial/inc"
+               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
+                "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
+                  "-I${workspaceFolder}/Segundo_Parcial/inc"
+//                "${workspaceFolder}/Grafos/programa.exe",
+//                "${workspaceFolder}/Grafos/Wharshall_floyd.cpp",
+//                   "${workspaceFolder}/Primer_Parcial/bin/main.exe",
+//                   "${workspaceFolder}/Primer_Parcial/src/*.cpp",
+//                "-I${workspaceFolder}/Primer_Parcial/inc"
             ],
  
             "options": {

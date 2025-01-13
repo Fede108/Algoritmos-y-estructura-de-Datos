@@ -14,11 +14,11 @@ struct Dato
     int repeticiones;
 };
 
-class NodoAbb {
+class NodoAbb {   // Nodo de lista y nodo de arbol
 public:
     Dato* info;
     NodoAbb* der, * izq, *siguiente;
-    int FB;
+    int FB;  // fb = izq - der
     int n; // nro de nodo
     NodoAbb(string d){ 
         info = new Dato;
@@ -35,13 +35,13 @@ public:
     void incrContador(){ info->repeticiones++;}
 };
 
+// Estructura combinada de lista con arbol
 class ArbolAVL
 {
 private:
     NodoAbb* raiz;
     NodoAbb* czo;
     void Insert(string x, bool &aumento, NodoAbb* &A);
-    void show(NodoAbb* aux, int n);
     void rotarLL(NodoAbb* &A);
     void rotarRR(NodoAbb* &A);
     void rotarLRalter(NodoAbb* &A);
@@ -53,13 +53,12 @@ public:
     ArbolAVL(){raiz=NULL; czo = new NodoAbb("");};
     ~ArbolAVL(){};
     void CreaArbolAVL(string x);
-    void VerArbol(){ show(raiz,0); } 
-    void IRD(){ird(raiz);}; // recorrido inorden del arbol  
-    void print(){impre(czo);}; // imprime la lista
+    void IRD(){ird(raiz);};     // recorrido inorden del arbol  
+    void print(){impre(czo);};  // imprime la lista
     ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
         return copy(czo, arbol);}; 
-    NodoAbb* last(); // devuelve el primer nodo de la lista
-    ArbolAVL* resto(); // retorna el puntero al "resto" de la lista
+    NodoAbb* last();    // devuelve el primer nodo de la lista
+    ArbolAVL* resto();  // retorna el puntero al "resto" de la lista
 };
 
 #endif 

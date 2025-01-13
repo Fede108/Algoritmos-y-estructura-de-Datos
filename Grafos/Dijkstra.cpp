@@ -97,7 +97,7 @@ int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
       
                   //printf("\n\n   D[%i]=%3i ",actual,D[actual]);
                   
-                   system("PAUSE");
+                   
  }//fin while
  return D;
 }// fin dijkstra
