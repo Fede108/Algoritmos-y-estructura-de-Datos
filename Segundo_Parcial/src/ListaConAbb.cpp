@@ -140,14 +140,24 @@ void ArbolAVL::rotarLL(NodoAbb* &B){
 }
  
 void ArbolAVL::rotarLRalter(NodoAbb* &A){ 
-        rotarRR(A->izq);
+        rotarRR(A->der);
         rotarLL(A);
 }
  
 void ArbolAVL::rotarRLalter(NodoAbb* &A){ 
-        rotarLL(A->der);
+        rotarLL(A->izq);
         rotarRR(A);
 }
 
 
 
+void ArbolAVL::show(NodoAbb* aux, int n)
+{ 
+int i;
+    if(aux!=NULL){                      //OjO este es un recorrido dri
+       show(aux->der, n+1);
+       for(i=1; i<=n; i++) cout<<"        ";
+       cout<<"("<<aux->info->palabra<<" "<<aux->FB<<")"<<"\n";
+       show(aux->izq, n+1);
+   }
+}

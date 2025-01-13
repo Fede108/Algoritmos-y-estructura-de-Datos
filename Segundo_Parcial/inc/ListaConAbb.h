@@ -49,6 +49,7 @@ private:
     void ird(NodoAbb* A);
     void impre(NodoAbb* A);
     ArbolAVL* copy(NodoAbb* A,ArbolAVL* &Arbol);
+    void show(NodoAbb* aux, int n);
 public:
     ArbolAVL(){raiz=NULL; czo = new NodoAbb("");};
     ~ArbolAVL(){};
@@ -59,6 +60,7 @@ public:
         return copy(czo, arbol);}; 
     NodoAbb* last();    // devuelve el primer nodo de la lista
     ArbolAVL* resto();  // retorna el puntero al "resto" de la lista
+    void VerArbol(){ show(raiz,0); } 
 };
 
 #endif 

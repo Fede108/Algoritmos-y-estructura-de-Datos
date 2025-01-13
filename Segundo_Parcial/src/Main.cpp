@@ -189,7 +189,7 @@ int main(){
     leer_archivo("data.txt", T);
     N = T.last()->n + 1;
     T_copy = T.Copy();
-    //T.VerArbol();
+    T.VerArbol();
     salida(); cout <<"IRD original"<<endl;
     T.IRD(); cout<<endl;
 

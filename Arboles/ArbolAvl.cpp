@@ -127,14 +127,14 @@ void arbolAVL::rotarLL(nodoAVL* &B){
  
 void arbolAVL::rotarLRalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble RR+LL"<<endl;
-        rotarRR(A->izq);
+        rotarRR(A->der);
         VerArbol();
         rotarLL(A);
 }
  
 void arbolAVL::rotarRLalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble LL+RR"<<endl;
-        rotarLL(A->der);
+        rotarLL(A->izq);
         VerArbol();
         rotarRR(A);
 }
