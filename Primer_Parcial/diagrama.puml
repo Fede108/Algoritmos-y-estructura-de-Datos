@@ -1,7 +1,7 @@
 @startuml diagrama
 skinparam classAttributeIconSize 0
 
-class Dato {
+class ComponenteJson {
     +virtual bool validarExpresion(char c) = 0
     +virtual bool getExpresionEsCorrecta() = 0
     +virtual string print() = 0
@@ -72,8 +72,8 @@ class Llave {
 }
 
 class Valor {
-    -Dato *valorDato
-    -vector<Dato*> valores
+    -ComponenteJson *valorComponenteJson
+    -vector<ComponenteJson*> valores
     -Pila<char> p1
     +Valor()
     +bool validarExpresion(char c)
@@ -98,9 +98,9 @@ class ExpresionJson {
     +Estado* getValor()
 }
 
-Dato <|-- JsonAyed
-Dato <|-- String
-Dato <|-- ListaString
+ComponenteJson <|-- JsonAyed
+ComponenteJson <|-- String
+ComponenteJson <|-- ListaString
 Estado <|-- EntreLlaves
 Estado <|-- Llave
 Estado <|-- Valor
@@ -110,5 +110,5 @@ ExpresionJson --> Llave
 ExpresionJson --> Valor
 ListaString --> String
 Llave --> String
-Valor --> Dato
+Valor --> ComponenteJson
 @enduml

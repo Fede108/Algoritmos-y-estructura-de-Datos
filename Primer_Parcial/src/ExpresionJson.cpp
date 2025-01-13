@@ -24,7 +24,6 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
             if (c != '\n' && c != ' ' && c != '\t' ){
                 correcto = estadoActual->validarExpresion(c);
                 caracter++;
-               // else caracter--;
             } 
         }
     }
@@ -49,7 +48,7 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
 void ExpresionJson :: generar_archivo(){
     cout << "Longitud de json calculada: " << json.length() << endl;
     string marcador = ""; 
-    ofstream archivoSalida("salida_json");
+    ofstream archivoSalida("salida.json");
        if (archivoSalida.is_open()) {
          if (correcto) {
             archivoSalida << json << "\nJSON correcto";

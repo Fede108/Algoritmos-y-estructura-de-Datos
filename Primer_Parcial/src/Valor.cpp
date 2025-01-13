@@ -9,11 +9,11 @@ using namespace std;
 
 
 bool Valor:: validarExpresion(char c){
-    if (valorDato != nullptr)          // Si ya existe el valor se lo continua evaluando
+    if (componenteJson != nullptr)          // Si ya existe el valor se lo continua evaluando
     {
-        bool valida = valorDato->validarExpresion(c);  // Analiza la correctitud del valor, sin importar el tipo dato
-        if( valorDato->getExpresionEsCorrecta() ){  
-            valorDato = nullptr;
+        bool valida = componenteJson->validarExpresion(c);  // Analiza la correctitud del valor, sin importar el tipo dato
+        if( componenteJson->getExpresionEsCorrecta() ){  
+            componenteJson = nullptr;
             getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves()); // Si es correcta vuelve al estado entre llaves 
         } 
         return valida;
@@ -22,15 +22,15 @@ bool Valor:: validarExpresion(char c){
 
     if ( c == '"')          // El valor es de tipo string 
     {
-        valorDato = new String();
-        valores.encolar(valorDato);  // Se almacena el string en el buffer
-        return valorDato->validarExpresion(c);
+        componenteJson = new String();
+        valores.encolar(componenteJson);  // Se almacena el string en el buffer
+        return componenteJson->validarExpresion(c);
     }
     if ( c == '[')     // El valor es de tipo lista string 
     {
-        valorDato = new ListaString();
-        valores.encolar(valorDato);  // Se almacena la lista de string en el buffer
-        return valorDato->validarExpresion(c);    
+        componenteJson = new ListaString();
+        valores.encolar(componenteJson);  // Se almacena la lista de string en el buffer
+        return componenteJson->validarExpresion(c);    
     }
     if ( c =='{')  // El valor es de tipo subexpresion   
     {
@@ -38,12 +38,12 @@ bool Valor:: validarExpresion(char c){
         return getExpresionJson()->getEntreLlaves()->validarExpresion(c);  // Se evalua el valor en clase entre llaves
 
     }
-    expresion = c; // Guarda char invalido
+    caracterIncorrecto = c; // Guarda char invalido
     return false;
 }
   
 string Valor::print(){
-    if (valores.esvacia()) return expresion + ""; 
+    if (valores.esvacia()) return caracterIncorrecto + "";  // Si buffer de valores esta vacio el unico valor a retornar posible es caracter incorrecto
 
     ostringstream resultado ;
     if(dynamic_cast<JsonAyed*>(valores.last())){  // Si el valor guardado es de tipo subexpresion no retorna nada

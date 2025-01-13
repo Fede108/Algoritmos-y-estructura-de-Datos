@@ -9,10 +9,10 @@
 using namespace std;    
 class ExpresionJson; 
 
-#ifndef DATO_H
-#define DATO_H
+#ifndef ComponenteJson_H
+#define ComponenteJson_H
 
-class Dato
+class ComponenteJson
 {
 public:
     virtual bool validarExpresion(char c)= 0;
@@ -23,7 +23,7 @@ public:
 
 //-------------------------------------------------------------------------------
 
-class JsonAyed : public Dato
+class JsonAyed : public ComponenteJson       // clase vacia
 {
 public:
     bool validarExpresion(char c) override {
@@ -38,7 +38,7 @@ public:
 
 //-------------------------------------------------------------------------------
 
-class String : public Dato
+class String : public ComponenteJson
 {
 private:
     Pila<char> p;
@@ -53,7 +53,7 @@ public:
 
 //-------------------------------------------------------------------------------
 
-class ListaString : public Dato
+class ListaString : public ComponenteJson
 {
 private:
     bool expresionCorrecta = false;

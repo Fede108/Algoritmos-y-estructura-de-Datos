@@ -1,13 +1,14 @@
-#include "../inc/Dato.h"
+#include "../inc/ComponenteJson.h"
 
 bool String :: validarExpresion(char c){
-    str += c;
+    str += c;   // Agrega el carácter al buffer actual
     if (c == '"' && p.pilavacia()) { 
-        p.apilar(c); // Abre una comilla
+        p.apilar(c); 
         return true;
-    }   
+    } 
+     // Si se cierran las comillas, la expresión es válida  
     if (c == '"' && !p.pilavacia()) { 
-        p.desapilar(); // Cierra una comilla
+        p.desapilar(); 
         expresionCorrecta = true;
         return true;
     }
@@ -39,10 +40,11 @@ bool ListaString :: validarExpresion(char c){
 
         if (str == nullptr){
             if (c == ']')
-            {   cadena += c;
-               p.desapilar();
-               expresionCorrecta = true;
-               return true;
+            {  
+                cadena += c;
+                p.desapilar();
+                expresionCorrecta = true;
+                return true;
             }
             if(strings.esvacia()){
                 str = new String();
@@ -55,7 +57,7 @@ bool ListaString :: validarExpresion(char c){
                 strings.encolar(str);
                 return true;
             } else {
-                 cadena += c;
+                cadena += c;
                 return false;
             } 
             

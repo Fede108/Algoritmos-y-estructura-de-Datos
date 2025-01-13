@@ -1,5 +1,5 @@
 #include "Pila.h"
-#include "Dato.h"
+#include "ComponenteJson.h"
 #include "Cola.h"
 
 class ExpresionJson; 
@@ -58,17 +58,17 @@ public:
 
 class Valor : public Estado{
 private:
-    Dato *valorDato;
-    Cola <Dato*> valores; //buffer de valores
+    ComponenteJson *componenteJson;
+    Cola <ComponenteJson*> valores; //buffer de valores
     Pila<char> p1;  
-    string expresion = "";
+    string caracterIncorrecto = "";
 public:
-    Valor()  { valorDato = nullptr;}
-    ~Valor() { delete valorDato; }
+    Valor()  { componenteJson = nullptr;}
+    ~Valor() { delete componenteJson; }
     bool validarExpresion(char c);
     bool validarValor(){ 
-        if (valorDato == nullptr) return true;
-        return valorDato->pilaEmpty();};
+        if (componenteJson == nullptr) return true;
+        return componenteJson->pilaEmpty();};
     string print();
 };
 
