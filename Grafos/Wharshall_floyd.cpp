@@ -110,6 +110,13 @@ void Floyd(int peso[][MAXNODOS], int A[][MAXNODOS], int cf[][MAXNODOS])
                   printf(" %5i",A[i][j]);                 
            }                 
     }
+
+     for(i=0;i<MAXNODOS;i++){
+           cout<<"\n";                 
+           for(j=0;j<MAXNODOS;j++){
+                  printf(" %5i",cf[i][j]);                 
+           }                 
+    }
     cout<<endl;
     system("PAUSE");
      
