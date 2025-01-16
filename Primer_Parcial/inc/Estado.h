@@ -7,7 +7,7 @@ class ExpresionJson;
 #ifndef ESTADO_H
 #define ESTADO_H
 
-class Estado{
+class Estado {
     protected:
        ExpresionJson* expresionJson;
     public:

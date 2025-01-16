@@ -27,6 +27,7 @@ private:
     void mh(nodo<T>* aux);
     T menor(nodo<T>* aux);
     bool esta(nodo<T>* aux, T x);
+    T buscar(nodo<T>* aux, T x);
 
 public:
     arbol() { raiz = NULL; };
@@ -41,6 +42,7 @@ public:
     void MostrarHojas() { mh(raiz); }
     T Menor() { return menor(raiz); }
     bool Esta(T x) { return esta(raiz, x); }
+    T busca(T x) { return buscar(raiz, x)}
 };
 
 
@@ -141,9 +143,15 @@ template <class T> bool arbol<T>::esta(nodo<T>* aux, T x)
     else if (x > aux->info) return esta(aux->der, x);
     else if (x < aux->info) return esta(aux->izq, x);
     return true;
-
 }
 
+template <class T> T arbol<T>::buscar(nodo<T>* aux, T x)
+{
+    if (aux == NULL) return NULL;
+    else if (x > aux->info) return esta(aux->der, x);
+    else if (x < aux->info) return esta(aux->izq, x);
+    return aux;
+}
 
 
 template <class T> void arbol<T>::mh(nodo<T>* aux)
@@ -177,6 +185,7 @@ template <class T> void arbol<T>::borrar(nodo<T>*& p, T x)
         delete q; //elimina nodo
     }
 }
+
 template <class T> void arbol<T>::bor(nodo<T>*& d)
 {
     if (d->der != NULL) bor(d->der);//busca el elemento mas a la derecha

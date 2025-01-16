@@ -1,12 +1,20 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
-#include "Router.h"
+
+class Router;
 
 struct Pagina
 {
     int ip = 0;
     int tamaño = 0;
     int informacion = 0;
+};
+
+struct Paquete
+{
+   int ip = 0;
+   int nroPaquete = 0;
+   int informacion = 0;
 };
 
 class Terminal
@@ -18,14 +26,10 @@ public:
     Terminal(Router* router);
     ~Terminal();
     void enviarPagina();
+    void recibirPagina(Paquete* p);
 };
 
-struct Paquete
-{
-   int ip = 0;
-   int nroPaquete = 0;
-   int informacion = 0;
-};
+
 
 
 #endif 

@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iomanip>
 #include "../inc/Administrador.h"
 
 Grafo::Grafo(int N, int K) : matriz(nullptr), N(N) {
@@ -51,29 +53,48 @@ void Grafo::agregarArco(int n, int m) {
 }
 
 void Grafo::mostrarGrafo() {
-    cout << "Matriz de adyacencia del grafo:" << endl;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << matriz[i][j] << " ";
+   // Imprimir matriz de adyacencia
+       /* cout << "=== MATRIZ DE ADYACENCIA ===\n";
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                cout << setw(3) << matriz[i][j] << " ";
+            }
+            cout << endl;
         }
-        cout << endl;
+        */
+        // Imprimir lista de adyacencia
+        cout << "\n=== LISTA DE ADYACENCIA ===\n";
+        for (int i = 0; i < N; i++) {
+            cout << "Nodo " << i << ": ";
+            nodos.at(i)->impre();
+            cout << endl;
+        } 
+
+        // Imprimir matriz de pesos
+        cout << "\n=== MATRIZ DE PESOS ===\n";
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (pesos[i][j] == 9000) // 9000 representa infinito
+                    cout << setw(5) << "INF" << " ";
+                else
+                    cout << setw(5) << pesos[i][j] << " ";
+            }
+            cout << endl;
+        }
+
+        // Imprimir matriz de caminos óptimos
+        cout << "\n=== MATRIZ DE CAMINOS ÓPTIMOS ===\n";
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (cf[i][j] == -1)
+                    cout << setw(3) << "-1" << " "; // Sin nodo intermedio
+                else
+                    cout << setw(3) << cf[i][j] << " ";
+            }
+            cout << endl;
+        }
     }
 
-    cout << "Lista de adyacencia del grafo:" << endl;
-    for (int i = 0; i < N; i++) {
-        cout << i << "->";
-        nodos.at(i)->impre();
-        cout << endl;
-    }
-
-    cout << "Matriz de pesos del grafo:" << endl;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << pesos[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
 
 void Grafo :: matrizPesos(){
     for (int i = 0; i < N; i++)
@@ -108,18 +129,46 @@ void Grafo :: Floyd(){
     for (int i = 0; i < N; i++)
     {
         nodos.at(i)->actualizarTabla(cf[i]);
-    }
-    
+    }  
+}
+
+
+void Administrador::crearGrafo(int n, int k){
+    grafo = new Grafo(n, k);
+}
+
+void Administrador::simular(){
+    grafo->matrizPesos();
+    grafo->Floyd();
+    grafo->mostrarGrafo();
+    srand(time(0));
+    int n = rand() % 5;
+    int l = rand() % 10;
+
+ //   destino = 1;
+    while (l!=9)
+    {
+       grafo->nodos.at(n)->terminal->enviarPagina();
+       grafo->nodos.at(n)->enviarCola();
+       grafo->matrizPesos();
+       grafo->Floyd();
+       grafo->mostrarGrafo();
+       n = rand() % 5;
+       l = rand() % 10;
+  }
 }
 
 
 int main() {
-    int N = 10; // numero de nodos
-    int K = 4; // conexiones por nodo
+    int N = 5; // numero de nodos
+    int K = 2; // conexiones por nodo
     Grafo* grafo = new Grafo(N, K);
     grafo->matrizPesos();
-    grafo->mostrarGrafo();
-    grafo->Floyd();
+  //  grafo->mostrarGrafo();
+   
+    Administrador* ad = new Administrador();
+    ad->crearGrafo(N,K);
+    ad->simular();
 
     return 0;
 }

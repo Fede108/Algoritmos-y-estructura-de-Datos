@@ -2,46 +2,39 @@
 #define ROUTER_H
 #include <iostream>
 #include <Cola.h>
-#include "../inc/Terminal.h"
+#include "Terminal.h"
+#include "Tree.h"
+
 using namespace std;
 
-class Router;
-
-class nodo
-{
-private:
-    /* data */
-public:
-    Cola<Paquete> *paquetes;
-    Router* router;
-    nodo (Router* router);
-    ~nodo();
-};
 
 class Router 
 {
 private:
-    int n; // nro de router
-    Lista<nodo*> *vecinos;
-    Lista<Paquete> *paquetesEnviar;
+    
+    arbol *vecinos;
+//    Lista<Terminal*> *terminales;
+    Lista<Paquete*> *paquetesEnviar;
     int *tablaRuta;
-    Terminal* terminal;
-    Paquete* paquete;
-    void imp(Lista<nodo*>* adyacentes);
-    int tamaño(Lista<nodo*>* adyacentes, int n);
+//Paquete* paquete;
+    void imp();
+    int tamaño( int n);
 public:
-    Router(int n, int N) : n(n){ 
-        vecinos = new Lista<nodo*>(); 
+    int n; // nro de router
+    int N; // cantidad router
+    Terminal* terminal;
+    Router(int n, int N) : n(n), N(N){ 
+        vecinos = new arbol(); 
         tablaRuta = new int[N];
-        paquetesEnviar = new Lista<Paquete>();
+        paquetesEnviar = new Lista<Paquete*>();
     };
     void agregarNodoAdyacente(Router* nodo);
-    void impre(){imp(vecinos);}
-    int tamañoCola(int n){return tamaño(vecinos,n);};
+    void impre(){imp();}
+    int tamañoCola(int n){return tamaño(n);};
     void actualizarTabla(int *tabla);
     void recibirPagina(Pagina Pagina);
     void recibirPaquete(Paquete Paquete);
-    void enviarCola(Lista<nodo*>* adyacentes, int destino);
-    void enviarPaquete(Lista<nodo*>* adyacentes);
+    void enviarCola();
+    void enviarPaquete();
 };
 #endif

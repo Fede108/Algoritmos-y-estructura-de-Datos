@@ -13,9 +13,9 @@ private:
     int **pesos;
     int **cf;
     int **A;
-    vector<Router*> nodos;
     Router* nodo;
 public:
+    vector<Router*> nodos;
     Grafo(int N, int K);
     ~Grafo();
     void agregarArco(int n, int m);
@@ -27,11 +27,12 @@ public:
 class Administrador
 {
 private:
-    /* data */
+    Grafo *grafo;
 public:
-    Administrador(/* args */);
-    ~Administrador();
     void crearGrafo(int n, int k);
+    int** obtenerMatriz();
+    vector<Router*> obtenerLista();
+    void simular();
 };
 
 #endif
