@@ -14,12 +14,13 @@ void Router ::recibirPagina (Pagina pagina){
     }
 }
 
-void Router::recibirPaquete(Paquete paquete){
- 
+void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
+    paquetesEnviar->add(paquete);   // pierdo un turno antes de enviar el paquete al vecino
 }
 
-void Router::enviarCola()
+void Router::enviarCola() // guardo en la cola del vecino correspondiente segun camino optimo
 {
+    if (paquetesEnviar->esvacia()) return;
     int b = 0;
     int destino = 0;
     destino = tablaRuta[paquetesEnviar->last()->ip];
@@ -41,23 +42,23 @@ void Router::enviarCola()
     paquetesEnviar->borrar_last();
 }
 
-void Router ::enviarPaquete(){
+void Router ::enviarPaquete(){   // envio paquete al vecino
     Paquete *p;
     int destino;
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < K; i++)
     {
-        if(tablaRuta[i] == -1){ 
-            p = vecinos->busca(i)->paquetes->tope();
-            vecinos->busca(i)->paquetes->desencolar();
-            destino = tablaRuta[p->ip];
-            vecinos->busca(destino)->router->recibirPaquete(*p);
-        }
+        nodo* nodoVecino = vecinos->busca(tablaVecinos[i]); 
+        if (nodoVecino->paquetes->esvacia())  return;
+        p = nodoVecino->paquetes->tope();
+        nodoVecino->paquetes->desencolar();
+        nodoVecino->router->recibirPaquete(p);
     }
 }  
     
 void Router :: agregarNodoAdyacente(Router* router){
     terminal = new Terminal(this);
     vecinos->CreaArbolBus(router);
+    tablaVecinos[i++] = router->n;
 }
 
 int Router :: tamaño(int n) {

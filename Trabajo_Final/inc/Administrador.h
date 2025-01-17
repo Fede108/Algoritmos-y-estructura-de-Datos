@@ -8,13 +8,13 @@ using namespace std;
 class Grafo
 {
 private:
-    int N; 
     int **matriz;
     int **pesos;
     int **cf;
     int **A;
     Router* nodo;
 public:
+      int N; 
     vector<Router*> nodos;
     Grafo(int N, int K);
     ~Grafo();

@@ -15,7 +15,7 @@ void arbol:: ird(nodo *aux)
 {
     if (aux != NULL) {
         ird(aux->izq);
-        cout<<aux->router->n;
+        cout<<" -> "<<aux->router->n;
         ird(aux->der);
     }
     

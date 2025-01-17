@@ -29,7 +29,7 @@ Grafo::Grafo(int N, int K) : matriz(nullptr), N(N) {
     // crea lista de adyacencia 
     nodos.resize(N);
     for (int i = 0; i < N; i++) {
-        nodos[i] = new Router(i, N);
+        nodos[i] = new Router(i, N, K);
     }
     
     // crea el grafo con conexiones uniformes
@@ -65,9 +65,9 @@ void Grafo::mostrarGrafo() {
         // Imprimir lista de adyacencia
         cout << "\n=== LISTA DE ADYACENCIA ===\n";
         for (int i = 0; i < N; i++) {
-            cout << "Nodo " << i << ": ";
+            cout << "Nodo " << i << ":[";
             nodos.at(i)->impre();
-            cout << endl;
+            cout << "]"<<endl;
         } 
 
         // Imprimir matriz de pesos
@@ -145,19 +145,21 @@ void Administrador::simular(){
     int n = rand() % 5;
     int l = rand() % 10;
 
- //   destino = 1;
     while (l!=9)
     {
        grafo->nodos.at(n)->terminal->enviarPagina();
-       grafo->nodos.at(n)->enviarCola();
+       for (int i = 0; i < grafo->N; i++)
+       {
+            grafo->nodos.at(i)->enviarPaquete();
+            grafo->nodos.at(i)->enviarCola();
+       }
        grafo->matrizPesos();
        grafo->Floyd();
        grafo->mostrarGrafo();
        n = rand() % 5;
        l = rand() % 10;
-  }
+    }
 }
-
 
 int main() {
     int N = 5; // numero de nodos
