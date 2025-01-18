@@ -9,12 +9,13 @@ class Grafo
 {
 private:
     int **matriz;
-    int **pesos;
+   
     int **cf;
     int **A;
     Router* nodo;
 public:
-      int N; 
+    int **pesos;
+    int N; 
     vector<Router*> nodos;
     Grafo(int N, int K);
     ~Grafo();
@@ -33,6 +34,7 @@ public:
     int** obtenerMatriz();
     vector<Router*> obtenerLista();
     void simular();
+    void generarDOT();
 };
 
 #endif

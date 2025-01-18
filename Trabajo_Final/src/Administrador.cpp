@@ -1,6 +1,9 @@
+
+#include <fstream>
 #include <iostream>
 #include <iomanip>
 #include "../inc/Administrador.h"
+using namespace std;
 
 Grafo::Grafo(int N, int K) : matriz(nullptr), N(N) {
     if (K >= N) { cout << "K debe ser menor que N para garantizar conexiones válidas." << endl;
@@ -132,6 +135,25 @@ void Grafo :: Floyd(){
     }  
 }
 
+void Administrador::generarDOT(){
+    ofstream archivo("grafo.dot");
+    archivo << "digraph G {\n";
+    archivo << "    node [shape=circle, style=filled, color=lightblue];\n";
+    archivo << "    edge [color=gray, penwidth=1];\n";
+    archivo << "    size=\"5,5\";\n";   // Especificar el tamaño en forma de cadena
+    archivo << "    ratio=\"fill\";\n"; // Usar comillas dobles para el valor "fill"
+    for (int i = 0; i < grafo->nodos.size(); ++i) {
+        for (int j = 0; j < grafo->nodos.at(i)->N; ++j) {
+            if (grafo->pesos[i][j] != 9000) {
+                archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
+            }
+        }
+    }
+    archivo << "}\n";
+    archivo.close();
+    cout << "Archivo grafo.dot generado.\n";
+}
+
 
 void Administrador::crearGrafo(int n, int k){
     grafo = new Grafo(n, k);
@@ -142,12 +164,13 @@ void Administrador::simular(){
     grafo->Floyd();
     grafo->mostrarGrafo();
     srand(time(0));
-    int n = rand() % 5;
+    int n = rand() % 4;
     int l = rand() % 10;
+    int x = rand() % 4;   // destino 
+    grafo->nodos.at(n)->terminal->enviarPagina(x);  // origen
 
-    while (l!=9)
+    while (1)
     {
-       grafo->nodos.at(n)->terminal->enviarPagina();
        for (int i = 0; i < grafo->N; i++)
        {
             grafo->nodos.at(i)->enviarPaquete();
@@ -156,13 +179,13 @@ void Administrador::simular(){
        grafo->matrizPesos();
        grafo->Floyd();
        grafo->mostrarGrafo();
-       n = rand() % 5;
-       l = rand() % 10;
+       generarDOT();
+    
     }
 }
 
 int main() {
-    int N = 5; // numero de nodos
+    int N = 4; // numero de nodos
     int K = 2; // conexiones por nodo
     Grafo* grafo = new Grafo(N, K);
     grafo->matrizPesos();

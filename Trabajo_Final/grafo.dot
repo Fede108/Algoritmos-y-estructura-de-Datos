@@ -1,0 +1,15 @@
+digraph G {
+    node [shape=circle, style=filled, color=lightblue];
+    edge [color=gray, penwidth=1];
+    // Configuración global
+    size="5,5"; // Anchura máxima: 8, Altura máxima: 4
+    ratio="fill"; // Relación de aspecto para expandir el ancho
+    0 -> 1 [label="0"];
+    0 -> 3 [label="0"];
+    1 -> 0 [label="0"];
+    1 -> 2 [label="0"];
+    2 -> 1 [label="0"];
+    2 -> 3 [label="0"];
+    3 -> 0 [label="0"];
+    3 -> 2 [label="0"];
+}

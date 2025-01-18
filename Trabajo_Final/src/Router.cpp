@@ -15,15 +15,31 @@ void Router ::recibirPagina (Pagina pagina){
 }
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-    paquetesEnviar->add(paquete);   // pierdo un turno antes de enviar el paquete al vecino
+    this->paquete = paquete;  // pierdo un turno antes de enviar el paquete al vecino
 }
 
 void Router::enviarCola() // guardo en la cola del vecino correspondiente segun camino optimo
-{
-    if (paquetesEnviar->esvacia()) return;
+{   
+    static int turno = 0;
+    Paquete* p = new Paquete();
+    if (paquetesEnviar->esvacia() && paquete == NULL) return; 
+    if (paquetesEnviar->esvacia()){
+        p = paquete;
+        paquete = NULL;
+    }
+    else if (paquete == NULL) {
+        p = paquetesEnviar->last();
+        paquetesEnviar->borrar_last();
+    }
+    else{  p = (turno) ? paquete : paquetesEnviar->last() ;
+           if (turno) paquetesEnviar->borrar_last(); 
+           else paquete = NULL;
+    }
+    turno = (turno%2) ? 0 : 1;
+
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[paquetesEnviar->last()->ip];
+    destino = tablaRuta[p->ip];
     
     while (b == 0 && destino>-1)
     {   
@@ -32,14 +48,13 @@ void Router::enviarCola() // guardo en la cola del vecino correspondiente segun 
     }
     if (destino == -1)
     {
-        destino = paquetesEnviar->last()->ip;
+        destino = p->ip;
     }
     if(destino == n){
-        terminal->recibirPagina(paquetesEnviar->last());
+        terminal->recibirPagina(p);
         return;
     }  
-    vecinos->busca(destino)->paquetes->add(paquetesEnviar->last());
-    paquetesEnviar->borrar_last();
+    vecinos->busca(destino)->paquetes->add(p);
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
@@ -48,10 +63,10 @@ void Router ::enviarPaquete(){   // envio paquete al vecino
     for (int i = 0; i < K; i++)
     {
         nodo* nodoVecino = vecinos->busca(tablaVecinos[i]); 
-        if (nodoVecino->paquetes->esvacia())  return;
-        p = nodoVecino->paquetes->tope();
+        if (nodoVecino->paquetes->esvacia()) {   }
+        else{ p = nodoVecino->paquetes->tope();
         nodoVecino->paquetes->desencolar();
-        nodoVecino->router->recibirPaquete(p);
+        nodoVecino->router->recibirPaquete(p); }
     }
 }  
     

@@ -4,20 +4,22 @@
 Terminal::Terminal(Router* router)
 {
     this->router = router;
-    pagina = new Pagina();
-    pagina->informacion = 1;
-    pagina->ip = 2;
-    pagina->tamaño = 20;
+   
 }
 
 Terminal::~Terminal()
 {
 }
 
-void Terminal :: enviarPagina(){
-    router->recibirPagina(*pagina);
+void Terminal :: enviarPagina(int x){
+    Pagina* p = new Pagina();
+    p->informacion = 1;
+    p->ip = x;
+    p->tamaño = 5;
+    router->recibirPagina(*p);
 }
 
 void Terminal :: recibirPagina(Paquete* p){
-    return;
+   paquetes.add(p);
+   return;
 }

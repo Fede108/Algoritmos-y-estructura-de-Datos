@@ -17,7 +17,7 @@ private:
     Lista<Paquete*> *paquetesEnviar;
     int *tablaRuta;
     int *tablaVecinos;
-//Paquete* paquete;
+    Paquete* paquete;
     void imp();
     int tamaño( int n);
 public:
@@ -31,6 +31,7 @@ public:
         tablaRuta = new int[N];
         tablaVecinos = new int[K];
         paquetesEnviar = new Lista<Paquete*>();
+        paquete = NULL;
     };
     void agregarNodoAdyacente(Router* nodo);
     void impre(){imp();}

@@ -1,6 +1,6 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
-
+#include "Cola.h"
 class Router;
 
 struct Pagina
@@ -22,10 +22,11 @@ class Terminal
 private:
     Router* router;
     Pagina* pagina;
+    Lista<Paquete*> paquetes;
 public:
     Terminal(Router* router);
     ~Terminal();
-    void enviarPagina();
+    void enviarPagina(int x);
     void recibirPagina(Paquete* p);
 };
 
