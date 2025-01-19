@@ -3,44 +3,46 @@
 #include <fstream>
 using namespace std;    
 
-#include "../inc/Llave.h" 
-#include "../inc/State.h" 
-#include "../inc/Valor.h" 
-#include "../inc/ExpresionJson.h" 
-#include "../inc/Context.h"
+#include "../inc/Estado.h" 
+#include "../inc/ExpresionJson.h"
 
 
-
-
-
-bool Llave:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
-    }
-    if (c == '"' && p.size()<2){ 
-        p.apilar(c);
-        return true;     
-    }
-    else if (c == ':' && p.size() == 2)
-    {
-        p.desapilar();
-        p.desapilar();
-        getContext()->setEstado(getContext()->getValor());
-        return true;
-    }     
-    else if (p.size() == 1 && p.tope() == '"'){
-        return true;
-    }
-    cout<<endl;
-    cout<<"llave no valida"<<endl;
-    return false;
-}
-
-void Llave::guardarExpresion(char c){
-   if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-     expresion += c;
-}
-
-string Llave::print(){
-    return expresion;
-}
+bool Llave :: validarExpresion(char c){
     
+    if (str == nullptr)
+    {
+        str = new String();
+        strings.encolar(str);
+    }
+    
+    if (str->getExpresionEsCorrecta())  // string ingresado es correcto 
+    {   str = nullptr;
+        llaves += c; // guarda el caracter
+        if (c == ':')
+        { 
+            // llave correcta
+            getExpresionJson()->setEstado(getExpresionJson()->getValor()); // siguiente modo a validar es un valor   
+            return true;
+        }
+            return false; // error, no hay : después de un string valido
+    }
+
+    return str->validarExpresion(c); // continua validando el string actual
+}
+
+string Llave :: print(){
+    ostringstream resultado;
+    if (!strings.esvacia())     resultado << strings.last()->print();
+    if (!llaves.empty())        resultado << llaves.front();
+                                resultado << getExpresionJson()->getValor()->print();
+
+    
+    if (!llaves.empty())  llaves.erase(llaves.begin());
+    if (!strings.esvacia()){ delete strings.last();
+    strings.borrar_last(); // elimina el primer elemento
+    }
+    return resultado.str();
+}
+
+
+
