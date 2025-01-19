@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Grafo::Grafo(int N, int K) : matriz(nullptr), N(N) {
+Grafo::Grafo(int N, int K, int a) : matriz(nullptr), N(N) {
     if (K >= N) { cout << "K debe ser menor que N para garantizar conexiones válidas." << endl;
         return;
     }
@@ -31,7 +31,7 @@ Grafo::Grafo(int N, int K) : matriz(nullptr), N(N) {
     // crea lista de adyacencia 
    //    nodos.resize(N);
     for (int i = 0; i < N; i++) {
-        nodos.push( new Router(i, N, K)); 
+        nodos.push( new Router(i, N, K, a)); 
     }
     
     // crea el grafo con conexiones uniformes

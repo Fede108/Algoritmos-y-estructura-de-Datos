@@ -26,7 +26,7 @@ void Administrador::generarDOT(){
 
 
 void Administrador::crearGrafo(int n, int k){
-    grafo = new Grafo(n, k);
+    grafo = new Grafo(n, k, 2);
 }
 
 void Administrador::simular(){
@@ -56,9 +56,6 @@ void Administrador::simular(){
 int main() {
     int N = 4; // numero de nodos
     int K = 2; // conexiones por nodo
-    Grafo* grafo = new Grafo(N, K);
-    grafo->matrizPesos();
-  //  grafo->mostrarGrafo();
    
     Administrador* ad = new Administrador();
     ad->crearGrafo(N,K);

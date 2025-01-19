@@ -36,11 +36,11 @@ void arbol::ArbolBusq(Router* router, nodo*& nuevo)
     if (router->n < nuevo->router->n) ArbolBusq(router, nuevo->izq);
 }
 
-nodo* arbol::buscar(nodo* aux, int x)
+nodo* arbol::busca(nodo* aux, int x)
 {
     if (aux == NULL) return NULL;
     else if (x == aux->router->n) return aux;
-    else if (x > aux->router->n)  return buscar(aux->der, x);
-    else if (x < aux->router->n)  return buscar(aux->izq, x);
+    else if (x > aux->router->n)  return busca(aux->der, x);
+    else if (x < aux->router->n)  return busca(aux->izq, x);
     return aux;
 }

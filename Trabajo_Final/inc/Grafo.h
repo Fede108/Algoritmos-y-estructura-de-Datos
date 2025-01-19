@@ -15,7 +15,7 @@ public:
     int **pesos;
     int N; 
     vectorClass<Router*> nodos;
-    Grafo(int N, int K);
+    Grafo(int N, int K, int a);
     ~Grafo();
     void agregarArco(int n, int m);
     void mostrarGrafo();    

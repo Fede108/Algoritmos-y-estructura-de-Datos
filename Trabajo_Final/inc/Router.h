@@ -14,8 +14,8 @@ private:
     
     arbol *vecinos;
 //    Lista<Terminal*> *terminales;
-    Lista<Paquete*> *paquetesEnviar;  
-    Lista<Paquete*> procesarVecinos;
+    Lista<Paquete*> *procesarPagina;  
+    Lista<Paquete*> *procesarVecinos;
     int *tablaRuta;
     int *tablaVecinos;
 //    Paquete* paquete;
@@ -32,7 +32,8 @@ public:
         vecinos = new arbol(); 
         tablaRuta = new int[N];
         tablaVecinos = new int[K];
-        paquetesEnviar = new Lista<Paquete*>();
+        procesarPagina  = new Lista<Paquete*>();
+        procesarVecinos = new Lista<Paquete*>();
 //      paquete = NULL;
     };
     void agregarNodoAdyacente(Router* nodo);
@@ -41,9 +42,10 @@ public:
     void actualizarTabla(int *tabla);
     void recibirPagina(Pagina Pagina);
     void recibirPaquete(Paquete* Paquete);
-    void enviarCola();
+    void enviarCola(Lista<Paquete*> *paquetesPagina, Lista<Paquete*> *paquetesVecinos);
     void enviarPaquete();
     void reenvio(){ enviarPaquete();};
-    void recepcion(){ enviarCola();}; 
+    void recepcion(); 
+    int calcularDestino(Paquete* p);
 }; 
 #endif

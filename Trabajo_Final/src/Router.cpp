@@ -10,26 +10,66 @@ void Router ::recibirPagina (Pagina pagina){
         paquete->ip = pagina.ip;
         paquete->informacion = pagina.informacion;
         paquete->nroPaquete = i;
-        paquetesEnviar->add(paquete); 
+        procesarPagina->addLast(paquete); 
     }
 }
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-    procesarVecinos.add(paquete);  // pierdo un turno antes de enviar el paquete al vecino
+    procesarVecinos->addLast(paquete);  // pierdo un turno antes de enviar el paquete al vecino
 }
 
-void Router::enviarCola() // guardo en la cola del vecino correspondiente segun camino optimo
-{   
-   
-    Paquete* p = new Paquete();
-    if(!paquetesEnviar->esvacia()){ 
-        paquetesEnviar->last()->ip;   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola
-    } 
-     
-    if(p->ip == n){ terminal->recibirPagina(p);
-        return;
-    }  
+void Router :: recepcion(){
+     for (int i = 0; i < K; i++)
+    {
+        nodo* nodoVecino = vecinos->buscar(tablaVecinos[i]); 
+        nodoVecino->cantEnviados = 0;
+    }
+    enviarCola(procesarPagina, procesarVecinos);
+}
 
+void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *procesarVecinos) // guardo en la cola del vecino correspondiente segun camino optimo
+{   
+    Paquete* p = new Paquete();
+    int destino;
+    if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
+    if(!procesarPagina->esvacia()){ 
+        p = procesarPagina->cabeza();   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola 
+        if(p->ip == n){ 
+            terminal->recibirPagina(p);   
+            procesarPagina->borrar();   
+        }
+        else{
+            destino = calcularDestino(p);    // encuentro el camino optimo
+            if (vecinos->buscar(destino)->cantEnviados < A){
+                vecinos->buscar(destino)->paquetes->add(p);
+                vecinos->buscar(destino)->cantEnviados++;
+                procesarPagina->borrar();  
+            } 
+            else {  procesarPagina = procesarPagina->resto(); }             
+        } 
+    }
+    if(!procesarVecinos->esvacia()){ 
+        p = procesarVecinos->cabeza();   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola 
+        if(p->ip == n){ 
+            terminal->recibirPagina(p); 
+            procesarVecinos->borrar();  
+        }
+        else{
+            destino = calcularDestino(p);
+            if (vecinos->buscar(destino)->cantEnviados < A){
+                vecinos->buscar(destino)->paquetes->add(p);
+                vecinos->buscar(destino)->cantEnviados++;
+                procesarVecinos->borrar();  
+            }
+            else { procesarVecinos = procesarVecinos->resto();  }             
+        }
+       
+    } 
+    
+    enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
+}
+
+int Router :: calcularDestino(Paquete* p){
     int b = 0;
     int destino = 0;
     destino = tablaRuta[p->ip];  
@@ -43,19 +83,24 @@ void Router::enviarCola() // guardo en la cola del vecino correspondiente segun 
     {
         destino = p->ip;
     }
-    vecinos->busca(destino)->paquetes->add(p);
+    return destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
     Paquete *p;
     int destino;
+    int a = 0;
     for (int i = 0; i < K; i++)
     {
-        nodo* nodoVecino = vecinos->busca(tablaVecinos[i]); 
-        if (nodoVecino->paquetes->esvacia()) {   }
-        else{ p = nodoVecino->paquetes->tope();
-        nodoVecino->paquetes->desencolar();
-        nodoVecino->router->recibirPaquete(p); }
+        nodo* nodoVecino = vecinos->buscar(tablaVecinos[i]); 
+        while (!nodoVecino->paquetes->esvacia() && a<A )
+        {
+            p = nodoVecino->paquetes->tope();
+            nodoVecino->paquetes->desencolar();
+            nodoVecino->router->recibirPaquete(p); 
+            a++;
+        }
+        a = 0;
     }
 }  
     
@@ -66,11 +111,11 @@ void Router :: agregarNodoAdyacente(Router* router){
 }
 
 int Router :: tamaño(int n) {
-    if (!vecinos->busca(n))
+    if (!vecinos->buscar(n))
     {
         return 9000;
     }
-    return vecinos->busca(n)->paquetes->size();
+    return vecinos->buscar(n)->paquetes->size() + 1; // se pierde un ciclo al entrar y salir del router
 }
 
 void Router :: impre(){
