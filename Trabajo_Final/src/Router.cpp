@@ -19,10 +19,10 @@ void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
 }
 
 void Router :: recepcion(){
-     for (int i = 0; i < K; i++)
+    vectorClass<nodo*> listaVecinos = vecinos->listar();
+    for (int i = 0; i < K; i++)
     {
-        nodo* nodoVecino = vecinos->buscar(tablaVecinos[i]); 
-        nodoVecino->cantEnviados = 0;
+        listaVecinos.get(i)->cantEnviados = 0;          // resetea cantidad de enviados a 0 en el turno
     }
     enviarCola(procesarPagina, procesarVecinos);
 }
@@ -30,40 +30,39 @@ void Router :: recepcion(){
 void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *procesarVecinos) // guardo en la cola del vecino correspondiente segun camino optimo
 {   
     Paquete* p = new Paquete();
-    int destino;
+    int vecino;
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
     if(!procesarPagina->esvacia()){ 
-        p = procesarPagina->cabeza();   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola 
+        p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
         if(p->ip == n){ 
             terminal->recibirPagina(p);   
             procesarPagina->borrar();   
         }
         else{
-            destino = calcularDestino(p);    // encuentro el camino optimo
-            if (vecinos->buscar(destino)->cantEnviados < A){
-                vecinos->buscar(destino)->paquetes->add(p);
-                vecinos->buscar(destino)->cantEnviados++;
+            vecino = calcularDestino(p);    // encuentro el camino optimo
+            if (vecinos->buscar(vecino)->cantEnviados < A){
+                vecinos->buscar(vecino)->colaDeEspera->add(p);
+                vecinos->buscar(vecino)->cantEnviados++;
                 procesarPagina->borrar();  
             } 
             else {  procesarPagina = procesarPagina->resto(); }             
         } 
     }
     if(!procesarVecinos->esvacia()){ 
-        p = procesarVecinos->cabeza();   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola 
+        p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
         if(p->ip == n){ 
             terminal->recibirPagina(p); 
             procesarVecinos->borrar();  
         }
         else{
-            destino = calcularDestino(p);
-            if (vecinos->buscar(destino)->cantEnviados < A){
-                vecinos->buscar(destino)->paquetes->add(p);
-                vecinos->buscar(destino)->cantEnviados++;
+            vecino = calcularDestino(p);
+            if (vecinos->buscar(vecino)->cantEnviados < A){
+                vecinos->buscar(vecino)->colaDeEspera->add(p);
+                vecinos->buscar(vecino)->cantEnviados++;
                 procesarVecinos->borrar();  
             }
             else { procesarVecinos = procesarVecinos->resto();  }             
         }
-       
     } 
     
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
@@ -74,30 +73,25 @@ int Router :: calcularDestino(Paquete* p){
     int destino = 0;
     destino = tablaRuta[p->ip];  
     
-    while (b == 0 && destino>-1)
-    {   
-        if(tablaRuta[destino] == -1) b = 1;
-        else destino = tablaRuta[destino];
+     // Iterar hasta encontrar un vecino directo
+    while (destino != -1 && tablaRuta[destino] != -1) {
+        destino = tablaRuta[destino];
     }
-    if (destino == -1)
-    {
-        destino = p->ip;
-    }
-    return destino;
+    // Si el destino es un vecino directo, retornar el destino original
+    return destino == -1 ? p->ip : destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
     Paquete *p;
-    int destino;
     int a = 0;
+    vectorClass<nodo*> listaVecinos = vecinos->listar();
     for (int i = 0; i < K; i++)
     {
-        nodo* nodoVecino = vecinos->buscar(tablaVecinos[i]); 
-        while (!nodoVecino->paquetes->esvacia() && a<A )
+        while (!listaVecinos.get(i)->colaDeEspera->esvacia() && a<A )     // mientras la cola de espera tenga paquetes y no se llene ancho banda
         {
-            p = nodoVecino->paquetes->tope();
-            nodoVecino->paquetes->desencolar();
-            nodoVecino->router->recibirPaquete(p); 
+            p = listaVecinos.get(i)->colaDeEspera->tope();
+            listaVecinos.get(i)->colaDeEspera->desencolar();
+            listaVecinos.get(i)->router->recibirPaquete(p); 
             a++;
         }
         a = 0;
@@ -105,17 +99,15 @@ void Router ::enviarPaquete(){   // envio paquete al vecino
 }  
     
 void Router :: agregarNodoAdyacente(Router* router){
-    terminal = new Terminal(this);
-    vecinos->CreaArbolBus(router);
-    tablaVecinos[i++] = router->n;
+    vecinos->agregarNodo(router);
 }
 
-int Router :: tamaño(int n) {
+int Router :: tamañoCola(int n) {
     if (!vecinos->buscar(n))
     {
         return 9000;
     }
-    return vecinos->buscar(n)->paquetes->size() + 1; // se pierde un ciclo al entrar y salir del router
+    return vecinos->buscar(n)->colaDeEspera->size() + 1; // se pierde un ciclo al entrar y salir del router
 }
 
 void Router :: impre(){

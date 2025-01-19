@@ -3,13 +3,21 @@
 
 nodo::nodo(Router* router) : router(router)
 {
-    paquetes = new Cola<Paquete*>();
+    colaDeEspera = new Cola<Paquete*>();
 }
 nodo::~nodo()
 {
-    delete paquetes;
+    delete colaDeEspera;
 }
 
+
+void arbol :: recorridoTransversal(nodo* n, vectorClass<nodo*> *r ){  // recorrido postorden idr
+     if(n != NULL){
+        recorridoTransversal(n->izq, r);
+        recorridoTransversal(n ->der, r);
+        r->push(n);
+    }
+}
 
 void arbol:: ird(nodo *aux)
 {
@@ -18,10 +26,9 @@ void arbol:: ird(nodo *aux)
         cout<<" -> "<<aux->router->n;
         ird(aux->der);
     }
-    
 }
 
-void arbol::CreaArbolBus(Router* router)
+void arbol::agregarNodo(Router* router)
 {
     ArbolBusq(router, raiz);
 }

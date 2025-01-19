@@ -25,8 +25,8 @@ void Administrador::generarDOT(){
 }
 
 
-void Administrador::crearGrafo(int n, int k){
-    grafo = new Grafo(n, k, 2);
+void Administrador::crearGrafo(int n, int k, int a){
+    grafo = new Grafo(n, k, a);
 }
 
 void Administrador::simular(){
@@ -56,9 +56,9 @@ void Administrador::simular(){
 int main() {
     int N = 4; // numero de nodos
     int K = 2; // conexiones por nodo
-   
+    int A = 2; // ancho de banda 
     Administrador* ad = new Administrador();
-    ad->crearGrafo(N,K);
+    ad->crearGrafo(N,K,A);
     ad->simular();
 
     return 0;

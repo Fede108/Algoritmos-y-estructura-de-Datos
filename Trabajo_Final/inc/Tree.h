@@ -1,7 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 #include "Cola.h"
-
+#include "Vector.h"
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -14,7 +14,7 @@ struct Paquete;
 class nodo {
 public:
     nodo* der, * izq;
-    Cola<Paquete*> *paquetes;
+    Cola<Paquete*> *colaDeEspera;
     Router* router;
     int cantEnviados = 0;
     nodo (Router* router);
@@ -27,13 +27,19 @@ private:
     void ArbolBusq(Router* router, nodo*& nuevo);
     nodo* busca(nodo* aux, int x);
     void ird(nodo* A);
+    void recorridoTransversal(nodo* n, vectorClass<nodo*> *r );
 public:
     arbol() { raiz = NULL; }
     ~arbol() {}
-    void CreaArbolBus(Router* router);
+    void agregarNodo(Router* router);
     nodo* buscar(int x) { return busca(raiz, x);}
     void IRD(){ird(raiz);}    // recorrido inorden del arbol  
-};
+    vectorClass<nodo*> listar() {
+        vectorClass<nodo*> resultado;
+        recorridoTransversal(raiz,&resultado);
+        return resultado;
+    };
 
+};
 
 #endif
