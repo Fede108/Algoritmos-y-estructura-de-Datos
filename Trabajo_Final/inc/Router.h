@@ -11,7 +11,7 @@ using namespace std;
 class Router 
 {
 private:
-    arbol *vecinos;
+    arbol vecinos;
 //    Lista<Terminal*> *terminales;
     Lista<Paquete*> *procesarPagina;  
     Lista<Paquete*> *procesarVecinos;
@@ -23,13 +23,11 @@ public:
     int A = 0; // ancho de banda
     Terminal* terminal;
     Router(int n, int N, int K, int A) : n(n), N(N), K(K), A(A){ 
-        vecinos = new arbol(); 
         tablaRuta = new int[N];
         procesarPagina  = new Lista<Paquete*>();
         procesarVecinos = new Lista<Paquete*>();
         terminal = new Terminal(this);
     };
-    
     void agregarNodoAdyacente(Router* nodo);
     void impre();
     int tamañoCola(int n);

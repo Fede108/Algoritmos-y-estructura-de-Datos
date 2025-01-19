@@ -10,6 +10,7 @@ nodo::~nodo()
     delete colaDeEspera;
 }
 
+//---------------------------------------------------------------------------------------------------------
 
 void arbol :: recorridoTransversal(nodo* n, vectorClass<nodo*> *r ){  // recorrido postorden idr
      if(n != NULL){
@@ -38,6 +39,7 @@ void arbol::ArbolBusq(Router* router, nodo*& nuevo)
     if (nuevo == NULL) {
         nuevo = new nodo(router);
         nuevo->der = nuevo->izq = NULL;
+        return;
     }
     if (router->n > nuevo->router->n) ArbolBusq(router, nuevo->der);
     if (router->n < nuevo->router->n) ArbolBusq(router, nuevo->izq);

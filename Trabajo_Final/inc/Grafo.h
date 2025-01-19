@@ -10,7 +10,6 @@ private:
     int **matriz;
     int **cf;
     int **A;
-    Router* nodo;
 public:
     int **pesos;
     int N; 

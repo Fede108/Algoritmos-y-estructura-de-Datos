@@ -39,7 +39,6 @@ public:
         recorridoTransversal(raiz,&resultado);
         return resultado;
     };
-
 };
 
 #endif
