@@ -3,98 +3,57 @@
 #include <fstream>
 using namespace std;    
 
-#include "../inc/Valor.h" 
-#include "../inc/State.h" 
-#include "../inc/Pila.h"
-#include "../inc/Llave.h" 
-#include "../inc/ExpresionJson.h" 
-#include "../inc/Context.h"
 
+#include "../inc/Estado.h" 
+#include "../inc/ExpresionJson.h"
 
-String :: String(Valor *v){ valor = v;}
-
-bool String :: validarExpresion(char c){
-   if (c == '"' && p.pilavacia()){ 
-        p.apilar(c);
-        return true;
-    }   
-    if (c == '"' && !p.pilavacia()){ 
-        p.desapilar();
-        valor->setEstadoInterno(valor->getValor_listaString());
-        return valor->getValor_listaString()->validarExpresion(c);
-    }
-    else if (!p.pilavacia()){
-        return true;
-    }
-    return false;     
-}
-
-ListaString :: ListaString(Valor *v){ valor = v;}
-
-bool ListaString :: validarExpresion(char c){
-   if (c == '[' && p.pilavacia()){ 
-        p.apilar(c);
-        valor->setEstadoInterno(valor->getValor_string());
-        return true;
-    } else if (c == ']' && p.tope() == '['){ 
-        p.desapilar();
-        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-        valor->setEstadoInterno(nullptr);
-        return true;     
-    } else if (c == ',' && p.tope() == '[')
-    {
-         valor->setEstadoInterno(valor->getValor_string());
-         return true;
-    }  
-    else if(p.pilavacia()){
-        valor->getContext()->setEstado(valor->getContext()->getExpresionJson()); 
-        valor->setEstadoInterno(nullptr);
-        return true;  
-    } else if (!p.pilavacia() && (c == '\n' || c == ' ' || c == '\t' || c == '"' ))
-    {
-        return true;
-    }
-    return false;     
-}
 
 bool Valor:: validarExpresion(char c){
-    if (c == '\n' || c == ' ' || c == '\t' ){ return true;
-    } 
-    if (estadoInterno != nullptr)
+    if (componenteJson != nullptr)          // si ya existe el valor se lo continua evaluando
     {
-        if ( estadoInterno->getEstadoInterno() == getValor_listaString() ){ lista_string.agregar(c); }
-        return estadoInterno->validarExpresion(c);
+        bool valida = componenteJson->validarExpresion(c);  // analiza la correctitud del valor, sin importar el tipo dato
+        if( componenteJson->getExpresionEsCorrecta() ){  
+            componenteJson = nullptr;
+            getExpresionJson()->setEstado(getExpresionJson()->getEntreLlaves()); // si es correcta vuelve al estado entre llaves 
+        } 
+        return valida;
     }
-    else if ( c == '"')
+    // se crea un nuevo valor segun el tipo de dato
+
+    if ( c == '"')          // el valor es de tipo string 
     {
-        setEstadoInterno(getValor_string());
-        p1.desapilar();
-        return estadoInterno->validarExpresion(c);
-    }else if ( c =='{')
-    {
-        getContext()->setEstado(getContext()->getExpresionJson());
-        p1.desapilar();
-        return getContext()->getExpresionJson()->validarExpresion(c);
+        componenteJson = new String();
+        valores.encolar(componenteJson);  // se almacena el string en el buffer
+        return componenteJson->validarExpresion(c);
     }
-    else if ( c =='[')
+    if ( c == '[')     // el valor es de tipo lista string 
     {
-        setEstadoInterno(getValor_listaString());
-        p1.desapilar();
-        lista_string.agregar(c);
-        return estadoInterno->validarExpresion(c);
+        componenteJson = new ListaString();
+        valores.encolar(componenteJson);  // se almacena la lista de string en el buffer
+        return componenteJson->validarExpresion(c);    
     }
-    cout<<endl;
-    cout<<"valor no valida"<<endl;
+    if ( c =='{')  // el valor es de tipo subexpresion json   
+    {
+        valores.encolar(new JsonAyed());
+        return getExpresionJson()->getEntreLlaves()->validarExpresion(c);  // se evalua el valor en clase entre llaves
+
+    }
+    caracterIncorrecto = c; // guarda char invalido
     return false;
 }
-
-void Valor::guardarExpresion(char c){
-   if(c == '\n' || c == ' ' || c == '\t' ){ return ; }
-     expresion += c;
-}
-
+  
 string Valor::print(){
-    return expresion;
+    if (valores.esvacia()) return caracterIncorrecto + "";  // el unico valor a retornar posible es un caracter incorrecto
+
+    ostringstream resultado ;
+    if(dynamic_cast<JsonAyed*>(valores.last())){  // si el valor guardado es de tipo subexpresion retorna string vacio
+        resultado << "";
+    } else{
+        resultado << valores.last()->print();  // retorna el valor mas antiguo en el buffer
+    }
+    delete valores.last();  // libera la memoria del objeto 
+    valores.desencolar();   // elimina el valor mas antiguo del buffer
+    return resultado.str();
 }
 
 

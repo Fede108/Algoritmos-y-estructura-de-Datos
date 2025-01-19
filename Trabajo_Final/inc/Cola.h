@@ -32,8 +32,8 @@ public:
     Lista() { czo = new Nodo<T>(); };
     Lista(Nodo<T>* n) { czo = n; };
     //~Lista(void);
-    void add(T d); // suma nodos al principio de la lista
-    void addLast(T d); // suma nodos al final de la lista
+    void add(T d); //sumar nodos a la lista
+    void addLast(T d);
     bool esvacia(void);
     T cabeza(void); //retorna el dato del primer nodo
     Lista* resto(void); //retorna el puntero al "resto" de la lista
