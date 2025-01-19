@@ -22,8 +22,8 @@ void Router::enviarCola() // guardo en la cola del vecino correspondiente segun 
 {   
    
     Paquete* p = new Paquete();
-    if(!paquetesEnviar->esvacia()){
-        paquetesEnviar->last()->ip;
+    if(!paquetesEnviar->esvacia()){ 
+        paquetesEnviar->last()->ip;   // buscar el destino y ir agregar a cada cola segun ancho de banda de esa cola
     } 
      
     if(p->ip == n){ terminal->recibirPagina(p);
