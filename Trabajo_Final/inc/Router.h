@@ -14,34 +14,36 @@ private:
     
     arbol *vecinos;
 //    Lista<Terminal*> *terminales;
-    Lista<Paquete*> *paquetesEnviar;
+    Lista<Paquete*> *paquetesEnviar;  
+    Lista<Paquete*> procesarVecinos;
     int *tablaRuta;
     int *tablaVecinos;
-    Paquete* paquete;
-    void imp();
+//    Paquete* paquete;
     int tamaño( int n);
 public:
     int n; // nro de router
     int N; // cantidad router
     int K = 0; // cantidad de vecinos
-    int i = 0; 
+    int i = 0;  // indice vecinos
+    int A = 0; // ancho de banda
+    bool turno = false; // bandera turno 
     Terminal* terminal;
-    Router(int n, int N, int K) : n(n), N(N), K(K){ 
+    Router(int n, int N, int K, int A) : n(n), N(N), K(K), A(A){ 
         vecinos = new arbol(); 
         tablaRuta = new int[N];
         tablaVecinos = new int[K];
         paquetesEnviar = new Lista<Paquete*>();
-        paquete = NULL;
+//      paquete = NULL;
     };
     void agregarNodoAdyacente(Router* nodo);
-    void impre(){imp();}
+    void impre();
     int tamañoCola(int n){return tamaño(n);};
     void actualizarTabla(int *tabla);
     void recibirPagina(Pagina Pagina);
     void recibirPaquete(Paquete* Paquete);
     void enviarCola();
     void enviarPaquete();
-    void enviarVecino();
-    void reenviar(); 
-};
+    void reenvio(){ enviarPaquete();};
+    void recepcion(){ enviarCola();}; 
+}; 
 #endif

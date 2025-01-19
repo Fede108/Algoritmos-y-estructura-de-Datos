@@ -33,6 +33,7 @@ public:
     Lista(Nodo<T>* n) { czo = n; };
     //~Lista(void);
     void add(T d); //sumar nodos a la lista
+    void addLast(T d);
     bool esvacia(void);
     T cabeza(void); //retorna el dato del primer nodo
     Lista* resto(void); //retorna el puntero al "resto" de la lista
@@ -67,6 +68,19 @@ void Lista<T>::add(T d) //100
     nuevo->set_next(czo);
     czo = nuevo;
 }
+
+template <class T>
+void Lista<T>::addLast(T d) //100
+{
+        if ((czo->get_next()) == NULL) {
+            Nodo<T>* nuevo = new Nodo<T>();
+            czo->set_dato(d);
+            czo->set_next(nuevo);
+            nuevo->set_next(NULL);
+        }
+        else this->resto()->addLast(d);  
+}
+
 template <class T>
 bool Lista<T>::esvacia(void)
 {

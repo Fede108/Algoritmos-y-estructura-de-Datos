@@ -10,36 +10,29 @@ void Router ::recibirPagina (Pagina pagina){
         paquete->ip = pagina.ip;
         paquete->informacion = pagina.informacion;
         paquete->nroPaquete = i;
-        paquetesEnviar->add(paquete);
+        paquetesEnviar->add(paquete); 
     }
 }
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-    this->paquete = paquete;  // pierdo un turno antes de enviar el paquete al vecino
+    procesarVecinos.add(paquete);  // pierdo un turno antes de enviar el paquete al vecino
 }
 
 void Router::enviarCola() // guardo en la cola del vecino correspondiente segun camino optimo
 {   
-    static int turno = 0;
+   
     Paquete* p = new Paquete();
-    if (paquetesEnviar->esvacia() && paquete == NULL) return; 
-    if (paquetesEnviar->esvacia()){
-        p = paquete;
-        paquete = NULL;
-    }
-    else if (paquete == NULL) {
-        p = paquetesEnviar->last();
-        paquetesEnviar->borrar_last();
-    }
-    else{  p = (turno) ? paquete : paquetesEnviar->last() ;
-           if (turno) paquetesEnviar->borrar_last(); 
-           else paquete = NULL;
-    }
-    turno = (turno%2) ? 0 : 1;
+    if(!paquetesEnviar->esvacia()){
+        paquetesEnviar->last()->ip;
+    } 
+     
+    if(p->ip == n){ terminal->recibirPagina(p);
+        return;
+    }  
 
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[p->ip];
+    destino = tablaRuta[p->ip];  
     
     while (b == 0 && destino>-1)
     {   
@@ -50,10 +43,6 @@ void Router::enviarCola() // guardo en la cola del vecino correspondiente segun 
     {
         destino = p->ip;
     }
-    if(destino == n){
-        terminal->recibirPagina(p);
-        return;
-    }  
     vecinos->busca(destino)->paquetes->add(p);
 }
 
@@ -84,11 +73,16 @@ int Router :: tamaño(int n) {
     return vecinos->busca(n)->paquetes->size();
 }
 
-void Router :: imp(){
+void Router :: impre(){
     vecinos->IRD();
 }
 
 void Router :: actualizarTabla(int *tabla){
-   // delete tablaRuta;
-    tablaRuta = tabla;
+    int* aux = new int[N];
+    for (int i = 0; i < N; i++)
+    {
+        aux[i] = tabla[i];
+    }
+    delete[] tablaRuta;
+    tablaRuta = aux;
 }

@@ -3,27 +3,9 @@
 #include <iostream>
 using namespace std;
 #include "Router.h"
+#include "Grafo.h"
 #include <vector>
 
-class Grafo
-{
-private:
-    int **matriz;
-   
-    int **cf;
-    int **A;
-    Router* nodo;
-public:
-    int **pesos;
-    int N; 
-    vector<Router*> nodos;
-    Grafo(int N, int K);
-    ~Grafo();
-    void agregarArco(int n, int m);
-    void mostrarGrafo();    
-    void matrizPesos();
-    void Floyd();
-};
 
 class Administrador
 {
@@ -31,8 +13,6 @@ private:
     Grafo *grafo;
 public:
     void crearGrafo(int n, int k);
-    int** obtenerMatriz();
-    vector<Router*> obtenerLista();
     void simular();
     void generarDOT();
 };
