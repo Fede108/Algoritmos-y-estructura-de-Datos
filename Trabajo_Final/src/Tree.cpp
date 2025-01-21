@@ -12,7 +12,7 @@ nodo::~nodo()
 
 //---------------------------------------------------------------------------------------------------------
 
-void arbol :: recorridoTransversal(nodo* n, vectorClass<nodo*> *r ){  // recorrido postorden idr
+void arbol :: recorridoTransversal(nodo* n, Vector<nodo*> *r ){  // recorrido postorden idr
      if(n != NULL){
         recorridoTransversal(n->izq, r);
         recorridoTransversal(n ->der, r);

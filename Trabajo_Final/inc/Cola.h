@@ -103,34 +103,6 @@ Lista<T>* Lista<T>::resto(void)
     return (l);
 }
 
-template <class T>
-string Lista<T>::toPrint(string p)
-{
-    if (this->esvacia()) {
-        return p;
-    }
-    else {
-        //std::ostringstream stm;
-        ostringstream stm;
-        stm << this->cabeza() << "-" << this->resto()->toPrint(p) << endl;
-        //cout<<endl<<" stm.str()= "<<stm.str()<<endl;
-        return stm.str();
-    }
-}
-
-template <class T>
-T Lista<T>::suma(T i)
-{    //cout<<" i al entrar= "<<i<<endl;
-    if (this->esvacia()) {
-        return i;
-    }
-    else {
-
-        //cout<<"this->cabeza()= "<<this->cabeza()<<endl;   
-        return this->resto()->suma(i + this->cabeza());
-    }
-}
-
 
 template <class T> int Lista<T>::size()
 {
@@ -175,13 +147,7 @@ template <class T> Lista<T>* Lista<T>::copy(void)
     return aux;
 }
 
-template <class T> void Lista<T>::tomar(int n)
-{ //deja "vivos" los n primeros nodos y borra el resto
-    if (this->size() > n) {
-        this->borrar_last();
-        this->tomar(n);
-    }
-}
+
 
 template <class T> void Lista<T>::impre(void)
 {
@@ -193,35 +159,6 @@ template <class T> void Lista<T>::impre(void)
     }
 }
 
-template <class T>
-void Lista<T>::addO(T d, Nodo<T>* ant)
-{
-    if (this->esvacia()) {//el primero
-        this->add(d);
-    }
-    else {
-        if (d < czo->get_dato()) {
-            if (ant == NULL) {//al principio
-                this->add(d);
-            }
-            else {//entre medio
-                Nodo<T>* nuevo = new Nodo<T>(d);
-                nuevo->set_next(ant->get_next());
-                ant->set_next(nuevo);
-            }
-        }
-        else {
-            if ((czo->get_next())->get_next() == NULL) {//al final
-                Nodo<T>* nuevo = new Nodo<T>(d);
-                nuevo->set_next(czo->get_next());
-                czo->set_next(nuevo);
-
-            }
-            else this->resto()->addO(d, czo);
-
-        }
-    }
-}
 
 template <class T> bool Lista<T>::esta(T d)
 {// busca d en la lista
@@ -231,23 +168,6 @@ template <class T> bool Lista<T>::esta(T d)
     return this->resto()->esta(d);
 }
 
-template <class T>
-void Lista<T>::borrarD(T d, Nodo<T>* ant)
-{
-    if (!this->esvacia()) {
-        if (d == this->cabeza()) {
-            if (ant == NULL) {//al principio
-                this->borrar();
-            }
-            else {//entre medio
-                ant->set_next(czo->get_next());
-                delete czo;
-            }
-        }
-        else  this->resto()->borrarD(d, czo);
-
-    }
-}
 
 
 template <class T> class Cola :public Lista<T> {

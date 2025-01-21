@@ -19,7 +19,7 @@ void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
 }
 
 void Router :: recepcion(){
-    vectorClass<nodo*> listaVecinos = vecinos.listar();
+    Vector<nodo*> listaVecinos = vecinos.listar();
     for (int i = 0; i < K; i++)
     {
         listaVecinos.get(i)->cantEnviados = 0;          // resetea cantidad de enviados a 0 en el turno
@@ -84,7 +84,7 @@ int Router :: calcularDestino(Paquete* p){
 void Router ::enviarPaquete(){   // envio paquete al vecino
     Paquete *p;
     int a = 0;
-    vectorClass<nodo*> listaVecinos = vecinos.listar();
+    Vector<nodo*> listaVecinos = vecinos.listar();
     for (int i = 0; i < K; i++)
     {
         while (!listaVecinos.get(i)->colaDeEspera->esvacia() && a<A )   // mientras la cola de espera tenga paquetes y no se llene ancho banda
