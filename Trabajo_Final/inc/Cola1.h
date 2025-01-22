@@ -7,8 +7,8 @@
 
 using namespace std;
 
-#ifndef COLA_H
-#define COLA_H
+#ifndef COLA1_H
+#define COLA1_H
 
 template <class T> class Nodo {
 private:
@@ -79,6 +79,36 @@ void Lista<T>::addLast(T d) //100
             nuevo->set_next(NULL);
         }
         else this->resto()->addLast(d);  
+}
+
+template <class T>
+void Lista<T>::addO(T d, Nodo<T>* ant)
+{
+    if (this->esvacia()) {//el primero
+        this->add(d);
+    }
+    else {
+        if (d->nroPaquete < czo->get_dato()->nroPaquete) {
+            if (ant == NULL) {//al principio
+                this->add(d);
+            }
+            else {//entre medio
+                Nodo<T>* nuevo = new Nodo<T>(d);
+                nuevo->set_next(ant->get_next());
+                ant->set_next(nuevo);
+            }
+        }
+        else {
+            if ((czo->get_next())->get_next() == NULL) {//al final
+                Nodo<T>* nuevo = new Nodo<T>(d);
+                nuevo->set_next(czo->get_next());
+                czo->set_next(nuevo);
+
+            }
+            else this->resto()->addO(d, czo);
+
+        }
+    }
 }
 
 template <class T>

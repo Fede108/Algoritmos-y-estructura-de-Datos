@@ -18,7 +18,15 @@ void Administrador::generarDOT(){
                 archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
             }
         }
+     for (int k = 0; k < grafo->nodos.get(i)->t; k++)
+      {  
+        archivo << "    " << i << " -> " << k << i << ";\n";
+        if(grafo->nodos.get(i)->terminales.get(k)->pagina)  archivo << "    " << k << i  << " [label=\"" << k << " " <<grafo->nodos.get(i)->terminales.get(k)->pagina->tamaño <<"\"];\n";
+        else  archivo << "    " << k << i  << " [label=\"" << k << "\"];\n";
+      }
+        
     }
+
     archivo << "}\n";
     archivo.close();
     cout << "Archivo grafo.dot generado.\n";

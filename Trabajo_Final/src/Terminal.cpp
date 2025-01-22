@@ -16,10 +16,10 @@ void Terminal :: enviarPagina(int x){
     p->informacion = 1;
     p->ip = x;
     p->tamaño = 5;
-    router->recibirPagina(*p);
+    p->id = 0;
+    router->recibirPagina(p);
 }
 
-void Terminal :: recibirPagina(Paquete* p){
-   paquetes.add(p);
-   return;
+void Terminal :: recibirPagina(Pagina* p){
+    pagina = p;
 }

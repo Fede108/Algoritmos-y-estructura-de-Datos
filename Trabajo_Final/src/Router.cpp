@@ -2,20 +2,58 @@
 #include "../inc/Tree.h"
 using namespace std;
 
-void Router ::recibirPagina (Pagina pagina){
-    for (int i = 0; i < pagina.tamaño ; i++)
+void Router :: almacenar(Paquete* paquete){
+    int b = 1;
+    for (int i = 0; i < bufferPaginas.size(); i++)
     {
-        // dividir pagina en paquetes
-        Paquete* paquete = new Paquete();
-        paquete->ip = pagina.ip;
-        paquete->informacion = pagina.informacion;
-        paquete->nroPaquete = i;
-        procesarPagina->addLast(paquete); 
+       if(bufferPaginas.get(i)->last()->pagina->id == paquete->pagina->id)  bufferPaginas.get(i)->addOrdenado(paquete); b = 0;
+    }
+    if(b){
+        Lista<Paquete*>* pagina = new Lista<Paquete*>;
+        bufferPaginas.push(pagina);
+        pagina->addOrdenado(paquete);
+    }
+
+    for (int i = 0; i < bufferPaginas.size(); i++)
+    {
+       if(bufferPaginas.get(i)->size() == bufferPaginas.get(i)->last()->pagina->tamaño){
+            for (int y = 0; y < terminales.size(); y++)
+            {
+                bitset<4> msb(bufferPaginas.get(i)->last()->pagina->ip.to_string().substr(0, 4)); 
+                if(terminales.get(y)->n == msb){
+                    terminales.get(y)->recibirPagina(bufferPaginas.get(i)->last()->pagina);
+                }
+            }
+       }
+    }
+}
+
+void Router ::recibirPagina (Pagina* pagina){
+    bitset<4> lsb(pagina->ip.to_string().substr(4, 4));   // si la pagina tiene como destino una terminal conectado al router
+    if( lsb == n ) { 
+        terminal->recibirPagina(pagina);   
+    } 
+    else{
+        for (int i = 0; i < pagina->tamaño ; i++)
+        {
+            // dividir pagina en paquetes
+            Paquete* paquete = new Paquete();
+            paquete->informacion = pagina->informacion;
+            paquete->nroPaquete = i;
+            paquete->pagina = pagina;
+            procesarPagina->addLast(paquete); 
+        }
     }
 }
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-    procesarVecinos->addLast(paquete);  // pierdo un turno antes de enviar el paquete al vecino
+    bitset<4> lsb(paquete->pagina->ip.to_string().substr(4, 4));    // si el paquete tiene como destino una terminal conectado al router
+    if( lsb == n ) {     
+       almacenar(paquete);
+    }
+    else{
+        procesarVecinos->addLast(paquete);  // pierdo un turno antes de enviar el paquete al vecino
+    }       
 }
 
 void Router :: recepcion(){
@@ -34,37 +72,27 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
     if(!procesarPagina->esvacia()){ 
         p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        bitset<4> lsb(p->ip.to_string().substr(4, 4));
-        if( lsb == n ) { 
-            terminal->recibirPagina(p);   
-            procesarPagina->borrar();   
-        }
-        else{
-            vecino = calcularDestino(p);    // encuentro el camino optimo
-            if (vecinos.buscar(vecino)->cantEnviados < A){
-                vecinos.buscar(vecino)->colaDeEspera->add(p);
-                vecinos.buscar(vecino)->cantEnviados++;
-                procesarPagina->borrar();  
-            } 
-            else {  procesarPagina = procesarPagina->resto(); }     // sigo con el siguiente paquete a procesar    
+       
+        vecino = calcularDestino(p);    // encuentro el camino optimo
+        if (vecinos.buscar(vecino)->cantEnviados < A){
+            vecinos.buscar(vecino)->colaDeEspera->add(p);
+            vecinos.buscar(vecino)->cantEnviados++;
+            procesarPagina->borrar();  
         } 
+        else {  procesarPagina = procesarPagina->resto(); }     // sigo con el siguiente paquete a procesar    
+        
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        bitset<4> lsb(p->ip.to_string().substr(4, 4));
-        if( lsb == n ){ 
-            terminal->recibirPagina(p); 
-            procesarVecinos->borrar();         
+
+        vecino = calcularDestino(p);
+        if (vecinos.buscar(vecino)->cantEnviados < A){
+            vecinos.buscar(vecino)->colaDeEspera->add(p);
+            vecinos.buscar(vecino)->cantEnviados++;
+            procesarVecinos->borrar();  
         }
-        else{
-            vecino = calcularDestino(p);
-            if (vecinos.buscar(vecino)->cantEnviados < A){
-                vecinos.buscar(vecino)->colaDeEspera->add(p);
-                vecinos.buscar(vecino)->cantEnviados++;
-                procesarVecinos->borrar();  
-            }
-            else { procesarVecinos = procesarVecinos->resto();  }     // sigo con el siguiente paquete a procesar  
-        }
+        else { procesarVecinos = procesarVecinos->resto();  }     // sigo con el siguiente paquete a procesar  
+        
     } 
     
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
@@ -73,14 +101,14 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
 int Router :: calcularDestino(Paquete* p){
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[static_cast<int>(p->ip.to_ulong())];  
+    destino = tablaRuta[static_cast<int>(p->pagina->ip.to_ulong())];  
     
      // Iterar hasta encontrar un vecino directo
     while (destino != -1 && tablaRuta[destino] != -1) {
         destino = tablaRuta[destino];
     }
     // Si el destino es un vecino directo, retornar el destino original
-    return destino == -1 ? static_cast<int>(p->ip.to_ulong()) : destino;
+    return destino == -1 ? static_cast<int>(p->pagina->ip.to_ulong()) : destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
@@ -109,7 +137,7 @@ int Router :: tamañoCola(int n) {
     {
         return 9000;
     }
-    return vecinos.buscar(n)->colaDeEspera->size() + 1; // se pierde un ciclo al entrar y salir del router
+    return vecinos.buscar(n)->colaDeEspera->size(); 
 }
 
 void Router :: impre(){

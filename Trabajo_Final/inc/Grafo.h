@@ -1,4 +1,3 @@
-#include <vector>
 #ifndef GRAFO_H
 #define GRAFO_H
 #include "Router.h"
@@ -12,7 +11,8 @@ private:
     int **A;
 public:
     int **pesos;
-    int N; 
+    int N; // cantidad de routers
+    int a; // ancho de banda
     Vector<Router*> nodos;
     Grafo(int N, int k, int a, int t);
     ~Grafo();

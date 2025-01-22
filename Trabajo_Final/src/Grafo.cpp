@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N) {
+Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a) {
     if (K >= N) { cout << "K debe ser menor que N para garantizar conexiones válidas." << endl;
         return;
     }
@@ -108,7 +108,8 @@ void Grafo :: matrizPesos(){
     {
         for (int y = 0; y < N; y++)
         {
-           pesos[i][y] = nodos.get(i)->tamañoCola(y);
+           if(nodos.get(i)->tamañoCola(y) == 9000)  pesos[i][y] = 9000;
+           else pesos[i][y] = (nodos.get(i)->tamañoCola(y) / a) + 1; // se pierde un ciclo al entrar y salir del router
         }
     }
 }
