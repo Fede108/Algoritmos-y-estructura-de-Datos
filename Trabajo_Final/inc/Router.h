@@ -2,6 +2,7 @@
 #define ROUTER_H
 #include <iostream>
 #include <Cola.h>
+#include <bitset>
 #include "Terminal.h"
 #include "Tree.h"
 
@@ -12,21 +13,26 @@ class Router
 {
 private:
     arbol vecinos;
+    Vector<Terminal*> terminales;
 //    Lista<Terminal*> *terminales;
     Lista<Paquete*> *procesarPagina;  
     Lista<Paquete*> *procesarVecinos;
     int *tablaRuta;
 public:
-    int n; // nro de router
+    bitset<4> n; // nro de router
     int N; // cantidad router
-    int K = 0; // cantidad de vecinos
     int A = 0; // ancho de banda
+    int t;  // cantidad de terminales
     Terminal* terminal;
-    Router(int n, int N, int K, int A) : n(n), N(N), K(K), A(A){ 
+    Router(int n, int N, int A, int t) : n(n), N(N), A(A), t(t){ 
         tablaRuta = new int[N];
         procesarPagina  = new Lista<Paquete*>();
         procesarVecinos = new Lista<Paquete*>();
-        terminal = new Terminal(this);
+        for (int i = 0; i < t; i++)
+        {
+            terminal = new Terminal(this, i);
+            terminales.push(terminal);
+        }   
     };
     void agregarNodoAdyacente(Router* nodo);
     void impre();

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Grafo::Grafo(int N, int K, int a) : matriz(nullptr), N(N) {
+Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N) {
     if (K >= N) { cout << "K debe ser menor que N para garantizar conexiones válidas." << endl;
         return;
     }

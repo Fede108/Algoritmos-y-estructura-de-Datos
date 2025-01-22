@@ -25,7 +25,7 @@ class arbol {
 private:
     nodo* raiz;
     void ArbolBusq(Router* router, nodo*& nuevo);
-    nodo* busca(nodo* aux, int x);
+    nodo* busca(nodo* aux, unsigned long x);
     void ird(nodo* A);
     void recorridoTransversal(nodo* n, Vector<nodo*> *r );
 public:

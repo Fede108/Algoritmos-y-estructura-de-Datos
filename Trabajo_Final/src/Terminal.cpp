@@ -1,10 +1,10 @@
 #include "../inc/Terminal.h"
 #include "../inc/Router.h"
 
-Terminal::Terminal(Router* router)
+Terminal::Terminal(Router* router,  bitset<4> n )
 {
     this->router = router;
-   
+    this->n = n;
 }
 
 Terminal::~Terminal()

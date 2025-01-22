@@ -1,6 +1,6 @@
 #include "../inc/Router.h"
 #include "../inc/Tree.h"
-
+using namespace std;
 
 void Router ::recibirPagina (Pagina pagina){
     for (int i = 0; i < pagina.tamaño ; i++)
@@ -20,7 +20,7 @@ void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
 
 void Router :: recepcion(){
     Vector<nodo*> listaVecinos = vecinos.listar();
-    for (int i = 0; i < K; i++)
+    for (int i = 0; i < listaVecinos.size(); i++)
     {
         listaVecinos.get(i)->cantEnviados = 0;          // resetea cantidad de enviados a 0 en el turno
     }
@@ -34,7 +34,8 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
     if(!procesarPagina->esvacia()){ 
         p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        if(p->ip == n){ 
+        bitset<4> lsb(p->ip.to_string().substr(4, 4));
+        if( lsb == n ) { 
             terminal->recibirPagina(p);   
             procesarPagina->borrar();   
         }
@@ -50,7 +51,8 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        if(p->ip == n){ 
+        bitset<4> lsb(p->ip.to_string().substr(4, 4));
+        if( lsb == n ){ 
             terminal->recibirPagina(p); 
             procesarVecinos->borrar();         
         }
@@ -71,21 +73,21 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
 int Router :: calcularDestino(Paquete* p){
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[p->ip];  
+    destino = tablaRuta[static_cast<int>(p->ip.to_ulong())];  
     
      // Iterar hasta encontrar un vecino directo
     while (destino != -1 && tablaRuta[destino] != -1) {
         destino = tablaRuta[destino];
     }
     // Si el destino es un vecino directo, retornar el destino original
-    return destino == -1 ? p->ip : destino;
+    return destino == -1 ? static_cast<int>(p->ip.to_ulong()) : destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
     Paquete *p;
     int a = 0;
     Vector<nodo*> listaVecinos = vecinos.listar();
-    for (int i = 0; i < K; i++)
+    for (int i = 0; i < listaVecinos.size(); i++)
     {
         while (!listaVecinos.get(i)->colaDeEspera->esvacia() && a<A )   // mientras la cola de espera tenga paquetes y no se llene ancho banda
         {

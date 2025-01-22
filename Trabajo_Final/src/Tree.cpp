@@ -41,15 +41,15 @@ void arbol::ArbolBusq(Router* router, nodo*& nuevo)
         nuevo->der = nuevo->izq = NULL;
         return;
     }
-    if (router->n > nuevo->router->n) ArbolBusq(router, nuevo->der);
-    if (router->n < nuevo->router->n) ArbolBusq(router, nuevo->izq);
+    if (router->n.to_ulong() > nuevo->router->n.to_ulong()) ArbolBusq(router, nuevo->der);
+    if (router->n.to_ulong() < nuevo->router->n.to_ulong()) ArbolBusq(router, nuevo->izq);
 }
 
-nodo* arbol::busca(nodo* aux, int x)
+nodo* arbol::busca(nodo* aux, unsigned long x)
 {
     if (aux == NULL) return NULL;
-    else if (x == aux->router->n) return aux;
-    else if (x > aux->router->n)  return busca(aux->der, x);
-    else if (x < aux->router->n)  return busca(aux->izq, x);
+    else if (x == aux->router->n.to_ulong()) return aux;
+    else if (x > aux->router->n.to_ulong())  return busca(aux->der, x);
+    else if (x < aux->router->n.to_ulong())  return busca(aux->izq, x);
     return aux;
 }
