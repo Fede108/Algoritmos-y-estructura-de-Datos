@@ -5,7 +5,7 @@
 #include <bitset>
 #include "Terminal.h"
 #include "Tree.h"
-
+#include "Hash.h"
 using namespace std;
 
 
@@ -13,12 +13,14 @@ class Router
 {
 private:
     arbol vecinos;
+    Hash<Paquete>  buffer;
     Vector<Lista<Paquete*>*> bufferPaginas; 
 //    Lista<Terminal*> *terminales;
     Lista<Paquete*> *procesarPagina;  
     Lista<Paquete*> *procesarVecinos;
     int *tablaRuta;
 public:
+    Hash<Terminal> terminalesS;
     Vector<Terminal*> terminales;
     bitset<4> n; // nro de router
     int N; // cantidad router
@@ -32,6 +34,7 @@ public:
         for (int i = 0; i < t; i++)
         {
             terminal = new Terminal(this, i);
+            terminalesS.add(terminal->n.to_ulong(),terminal);
             terminales.push(terminal);
         }   
     };

@@ -1,32 +1,20 @@
 #include "../inc/Router.h"
 #include "../inc/Tree.h"
-#include 
+
 using namespace std;
 
 void Router :: almacenar(Paquete* paquete){
-    int b = 1;
-    for (int i = 0; i < bufferPaginas.size(); i++)
-    {
-       if(bufferPaginas.get(i)->cabeza()->pagina->id == paquete->pagina->id)  bufferPaginas.get(i)->addOrdenado(paquete); b = 0;
-    }
-    if(b){
-        Lista<Paquete*>* pagina = new Lista<Paquete*>;
-        bufferPaginas.push(pagina);
-        pagina->addOrdenado(paquete);
-    }
 
-    for (int i = 0; i < bufferPaginas.size(); i++)
-    {
-       Lista<Paquete*>* bufferPaquetes = bufferPaginas.get(i);
-       if(bufferPaquetes->size() == bufferPaquetes->cabeza()->pagina->tamaño){
-            for (int y = 0; y < terminales.size(); y++)
-            {
-                bitset<4> msb(bufferPaquetes->last()->pagina->ip.to_string().substr(0, 4)); 
-                if(terminales.get(y)->n == msb){
-                    terminales.get(y)->recibirPagina(bufferPaquetes->cabeza()->pagina);
-                }
-            }
-       }
+    buffer.add(paquete->pagina->id, paquete);
+
+    Lista<Paquete*>* bufferPaquetes = buffer.get(paquete->pagina->id);
+
+    if(bufferPaquetes->size() == bufferPaquetes->cabeza()->pagina->tamaño){
+      
+            bitset<4> msb(bufferPaquetes->last()->pagina->ip.to_string().substr(0, 4)); 
+            
+            terminalesS.get(msb.to_ulong())->cabeza()->recibirPagina(bufferPaquetes->cabeza()->pagina);
+            
     }
 }
 

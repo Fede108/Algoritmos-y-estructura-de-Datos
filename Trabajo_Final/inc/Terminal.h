@@ -26,6 +26,7 @@ private:
     Router* router;
     Lista<Paquete*> paquetes;
 public:
+    int nroPaquete;
     bitset<4> n; // nro de terminal
     Pagina* pagina = NULL;
     Terminal(Router* router, bitset<4> n);

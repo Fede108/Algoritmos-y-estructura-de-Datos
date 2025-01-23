@@ -9,44 +9,55 @@ using namespace std;
 
 
 // Tabla hash con dispersión abierta
-class Hash {
+template <class T> class Hash {
 private:
     int Max;
-    Lista<Paquete*> *D; 
+    Lista<T*>* *D; 
 public:
     Hash() { 
         Max = MAX; 
-        D = new Lista<Paquete*>[MAX];
+        D = new Lista<T*>*[MAX];
+        for (int i = 0; i < Max; i++)
+        {
+            D[i] = nullptr; 
+        }
+        
     }
-    void add(int id, Paquete* p);
+    void add(int id, T* p);
     void imprimir();
     int fh(int id);
-    Lista<Paquete*> get(int id);
+    Lista<T*>* get(int id);
     void borrar(int id);
     bool esta(int id);
 };
 
-bool Hash::esta(int id){
+template <class T> bool Hash<T>::esta(int id){
     int i = fh(id);
-    return D[i].esvacia();
+    return D[i]->esvacia();
 }
 
-void Hash::borrar(int id){
+template <class T> void Hash<T>::borrar(int id){
     int i = fh(id);
-    delete &D[i];
+    if  ( D[i] != nullptr) {
+        delete D[i];
+    }
 }
 
-Lista<Paquete*> Hash::get(int id){
+template <class T> Lista<T*>* Hash<T>::get(int id){
     int i = fh(id);
     return D[i];
 }
 
-void Hash::add(int id, Paquete* p) {
+template <class T> void Hash<T>::add(int id, T* p) {
     int i = fh(id);
-    D[i].addOrdenado(p);
+     if (D[i] == nullptr) {
+             
+        D[i] = new Lista<T*>;
+    }
+        D[i]->addOrdenado(p); 
 }
 
-int Hash::fh(int id) {
+template <class T> int Hash<T>::fh(int id) {
     string s = to_string(id);
     int i,x; 
     x=0;
@@ -57,10 +68,10 @@ int Hash::fh(int id) {
    return x%Max;
 }
 
-void Hash::imprimir() {
+template <class T> void Hash<T>::imprimir() {
     for (int i = 0; i < Max; i++) {
         cout << "Bucket " << i << ":" << endl;
-        D[i].impre();
+        D[i]->impre();
     }
 }
 
