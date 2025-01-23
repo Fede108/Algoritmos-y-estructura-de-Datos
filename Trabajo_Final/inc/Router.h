@@ -13,7 +13,7 @@ class Router
 {
 private:
     arbol vecinos;
-    Vector<Lista<Paquete*>*> bufferPaginas;
+    Vector<Lista<Paquete*>*> bufferPaginas; 
 //    Lista<Terminal*> *terminales;
     Lista<Paquete*> *procesarPagina;  
     Lista<Paquete*> *procesarVecinos;
