@@ -9,6 +9,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
+//              "${workspaceFolder}/Otras_Estructuras/programa.exe",
+//              "${workspaceFolder}/Otras_Estructuras/Hash_fede.cpp",             
 //               "${workspaceFolder}/Arboles/programa.exe",
 //               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
 //               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",

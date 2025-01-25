@@ -24,7 +24,7 @@ void arbol:: ird(nodo *aux)
 {
     if (aux != NULL) {
         ird(aux->izq);
-        cout<<" -> "<<aux->router->n;
+        cout<<" -> "<<aux->router->ip;
         ird(aux->der);
     }
 }
@@ -41,15 +41,15 @@ void arbol::ArbolBusq(Router* router, nodo*& nuevo)
         nuevo->der = nuevo->izq = NULL;
         return;
     }
-    if (router->n.to_ulong() > nuevo->router->n.to_ulong()) ArbolBusq(router, nuevo->der);
-    if (router->n.to_ulong() < nuevo->router->n.to_ulong()) ArbolBusq(router, nuevo->izq);
+    if (router->ip.to_ulong() > nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->der);
+    if (router->ip.to_ulong() < nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->izq);
 }
 
 nodo* arbol::busca(nodo* aux, unsigned long x)
 {
     if (aux == NULL) return NULL;
-    else if (x == aux->router->n.to_ulong()) return aux;
-    else if (x > aux->router->n.to_ulong())  return busca(aux->der, x);
-    else if (x < aux->router->n.to_ulong())  return busca(aux->izq, x);
+    else if (x == aux->router->ip.to_ulong()) return aux;
+    else if (x > aux->router->ip.to_ulong())  return busca(aux->der, x);
+    else if (x < aux->router->ip.to_ulong())  return busca(aux->izq, x);
     return aux;
 }

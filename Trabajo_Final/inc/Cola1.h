@@ -1,5 +1,5 @@
 
-// Cola con Lista.cpp : 
+// Cola con Lista.cpp 
 
 #include <cstdlib>
 #include <iostream>
@@ -52,6 +52,8 @@ public:
     void addOrdenado(T d) { addO(d, NULL); }; //sumar nodos a la lista Ordenados de menor a MAYOR
     T last(); //retorna el dato del ultimo nodo
 };
+
+
 template <class T>
 T Lista<T>::last()
 {
@@ -159,6 +161,25 @@ template <class T> void Lista<T>::borrar_last()
             czo->set_next(NULL);
         }
         else this->resto()->borrar_last();
+    }
+}
+
+
+template <class T>
+void Lista<T>::borrarD(T d, Nodo<T>* ant)
+{
+    if (!this->esvacia()) {
+        if (d == this->cabeza()) {
+            if (ant == NULL) {//al principio
+                this->borrar();
+            }
+            else {//entre medio
+                ant->set_next(czo->get_next());
+                delete czo;
+            }
+        }
+        else  this->resto()->borrarD(d, czo);
+
     }
 }
 

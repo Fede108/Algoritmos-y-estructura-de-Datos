@@ -1,78 +1,86 @@
+
 #include <iostream>
 #include <string>
-#include <Cola1.h>
+#include "Cola1.h"
 #include "Vector.h"
 #include "Terminal.h"
 #define MAX 17
 
 using namespace std;
 
+template <class K, class V> class HashEntry {
+public:
+    K key; 
+    V value; 
+    HashEntry(K key, V value) {
+        this->key = key;
+        this->value = value;
+    }
+};
 
-// Tabla hash con dispersión abierta
-template <class T> class Hash {
+template <class K, class V> class Hash {
 private:
     int Max;
-    Lista<T*>* *D; 
+    Lista<HashEntry<K, V>*> **D; 
 public:
     Hash() { 
         Max = MAX; 
-        D = new Lista<T*>*[MAX];
+        D = new Lista<HashEntry<K, V>*>*[MAX];
         for (int i = 0; i < Max; i++)
         {
             D[i] = nullptr; 
         }
         
     }
-    void add(int id, T* p);
-    void imprimir();
-    int fh(int id);
-    Lista<T*>* get(int id);
-    void borrar(int id);
-    bool esta(int id);
+    void add(K id, V p);
+    int fh(K id);
+    V get(K id);
+    void borrar(K id);
 };
 
-template <class T> bool Hash<T>::esta(int id){
-    int i = fh(id);
-    return D[i]->esvacia();
-}
-
-template <class T> void Hash<T>::borrar(int id){
+template <class K, class V> void Hash<K, V>::borrar(K id) {
     int i = fh(id);
     if  ( D[i] != nullptr) {
-        delete D[i];
+         Lista<HashEntry<K, V>*>* aux = D[i];
+         while (!aux->esvacia())
+        {
+            if(aux->cabeza()->key == id){
+                this->D[i]->borrarDato(aux->cabeza());
+                break;  // borra la cabeza
+            }  
+            aux = aux->resto();
+        } 
+        if(this->D[i]->esvacia()){
+            delete this->D[i];
+            this->D[i]=nullptr;
+        }  
     }
-}
+} 
 
-template <class T> Lista<T*>* Hash<T>::get(int id){
+template <class K, class V> V Hash<K, V>::get(K id){
     int i = fh(id);
-    return D[i];
+    if (D[i] == nullptr) return 0;
+    Lista<HashEntry<K, V>*>* aux = D[i];
+    while (!aux->esvacia())
+    {
+        if(aux->cabeza()->key == id) return aux->cabeza()->value;
+        aux = aux->resto();
+    } 
+
+    return  0;
 }
 
-template <class T> void Hash<T>::add(int id, T* p) {
+template <class K, class V> void Hash<K, V>::add(K id, V p) {
     int i = fh(id);
      if (D[i] == nullptr) {
-             
-        D[i] = new Lista<T*>;
+         D[i] = new Lista<HashEntry<K, V>*>;
     }
-        D[i]->addOrdenado(p); 
+        D[i]->add( new HashEntry<K, V>(id, p)); 
 }
 
-template <class T> int Hash<T>::fh(int id) {
-    string s = to_string(id);
-    int i,x; 
-    x=0;
-    for(i=0;i<s.length();i++){
-                             x=x^s[i];
-                             //x=x+s[i];
-                             }
-   return x%Max;
-}
-
-template <class T> void Hash<T>::imprimir() {
-    for (int i = 0; i < Max; i++) {
-        cout << "Bucket " << i << ":" << endl;
-        D[i]->impre();
-    }
+template <class K, class V>
+int Hash<K, V>::fh(K id) {
+    return id.to_ulong() % Max;
 }
 
 

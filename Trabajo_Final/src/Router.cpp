@@ -5,28 +5,27 @@ using namespace std;
 
 void Router :: almacenar(Paquete* paquete){
 
-    buffer.add(paquete->pagina->id, paquete);
-
-    Lista<Paquete*>* bufferPaquetes = buffer.get(paquete->pagina->id);
+    Lista<Paquete*>* bufferPaquetes = bufferPaginas.get(paquete->pagina->id);
+    if(!bufferPaquetes){
+        bufferPaquetes = new Lista<Paquete*>;
+        bufferPaginas.add(paquete->pagina->id, bufferPaquetes);
+    } 
+    bufferPaquetes->addOrdenado(paquete);
 
     if(bufferPaquetes->size() == bufferPaquetes->cabeza()->pagina->tamaño){
-      
-            bitset<4> msb(bufferPaquetes->last()->pagina->ip.to_string().substr(0, 4)); 
-            
-            terminalesS.get(msb.to_ulong())->cabeza()->recibirPagina(bufferPaquetes->cabeza()->pagina);
-            
+        terminales.get(paquete->pagina->getByteMSB())->recibirPagina(bufferPaquetes->cabeza()->pagina);
+        bufferPaginas.borrar(paquete->pagina->id);
     }
 }
 
 void Router ::recibirPagina (Pagina* pagina){
-    bitset<4> lsb(pagina->ip.to_string().substr(4, 4));   // si la pagina tiene como destino una terminal conectado al router
-    if( lsb == n ) { 
-        terminal->recibirPagina(pagina);   
+    if( pagina->getByteLSB() == ip ) {          // si la pagina tiene como destino una terminal conectado al router
+        terminales.get(pagina->getByteMSB())->recibirPagina(pagina); 
     } 
     else{
-        for (int i = 0; i < pagina->tamaño ; i++)
+        // dividir pagina en paquetes segun su tamaño
+        for (int i = 0; i < pagina->tamaño ; i++)   
         {
-            // dividir pagina en paquetes
             Paquete* paquete = new Paquete();
             paquete->informacion = pagina->informacion;
             paquete->nroPaquete = i;
@@ -37,8 +36,8 @@ void Router ::recibirPagina (Pagina* pagina){
 }
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-    bitset<4> lsb(paquete->pagina->ip.to_string().substr(4, 4));    // si el paquete tiene como destino una terminal conectado al router
-    if( lsb == n ) {     
+        // si el paquete tiene como destino una terminal conectado al router
+    if( paquete->pagina->getByteLSB() == ip ) {     
        almacenar(paquete);
     }
     else{
@@ -84,21 +83,20 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
         else { procesarVecinos = procesarVecinos->resto();  }     // sigo con el siguiente paquete a procesar  
         
     } 
-    
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
 }
 
 int Router :: calcularDestino(Paquete* p){
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[static_cast<int>(p->pagina->ip.to_ulong())];  
+    destino = tablaRuta[p->pagina->destino.to_ulong()];  
     
-     // Iterar hasta encontrar un vecino directo
+     // iterar hasta encontrar un vecino directo
     while (destino != -1 && tablaRuta[destino] != -1) {
         destino = tablaRuta[destino];
     }
-    // Si el destino es un vecino directo, retornar el destino original
-    return destino == -1 ? static_cast<int>(p->pagina->ip.to_ulong()) : destino;
+    // si el destino es un vecino directo, retornar el destino original
+    return destino == -1 ? (p->pagina->destino.to_ulong()) : destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino
