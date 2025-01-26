@@ -25,6 +25,7 @@ public:
 	// function to get capacity of the vector
 	int getcapacity() { return capacidad; }
 
+	T* getArray() { return arreglo; }
 	// function to print array elements
 	void print()
 	{

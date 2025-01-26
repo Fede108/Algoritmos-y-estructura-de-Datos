@@ -13,12 +13,12 @@ class Router
 {
 private:
     arbol vecinos;
-    Hash<int,Lista<Paquete*>*>  bufferPaginas;
+    Hash<Lista<Paquete*>*>  bufferPaginas;
     Lista<Paquete*> *procesarPagina;  
     Lista<Paquete*> *procesarVecinos;
     int *tablaRuta;
 public:
-    Hash<bitset<8>,Terminal*> terminales;
+    Hash<Terminal*> terminales;
     bitset<8> ip; // nro de router
     int N; // cantidad router
     int A = 0; // ancho de banda
@@ -31,7 +31,7 @@ public:
         for (int i = 0; i < t; i++)
         {
             terminal = new Terminal(this, i);
-            terminales.add(terminal->ip,terminal);
+            terminales.add(terminal->ip.to_ulong(),terminal);
         }   
     };
     void agregarNodoAdyacente(Router* nodo);
@@ -46,6 +46,7 @@ public:
     void recepcion(); 
     int calcularDestino(Paquete* p);
     void almacenar(Paquete* paquete);
+    void enviarPagina(Lista<Paquete*>* paquetes);
 }; 
 
 #endif

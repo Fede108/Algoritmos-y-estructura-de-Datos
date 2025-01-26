@@ -8,40 +8,57 @@
 
 using namespace std;
 
-template <class K, class V> class HashEntry {
+template <class V> class HashEntry {
 public:
-    K key; 
+    int key; 
     V value; 
-    HashEntry(K key, V value) {
+    HashEntry(int key, V value) {
         this->key = key;
         this->value = value;
     }
 };
 
-template <class K, class V> class Hash {
+template <class T> class Hash {
 private:
     int Max;
-    Lista<HashEntry<K, V>*> **D; 
+    Lista<HashEntry<T>*> **D; 
 public:
     Hash() { 
         Max = MAX; 
-        D = new Lista<HashEntry<K, V>*>*[MAX];
+        D = new Lista<HashEntry<T>*>*[MAX];
         for (int i = 0; i < Max; i++)
         {
             D[i] = nullptr; 
         }
         
     }
-    void add(K id, V p);
-    int fh(K id);
-    V get(K id);
-    void borrar(K id);
+    void add(int id, T p);
+    int fh(int id);
+    T get(int id);
+    void borrar(int id);
+    bool esta(int id);
 };
 
-template <class K, class V> void Hash<K, V>::borrar(K id) {
+template <class T> bool Hash<T>::esta(int id){
     int i = fh(id);
     if  ( D[i] != nullptr) {
-         Lista<HashEntry<K, V>*>* aux = D[i];
+         Lista<HashEntry<T>*>* aux = D[i];
+        while (!aux->esvacia())
+        {
+            if(aux->cabeza()->key == id){
+                return true;
+            }  
+            aux = aux->resto();
+        }
+        return false; 
+    }
+    return false;
+}
+
+template <class T> void Hash<T>::borrar(int id) {
+    int i = fh(id);
+    if  ( D[i] != nullptr) {
+         Lista<HashEntry<T>*>* aux = D[i];
          while (!aux->esvacia())
         {
             if(aux->cabeza()->key == id){
@@ -57,10 +74,10 @@ template <class K, class V> void Hash<K, V>::borrar(K id) {
     }
 } 
 
-template <class K, class V> V Hash<K, V>::get(K id){
+template <class T> T Hash<T>::get(int id){
     int i = fh(id);
     if (D[i] == nullptr) return 0;
-    Lista<HashEntry<K, V>*>* aux = D[i];
+    Lista<HashEntry<T>*>* aux = D[i];
     while (!aux->esvacia())
     {
         if(aux->cabeza()->key == id) return aux->cabeza()->value;
@@ -70,17 +87,17 @@ template <class K, class V> V Hash<K, V>::get(K id){
     return  0;
 }
 
-template <class K, class V> void Hash<K, V>::add(K id, V p) {
+template <class T> void Hash<T>::add(int id, T p) {
     int i = fh(id);
      if (D[i] == nullptr) {
-         D[i] = new Lista<HashEntry<K, V>*>;
+         D[i] = new Lista<HashEntry<T>*>;
     }
-        D[i]->add( new HashEntry<K, V>(id, p)); 
+        D[i]->add( new HashEntry(id, p)); 
 }
 
-template <class K, class V>
-int Hash<K, V>::fh(K id) {
-    return id.to_ulong() % Max;
+template <class T>
+int Hash<T>::fh(int id) {
+    return id % Max;
 }
 
 

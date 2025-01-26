@@ -4,22 +4,31 @@
 using namespace std;
 
 void Router :: almacenar(Paquete* paquete){
-
     Lista<Paquete*>* bufferPaquetes = bufferPaginas.get(paquete->pagina->id);
     if(!bufferPaquetes){
         bufferPaquetes = new Lista<Paquete*>;
         bufferPaginas.add(paquete->pagina->id, bufferPaquetes);
     } 
     bufferPaquetes->addOrdenado(paquete);
-
+   
     if(bufferPaquetes->size() == bufferPaquetes->cabeza()->pagina->tamaño){
-        terminales.get(paquete->pagina->getByteMSB())->recibirPagina(bufferPaquetes->cabeza()->pagina);
+        Paquete* arr = new Paquete[bufferPaquetes->size()];
+        while (!bufferPaquetes->esvacia())
+        {
+            for (int i = 0; i < bufferPaquetes->size(); i++)
+            {
+                arr[i] = *bufferPaquetes->cabeza();
+            }
+            bufferPaquetes = bufferPaquetes->resto();
+        }
+        
+        terminales.get(paquete->pagina->getByteMSB())->recibirPagina(arr);
         bufferPaginas.borrar(paquete->pagina->id);
     }
 }
 
 void Router ::recibirPagina (Pagina* pagina){
-    if( pagina->getByteLSB() == ip ) {          // si la pagina tiene como destino una terminal conectado al router
+    if( pagina->getByteLSB() == ip.to_ulong() ) {          // si la pagina tiene como destino una terminal conectado al router
         terminales.get(pagina->getByteMSB())->recibirPagina(pagina); 
     } 
     else{
@@ -37,7 +46,7 @@ void Router ::recibirPagina (Pagina* pagina){
 
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
         // si el paquete tiene como destino una terminal conectado al router
-    if( paquete->pagina->getByteLSB() == ip ) {     
+    if( paquete->pagina->getByteLSB() == ip.to_ulong() ) {     
        almacenar(paquete);
     }
     else{
