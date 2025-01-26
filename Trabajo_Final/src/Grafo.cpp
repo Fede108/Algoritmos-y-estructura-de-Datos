@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a) {
-    if (K >= N) { cout << "K debe ser menor que N para garantizar conexiones válidas." << endl;
+Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K) {
+    if (K >= N) { cout << "K debe ser menor que N " << endl;
         return;
     }
     // crea la matriz cf
@@ -27,11 +27,9 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a) {
     for (int i = 0; i < N; i++) {
         matriz[i] = new int[N]();
     }
-
     // crea lista de adyacencia 
-   //    nodos.resize(N);
     for (int i = 0; i < N; i++) {
-        nodos.push( new Router(i, N, K, a)); 
+        nodos.push( new Router(i, N, a, t)); 
     }
     
     // crea el grafo con conexiones uniformes
@@ -44,19 +42,38 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a) {
             agregarArco(i, anterior);
         }
     }
-    if(K%2){
+    if((K*N) %2){    // si no cumple con el lema del apreton de manos
         for (int i = 0; i < N; i++) {
             int siguiente = (i + K) % N; 
             agregarArco(i, siguiente);
         }
     }
+    // verificar la regularidad con la matriz de adyacencia
+    verificarRegular();
+    // verificar que sea fuertemente conectado con dfs algorithm 
+    verificarConexion();
 }
 
 void Grafo::agregarArco(int n, int m) {
     if (n >= 0 && n < N && m >= 0 && m < N && n != m) { 
-        matriz[n][m] = 1;
-        nodos.get(n)->agregarNodoAdyacente(nodos.get(m));
+        if(matriz[n][m] == 0){ // verifica no producir conexiones repetidas
+            matriz[n][m] = 1;
+            nodos.get(n)->agregarNodoAdyacente(nodos.get(m));
+        }
     }
+}
+
+bool Grafo::verificarRegular(){
+    int k = 0;
+    for (int i = 0; i < N; i++)
+    {
+        for (int y = 0; y < N; y++)
+        {
+            k += matriz[i][y];
+        }
+        if(k!=K) return false;
+    }
+    return true;
 }
 
 void Grafo::mostrarGrafo() {

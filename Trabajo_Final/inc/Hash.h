@@ -63,7 +63,7 @@ template <class T> void Hash<T>::borrar(int id) {
         {
             if(aux->cabeza()->key == id){
                 this->D[i]->borrarDato(aux->cabeza());
-                break;  // borra la cabeza
+                break;  
             }  
             aux = aux->resto();
         } 

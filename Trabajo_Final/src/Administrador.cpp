@@ -46,7 +46,6 @@ void Administrador::simular(){
     int l = rand() % 10;
     int x = rand() % 3;   // destino 
     grafo->nodos.get(2)->terminal->enviarPagina(0,5);  // origen
-
     while (1)
     {
        for (int i = 0; i < grafo->N; i++)

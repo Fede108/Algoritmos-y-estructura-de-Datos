@@ -90,7 +90,7 @@ void Lista<T>::addO(T d, Nodo<T>* ant)
         this->add(d);
     }
     else {
-        if (d->nroPaquete < czo->get_dato()->nroPaquete) {
+        if (d < czo->get_dato()) {
             if (ant == NULL) {//al principio
                 this->add(d);
             }
@@ -108,7 +108,6 @@ void Lista<T>::addO(T d, Nodo<T>* ant)
 
             }
             else this->resto()->addO(d, czo);
-
         }
     }
 }

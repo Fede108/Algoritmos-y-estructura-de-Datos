@@ -10,7 +10,6 @@ struct Paquete
 {
    Pagina *pagina;
    int nroPaquete  = 0;
-   int informacion = 0;
 };
 
 class Pagina
@@ -23,7 +22,6 @@ public:
     }
     bitset<16> destino  = 0;
     bitset<8> origen    = 0;
-    int informacion     = 0;
     int id = 0;
     int getByteMSB(){
         return ((destino.to_ulong() >> 8) & 0xFF);

@@ -13,6 +13,7 @@ public:
     int **pesos;
     int N; // cantidad de routers
     int a; // ancho de banda
+    int K; // grado del grafo
     Vector<Router*> nodos;
     Grafo(int N, int k, int a, int t);
     ~Grafo();
@@ -20,6 +21,8 @@ public:
     void mostrarGrafo();    
     void matrizPesos();
     void Floyd();
+    bool verificarRegular();
+    bool verificarConexion();
 };
 
 #endif

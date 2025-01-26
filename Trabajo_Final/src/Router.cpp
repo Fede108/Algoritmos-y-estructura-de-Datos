@@ -36,7 +36,6 @@ void Router ::recibirPagina (Pagina* pagina){
         for (int i = 0; i < pagina->tamaño ; i++)   
         {
             Paquete* paquete = new Paquete();
-            paquete->informacion = pagina->informacion;
             paquete->nroPaquete = i;
             paquete->pagina = pagina;
             procesarPagina->addLast(paquete); 
