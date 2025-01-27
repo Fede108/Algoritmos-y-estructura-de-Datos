@@ -32,31 +32,34 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K) {
         nodos.push( new Router(i, N, a, t)); 
     }
     
-    // crea el grafo con conexiones uniformes
+    // crea el grafo 
     for (int i = 0; i < N; i++) {
         for (int j = 1; j <= K / 2; j++) {
-            int siguiente = (i + j) % N;          // Conexión hacia adelante
-            int anterior = (i - j + N) % N;       // Conexión hacia atrás
+            int siguiente = (i + j) % N;          // conexion hacia adelante
+            int anterior = (i - j + N) % N;       // conexion hacia atras
 
             agregarArco(i, siguiente);
             agregarArco(i, anterior);
         }
     }
-    if((K*N) %2){    // si no cumple con el lema del apreton de manos
+    if(K%2){   
         for (int i = 0; i < N; i++) {
             int siguiente = (i + K) % N; 
             agregarArco(i, siguiente);
         }
     }
     // verificar la regularidad con la matriz de adyacencia
-    verificarRegular();
+    bool regular = verificarRegular();
     // verificar que sea fuertemente conectado con dfs algorithm 
-    verificarConexion();
 }
 
 void Grafo::agregarArco(int n, int m) {
-    if (n >= 0 && n < N && m >= 0 && m < N && n != m) { 
-        if(matriz[n][m] == 0){ // verifica no producir conexiones repetidas
+    if (n >= 0 && n < N && m >= 0 && m < N) { 
+        if(matriz[n][m] != 0){ // verifica no producir conexiones repetidas
+            agregarArco(n,(m+1)%N);
+        }
+        else if(n == m)  agregarArco(n,(m+1)%N);
+        else {
             matriz[n][m] = 1;
             nodos.get(n)->agregarNodoAdyacente(nodos.get(m));
         }
@@ -77,25 +80,23 @@ bool Grafo::verificarRegular(){
 }
 
 void Grafo::mostrarGrafo() {
-   // Imprimir matriz de adyacencia
-       /* cout << "=== MATRIZ DE ADYACENCIA ===\n";
+    
+       cout << "--- MATRIZ DE ADYACENCIA ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 cout << setw(3) << matriz[i][j] << " ";
             }
             cout << endl;
-        }
-        */
-        // Imprimir lista de adyacencia
-        cout << "\n=== LISTA DE ADYACENCIA ===\n";
+        } 
+        
+        cout << "\n--- LISTA DE ADYACENCIA ---\n";
         for (int i = 0; i < N; i++) {
             cout << "Nodo " << i << ":[";
             nodos.get(i)->impre();
             cout << "]"<<endl;
         } 
 
-        // Imprimir matriz de pesos
-        cout << "\n=== MATRIZ DE PESOS ===\n";
+        cout << "\n--- MATRIZ DE PESOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (pesos[i][j] == 9000) // 9000 representa infinito
@@ -106,12 +107,11 @@ void Grafo::mostrarGrafo() {
             cout << endl;
         }
 
-        // Imprimir matriz de caminos óptimos
-        cout << "\n=== MATRIZ DE CAMINOS ÓPTIMOS ===\n";
+        cout << "\n--- MATRIZ DE CAMINOS ÓPTIMOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (cf[i][j] == -1)
-                    cout << setw(3) << "-1" << " "; // Sin nodo intermedio
+                    cout << setw(3) << "-1" << " "; 
                 else
                     cout << setw(3) << cf[i][j] << " ";
             }

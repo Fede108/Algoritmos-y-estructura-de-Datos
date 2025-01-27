@@ -7,6 +7,7 @@ using namespace std;
 
 void Administrador::generarDOT(){
     ofstream archivo("grafo.dot");
+    if (archivo.is_open() ){
     archivo << "digraph G {\n";
     archivo << "    node [shape=circle, style=filled, color=lightblue];\n";
     archivo << "    edge [color=gray, penwidth=1];\n";
@@ -28,16 +29,17 @@ void Administrador::generarDOT(){
     }
 
     archivo << "}\n";
-    archivo.close();
+    //archivo.close();
+    }
     cout << "Archivo grafo.dot generado.\n";
 }
-
 
 void Administrador::crearGrafo(int N, int K, int a, int t){
     grafo = new Grafo( N, K, a, t);
 }
 
 void Administrador::simular(){
+    bool sigue = true;
     grafo->matrizPesos();
     grafo->Floyd();
     grafo->mostrarGrafo();
@@ -45,23 +47,34 @@ void Administrador::simular(){
     int n = rand() % 3;
     int l = rand() % 10;
     int x = rand() % 3;   // destino 
-    grafo->nodos.get(2)->terminal->enviarPagina(0,5);  // origen
-    while (1)
-    {
-       for (int i = 0; i < grafo->N; i++)
+ //   grafo->nodos.get(2)->terminal->enviarPagina(0,10);  // origen
+    grafo->nodos.get(3)->terminal->enviarPagina(1,5);  // origen
+    grafo->nodos.get(3)->terminal->enviarPagina(0,5);  // origen
+    int ciclos = 0;
+    grafo->mostrarGrafo();
+    generarDOT();
+    while (sigue)
+    {  
+        for (int i = 0; i < grafo->N; i++)
        {
             grafo->nodos.get(i)->reenvio();
+       }
+        for (int i = 0; i < grafo->N; i++)
+       {
             grafo->nodos.get(i)->recepcion();
        }
        grafo->matrizPesos();
-       grafo->Floyd();
        grafo->mostrarGrafo();
        generarDOT();
+       if(ciclos==1){
+            ciclos = 0;
+            grafo->Floyd();
+       } else{  ciclos++;}
     }
 }
 
 int main() {
-    int N = 4; // numero de nodos
+    int N = 5; // numero de nodos
     int K = 2; // conexiones por nodo
     int A = 2; // ancho de banda 
     int t = 2; // numero de terminales por nodo
@@ -70,4 +83,10 @@ int main() {
     ad->simular();
 
     return 0;
-}
+} 
+
+/*// Solicitar entrada al usuario
+        char opcion;
+        cout << "¿Desea continuar con la simulación? (s/n): ";
+        cin >> opcion;
+        sigue = (opcion == 's' || opcion == 'S'); // Continuar si se ingresa 's' o 'S'*/

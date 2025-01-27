@@ -9,7 +9,6 @@ Terminal::Terminal(Router* router,  bitset<8> n )
 
 void Terminal :: enviarPagina(int destino, int tamaño){
     Pagina* p = new Pagina(tamaño);
-    p->informacion = 1;
     p->destino     = destino;
     p->id          = nroPagina;
     p->origen      = this->ip;

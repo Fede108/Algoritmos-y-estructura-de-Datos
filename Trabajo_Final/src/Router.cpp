@@ -42,7 +42,7 @@ void Router ::recibirPagina (Pagina* pagina){
         }
     }
 }
-
+    
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
         // si el paquete tiene como destino una terminal conectado al router
     if( paquete->pagina->getByteLSB() == ip.to_ulong() ) {     
@@ -64,11 +64,11 @@ void Router :: recepcion(){
 
 void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *procesarVecinos) // guardo en la cola del vecino correspondiente segun camino optimo
 {   
-    Paquete* p = new Paquete();
+    
     int vecino;
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
     if(!procesarPagina->esvacia()){ 
-        p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+         Paquete* p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
        
         vecino = calcularDestino(p);    // encuentro el camino optimo
         if (vecinos.buscar(vecino)->cantEnviados < A){
@@ -77,10 +77,9 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
             procesarPagina->borrar();  
         } 
         else {  procesarPagina = procesarPagina->resto(); }     // sigo con el siguiente paquete a procesar    
-        
     }
     if(!procesarVecinos->esvacia()){ 
-        p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+        Paquete* p  = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
 
         vecino = calcularDestino(p);
         if (vecinos.buscar(vecino)->cantEnviados < A){
