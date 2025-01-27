@@ -48,8 +48,8 @@ void Administrador::simular(){
     int l = rand() % 10;
     int x = rand() % 3;   // destino 
  //   grafo->nodos.get(2)->terminal->enviarPagina(0,10);  // origen
-    grafo->nodos.get(3)->terminal->enviarPagina(1,5);  // origen
-    grafo->nodos.get(3)->terminal->enviarPagina(0,5);  // origen
+    grafo->nodos.get(3)->terminal->enviarPagina(1,3);  // origen
+    grafo->nodos.get(3)->terminal->enviarPagina(0,3);  // origen
     int ciclos = 0;
     grafo->mostrarGrafo();
     generarDOT();

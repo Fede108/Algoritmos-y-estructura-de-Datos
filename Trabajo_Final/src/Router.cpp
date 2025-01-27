@@ -64,32 +64,37 @@ void Router :: recepcion(){
 
 void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *procesarVecinos) // guardo en la cola del vecino correspondiente segun camino optimo
 {   
-    
-    int vecino;
+    int destino;
+    Paquete* p;
+    nodo* vecino;
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
-    if(!procesarPagina->esvacia()){ 
-         Paquete* p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-       
-        vecino = calcularDestino(p);    // encuentro el camino optimo
-        if (vecinos.buscar(vecino)->cantEnviados < A){
-            vecinos.buscar(vecino)->colaDeEspera->add(p);
-            vecinos.buscar(vecino)->cantEnviados++;
-            procesarPagina->borrar();  
-        } 
-        else {  procesarPagina = procesarPagina->resto(); }     // sigo con el siguiente paquete a procesar    
-    }
-    if(!procesarVecinos->esvacia()){ 
-        Paquete* p  = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+    
+    if(!procesarPagina->esvacia()){
+        p      = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+        destino = calcularDestino(p);    // encuentro el camino optimo
+        vecino  = vecinos.buscar(destino);
+        procesarPagina = procesarPagina->resto();
 
-        vecino = calcularDestino(p);
-        if (vecinos.buscar(vecino)->cantEnviados < A){
-            vecinos.buscar(vecino)->colaDeEspera->add(p);
-            vecinos.buscar(vecino)->cantEnviados++;
-            procesarVecinos->borrar();  
-        }
-        else { procesarVecinos = procesarVecinos->resto();  }     // sigo con el siguiente paquete a procesar  
-        
+        if (vecino->cantEnviados < A){
+            vecino->colaDeEspera->add(p);
+            vecino->cantEnviados++;
+            this->procesarPagina->borrarDato(p); 
+        }   
+    }
+
+    if(!procesarVecinos->esvacia()){ 
+        p      = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+        destino = calcularDestino(p);    // encuentro el camino optimo
+        vecino  = vecinos.buscar(destino);
+        procesarVecinos = procesarVecinos->resto();
+
+        if (vecino->cantEnviados < A){
+            vecino->colaDeEspera->add(p);
+            vecino->cantEnviados++;
+            this->procesarVecinos->borrarDato(p); 
+        }    
     } 
+
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
 }
 
