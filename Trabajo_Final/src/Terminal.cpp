@@ -7,18 +7,17 @@ Terminal::Terminal(Router* router,  bitset<8> n )
     this->ip = n;
 }
 
-void Terminal :: enviarPagina(int destino, int tamaño){
+void Terminal :: enviarPagina(bitset<16> destino, int tamaño){
     Pagina* p = new Pagina(tamaño);
     p->destino     = destino;
     p->id          = nroPagina;
     p->origen      = this->ip;
-    
     router->recibirPagina(p);
     nroPagina++;
 }
 
 void Terminal :: recibirPagina(Paquete* arreglo){
-    pagina = arreglo->pagina;
+    pagina = arreglo->pagina; 
     pagina->arr = arreglo;
     for (int i = 0; i < pagina->tamaño; i++)
     {

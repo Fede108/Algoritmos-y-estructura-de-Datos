@@ -15,8 +15,8 @@ struct Paquete
 class Pagina
 {
 public:
-    Paquete* arr;
-    int tamaño; // el tamaño es la cantidad de paquetes que forman la pagina 
+    Paquete* arr;  
+    int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina 
     Pagina(int tamaño) : tamaño(tamaño){
         arr = new Paquete[tamaño];
     }
@@ -25,7 +25,6 @@ public:
     int id = 0;
     int getByteMSB(){
         return ((destino.to_ulong() >> 8) & 0xFF);
-        
     };
     int getByteLSB(){
         return (destino.to_ulong() & 0xFF);
@@ -43,7 +42,7 @@ public:
     Pagina* pagina = NULL;
     Terminal(Router* router, bitset<8> n);
     ~Terminal();
-    void enviarPagina(int destino, int tamaño);
+    void enviarPagina(bitset<16> destino, int tamaño);
     void recibirPagina(Paquete* arr);
     void recibirPagina(Pagina* p);
 };

@@ -12,13 +12,13 @@ using namespace std;
 class Router 
 {
 private:
-    arbol vecinos;
-    Hash<Lista<Paquete*>*>  bufferPaginas;
-    Lista<Paquete*> *procesarPagina;  
-    Lista<Paquete*> *procesarVecinos;
+    arbol vecinos;   // arbol binario con punteros a los router vecinos
+    Hash<Lista<Paquete*>*>  bufferPaginas; // estructura para almacenar las paginas de las terminales
+    Lista<Paquete*> *procesarPagina;    
+    Lista<Paquete*> *procesarVecinos;  
     int *tablaRuta;
 public:
-    Hash<Terminal*> terminales;
+    Hash<Terminal*> terminales;   // terminales conectadas al router
     bitset<8> ip; // nro de router
     int N; // cantidad router
     int A = 0; // ancho de banda

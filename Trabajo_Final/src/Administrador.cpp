@@ -44,12 +44,17 @@ void Administrador::simular(){
     grafo->Floyd();
     grafo->mostrarGrafo();
     srand(time(0));
-    int n = rand() % 3;
-    int l = rand() % 10;
-    int x = rand() % 3;   // destino 
- //   grafo->nodos.get(2)->terminal->enviarPagina(0,10);  // origen
-    grafo->nodos.get(3)->terminal->enviarPagina(1,3);  // origen
-    grafo->nodos.get(3)->terminal->enviarPagina(0,3);  // origen
+    bitset<8>  w = rand() % 2;
+    bitset<8>  f = rand() % 4;
+    bitset<16> destino( (w.to_ulong()<<8) | f.to_ulong());
+    int tamaño = rand() % 10;
+    int origen = rand() % 4;   // destino 
+//    grafo->nodos.get(origen)->terminal->enviarPagina(destino,tamaño);  // origen, destino y tamaño
+//    grafo->nodos.get(origen)->terminal->enviarPagina(3,tamaño);  // origen
+    grafo->nodos.get(2)->terminal->enviarPagina(0,10);  // origen
+    grafo->nodos.get(1)->terminal->enviarPagina(3,5);
+    grafo->matrizPesos();
+    grafo->Floyd();
     int ciclos = 0;
     grafo->mostrarGrafo();
     generarDOT();
@@ -74,7 +79,7 @@ void Administrador::simular(){
 }
 
 int main() {
-    int N = 5; // numero de nodos
+    int N = 4; // numero de nodos
     int K = 2; // conexiones por nodo
     int A = 2; // ancho de banda 
     int t = 2; // numero de terminales por nodo

@@ -5,29 +5,25 @@ using namespace std;
 
 void Router :: almacenar(Paquete* paquete){
     Lista<Paquete*>* bufferPaquetes = bufferPaginas.get(paquete->pagina->id);
-    if(!bufferPaquetes){
-        bufferPaquetes = new Lista<Paquete*>;
+    if(!bufferPaquetes){ bufferPaquetes = new Lista<Paquete*>;
         bufferPaginas.add(paquete->pagina->id, bufferPaquetes);
     } 
     bufferPaquetes->addOrdenado(paquete);
-   
-    if(bufferPaquetes->size() == bufferPaquetes->cabeza()->pagina->tamaño){
+    // si la pagina ya se encuentra completa
+    if(bufferPaquetes->size() == paquete->pagina->tamaño){ 
         Paquete* arr = new Paquete[bufferPaquetes->size()];
+        int i = 0;
         while (!bufferPaquetes->esvacia())
         {
-            for (int i = 0; i < bufferPaquetes->size(); i++)
-            {
-                arr[i] = *bufferPaquetes->cabeza();
-            }
+            arr[i++] = *bufferPaquetes->cabeza();
             bufferPaquetes = bufferPaquetes->resto();
         }
-        
         terminales.get(paquete->pagina->getByteMSB())->recibirPagina(arr);
         bufferPaginas.borrar(paquete->pagina->id);
     }
 }
 
-void Router ::recibirPagina (Pagina* pagina){
+void Router::recibirPagina (Pagina* pagina){
     if( pagina->getByteLSB() == ip.to_ulong() ) {          // si la pagina tiene como destino una terminal conectado al router
         terminales.get(pagina->getByteMSB())->recibirPagina(pagina); 
     } 
@@ -44,8 +40,7 @@ void Router ::recibirPagina (Pagina* pagina){
 }
     
 void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
-        // si el paquete tiene como destino una terminal conectado al router
-    if( paquete->pagina->getByteLSB() == ip.to_ulong() ) {     
+    if( paquete->pagina->getByteLSB() == ip.to_ulong() ) {      // si el paquete tiene como destino una terminal conectado al router
        almacenar(paquete);
     }
     else{
@@ -68,31 +63,24 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     Paquete* p;
     nodo* vecino;
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
-    
     if(!procesarPagina->esvacia()){
-        p      = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+        p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
         destino = calcularDestino(p);    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarPagina = procesarPagina->resto();
-
-        if (vecino->cantEnviados < A){
+        if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas paquetes
             vecino->colaDeEspera->add(p);
             vecino->cantEnviados++;
             this->procesarPagina->borrarDato(p); 
         }   
     }
-
     if(!procesarVecinos->esvacia()){ 
-        p      = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
+        p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
         destino = calcularDestino(p);    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarVecinos = procesarVecinos->resto();
-
-        if (vecino->cantEnviados < A){
-            vecino->colaDeEspera->add(p);
-            vecino->cantEnviados++;
-            this->procesarVecinos->borrarDato(p); 
-        }    
+        vecino->colaDeEspera->add(p);
+        this->procesarVecinos->borrarDato(p); 
     } 
 
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
@@ -101,14 +89,14 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
 int Router :: calcularDestino(Paquete* p){
     int b = 0;
     int destino = 0;
-    destino = tablaRuta[p->pagina->destino.to_ulong()];  
+    destino = tablaRuta[p->pagina->getByteLSB()];  
     
      // iterar hasta encontrar un vecino directo
     while (destino != -1 && tablaRuta[destino] != -1) {
         destino = tablaRuta[destino];
     }
     // si el destino es un vecino directo, retornar el destino original
-    return destino == -1 ? (p->pagina->destino.to_ulong()) : destino;
+    return destino == -1 ? (p->pagina->getByteLSB()) : destino;
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino

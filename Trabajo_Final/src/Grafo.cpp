@@ -126,7 +126,7 @@ void Grafo :: matrizPesos(){
         for (int y = 0; y < N; y++)
         {
            if(nodos.get(i)->tamañoCola(y) == 9000)  pesos[i][y] = 9000;
-           else pesos[i][y] = (nodos.get(i)->tamañoCola(y) / a) + 1; // se pierde un ciclo al entrar y salir del router
+           else pesos[i][y] = nodos.get(i)->tamañoCola(y); // se pierde un ciclo al entrar y salir del router
         }
     }
 }
@@ -135,7 +135,7 @@ void Grafo :: Floyd(){
     int i,j,k;
     for(i=0;i<N;i++){
         for(j=0;j<N;j++){
-                        A[i][j]=pesos[i][j]; cf[i][j]=-1;
+                        A[i][j]=(pesos[i][j]/ a)+1; cf[i][j]=-1;
         }
     }
     for(i=0;i<N;i++) A[i][i]=0;
