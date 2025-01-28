@@ -79,8 +79,8 @@ void Administrador::simular(){
 }
 
 int main() {
-    int N = 8; // numero de nodos
-    int K = 4; // conexiones por nodo
+    int N = 4; // numero de nodos
+    int K = 2; // conexiones por nodo
     int A = 2; // ancho de banda 
     int t = 2; // numero de terminales por nodo
     Administrador* ad = new Administrador();

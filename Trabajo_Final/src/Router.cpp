@@ -66,7 +66,7 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     if(procesarPagina->esvacia() && procesarVecinos->esvacia() ) return;
     if(!procesarPagina->esvacia()){
         p = procesarPagina->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        destino = calcularDestino(p);    // encuentro el camino optimo
+        destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarPagina = procesarPagina->resto();
         if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
@@ -77,27 +77,23 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
-        destino = calcularDestino(p);    // encuentro el camino optimo
+        destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarVecinos = procesarVecinos->resto();
         vecino->colaDeEspera->add(p);
         this->procesarVecinos->borrarDato(p); 
     } 
-
     enviarCola(procesarPagina, procesarVecinos);   // sigo con el resto de los paquetes 
 }
 
-int Router :: calcularDestino(Paquete* p){
-    int b = 0;
-    int destino = 0;
-    destino = tablaRuta[p->pagina->getByteLSB()];  
-    
-     // iterar hasta encontrar un vecino directo
-    while (destino != -1 && tablaRuta[destino] != -1) {
-        destino = tablaRuta[destino];
+int Router::calcularDestino(int destino){
+    if(tablaRuta[destino] == -1)
+    {
+        cout<< "no hay camino "; return 0;
     }
-    // si el destino es un vecino directo, retornar el destino original
-    return destino == -1 ? (p->pagina->getByteLSB()) : destino;
+    if(destino == tablaRuta[destino]) return destino;  // si el destino es un vecino directo, retorna el destino 
+    destino = tablaRuta[destino]; 
+    return calcularDestino(destino);  // recursion hasta encontrar un vecino directo
 }
 
 void Router ::enviarPaquete(){   // envio paquete al vecino

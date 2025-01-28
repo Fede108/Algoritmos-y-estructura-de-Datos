@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {   int C[MAXNODOS][MAXNODOS]={   INFI, INFI,    4,   13, INFI,
                                   INFI, INFI,    1, INFI, INFI,
                                   INFI,    5, INFI,    2,   11,
-                                  INFI, INFI, INFI,INFI,     2,
+                                  INFI, INFI, INFI,INFI,    12,
                                   INFI, INFI, INFI,    1, INFI       
                                  };
     int *pdist, i, j, P[MAXNODOS],s,t;
@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
 
 int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
 {
- static int D[MAXNODOS];
- int S[MAXNODOS];
+ static int D[MAXNODOS];   // arreglo de pesos desde s a t
+ int S[MAXNODOS];          // nodos visitados
  int actual, i, k, b;
  int menordist, nuevadist;
 // inicializaci�n
@@ -77,13 +77,13 @@ int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
                                  nuevadist=D[actual]+C[actual][i];
                                  //printf("\n nuevadist=%3i D[%2i]=%3i ",nuevadist,i,D[i]);
                                  if(nuevadist<D[i]){
-                                        D[i]=nuevadist;//actual es menor que la anterior
+                                        D[i]=nuevadist; //actual distancia es menor que la anterior
                                         Pre[i]=actual; b=1;
                                  }//fin if
                                  //printf("\n menordist=%3i D[%2i]=%3i ",menordist,i,D[i]);
                                  if(D[i]<menordist){
                                         menordist=D[i];
-                                        k=i;  b=1;//guardo el nodo de la menor distancia
+                                        k=i;  b=1; //guardo el nodo de la menor distancia 
                                  }//fin if
                           }//fin if
                   }//fin for

@@ -49,7 +49,7 @@ public:
     void enviarPaquete();
     void reenvio(){ enviarPaquete();};
     void recepcion(); 
-    int calcularDestino(Paquete* p);
+    int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
 }; 
 

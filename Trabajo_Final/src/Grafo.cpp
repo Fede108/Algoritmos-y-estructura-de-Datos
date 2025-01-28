@@ -135,7 +135,9 @@ void Grafo :: Floyd(){
     int i,j,k;
     for(i=0;i<N;i++){
         for(j=0;j<N;j++){
-                        A[i][j]=(pesos[i][j]/ a)+1; cf[i][j]=-1;
+                        A[i][j]=(pesos[i][j]/ a)+1;  // se pierde un ciclo al entrar y salir del router
+                        if(pesos[i][j] == 9000) cf[i][j]=-1;   // -1 si no hay camino de i a j 
+                        else cf[i][j]=j;   // camino de i a j es directo
         }
     }
     for(i=0;i<N;i++) A[i][i]=0;
@@ -145,7 +147,7 @@ void Grafo :: Floyd(){
             for(j=0;j<N;j++){
                             if((A[i][k]+ A[k][j])< A[i][j]){
                                     A[i][j]= A[i][k]+ A[k][j];
-                                    cf[i][j]=k;
+                                    cf[i][j]=k;    
                         }
             }
         }
