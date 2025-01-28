@@ -8,7 +8,6 @@
 #include "Hash.h"
 using namespace std;
 
-
 class Router 
 {
 private:
@@ -20,12 +19,11 @@ private:
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
     bitset<8> ip; // nro de router
-    int N; // cantidad router
     int A = 0; // ancho de banda
-    int t;  // cantidad de terminales
+    int t;      // cantidad de terminales
     Terminal* terminal;
-    Router(int n, int N, int A, int t) : ip(n), N(N), A(A), t(t){ 
-        tablaRuta = new int[N];
+    Router(int n, int A, int t, int* &tabla) : ip(n), A(A), t(t){ 
+        tablaRuta = tabla;
         procesarPagina  = new Lista<Paquete*>();
         procesarVecinos = new Lista<Paquete*>();
         for (int i = 0; i < t; i++)
@@ -42,7 +40,6 @@ public:
     void agregarNodoAdyacente(Router* nodo);
     void impre();
     int tamañoCola(int n);
-    void actualizarTabla(int *tabla);
     void recibirPagina(Pagina* Pagina);
     void recibirPaquete(Paquete* Paquete);
     void enviarCola(Lista<Paquete*> *paquetesPagina, Lista<Paquete*> *paquetesVecinos);

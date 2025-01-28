@@ -1,6 +1,6 @@
 #include "../inc/Router.h"
 #include "../inc/Tree.h"
-
+#define INFI 9000
 using namespace std;
 
 void Router :: almacenar(Paquete* paquete){
@@ -69,11 +69,11 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
         destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarPagina = procesarPagina->resto();
-    //    if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
+        if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
             vecino->colaDeEspera->add(p);
             vecino->cantEnviados++;
             this->procesarPagina->borrarDato(p); 
-    //   }   
+       }   
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 
@@ -120,21 +120,11 @@ void Router :: agregarNodoAdyacente(Router* router){
 int Router :: tamañoCola(int n) {
     if (!vecinos.buscar(n))
     {
-        return 9000;
+        return INFI;
     }
     return vecinos.buscar(n)->colaDeEspera->size(); 
 }
 
 void Router :: impre(){
     vecinos.IRD();
-}
-
-void Router :: actualizarTabla(int *tabla){
-    int* aux = new int[N];
-    for (int i = 0; i < N; i++)
-    {
-        aux[i] = tabla[i];
-    }
-    delete[] tablaRuta;
-    tablaRuta = aux;
 }

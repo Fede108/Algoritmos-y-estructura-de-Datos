@@ -14,7 +14,7 @@ void Administrador::generarDOT(){
     archivo << "    size=\"8,8\";\n";   // Especificar el tamaño en forma de cadena
     archivo << "    ratio=\"fill\";\n"; // Usar comillas dobles para el valor "fill"
     for (int i = 0; i < grafo->nodos.size(); ++i) {
-        for (int j = 0; j < grafo->nodos.get(i)->N; ++j) {
+        for (int j = 0; j < grafo->nodos.size(); ++j) {
             if (grafo->pesos[i][j] != 9000) {
                 archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
             }
@@ -52,7 +52,8 @@ void Administrador::simular(){
 //    grafo->nodos.get(origen)->terminal->enviarPagina(destino,tamaño);  // origen, destino y tamaño
 //    grafo->nodos.get(origen)->terminal->enviarPagina(3,tamaño);  // origen
     grafo->nodos.get(2)->terminal->enviarPagina(0,10);  // origen
-    grafo->nodos.get(1)->terminal->enviarPagina(3,5);
+    grafo->nodos.get(3)->terminal->enviarPagina(1,5);
+    grafo->nodos.get(3)->terminal->enviarPagina(0,5);
     grafo->matrizPesos();
     grafo->Floyd();
     int ciclos = 0;
@@ -79,7 +80,7 @@ void Administrador::simular(){
 }
 
 int main() {
-    int N = 4; // numero de nodos
+    int N = 5; // numero de nodos
     int K = 2; // conexiones por nodo
     int A = 2; // ancho de banda 
     int t = 2; // numero de terminales por nodo

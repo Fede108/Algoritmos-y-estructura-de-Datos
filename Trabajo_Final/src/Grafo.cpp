@@ -1,6 +1,6 @@
 #include "../inc/Grafo.h"
 #include <iomanip>
-
+#define INFI 9000
 using namespace std;
 
 Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K), t(t) {
@@ -29,10 +29,10 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K), t(
     }
     // crea lista de adyacencia 
     for (int i = 0; i < N; i++) {
-        nodos.push( new Router(i, N, a, t)); 
+        nodos.push( new Router(i, a, t, cf[i])); 
     }
     
-    // crea el grafo 
+    // crea el grafo con K conexiones por nodo
     for (int i = 0; i < N; i++) {
         for (int j = 1; j <= K / 2; j++) {
             int siguiente = (i + j) % N;          // conexion hacia adelante
@@ -67,7 +67,7 @@ void Grafo :: matrizPesos(){
     {
         for (int y = 0; y < N; y++)
         {
-           if(nodos.get(i)->tamañoCola(y) == 9000)  pesos[i][y] = 9000;
+           if(nodos.get(i)->tamañoCola(y) == INFI)  pesos[i][y] = INFI;
            else pesos[i][y] = nodos.get(i)->tamañoCola(y); 
         }
     }
@@ -78,7 +78,7 @@ void Grafo :: Floyd(){
     for(i=0;i<N;i++){
         for(j=0;j<N;j++){
                         A[i][j]=(pesos[i][j]/ a) + 1;  // se pierde un ciclo al entrar y salir del router
-                        if(pesos[i][j] == 9000) cf[i][j]=-1;   // -1 si no hay camino directo de i a j 
+                        if(pesos[i][j] == INFI) cf[i][j]=-1;   // -1 si no hay camino directo de i a j 
                         else cf[i][j]=j;   // camino de i a j es directo
         }
     }
@@ -94,11 +94,6 @@ void Grafo :: Floyd(){
                         }
             }
         }
-    }
-    // se envian los caminos optimos a los nodos
-    for (int i = 0; i < N; i++)
-    {
-        nodos.get(i)->actualizarTabla(cf[i]);
     }  
 }
 
@@ -124,7 +119,7 @@ void Grafo::mostrarCaminos() {
     cout << "\n--- MATRIZ DE PESOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (pesos[i][j] == 9000) // 9000 representa infinito
+                if (pesos[i][j] == INFI) 
                     cout << setw(5) << "INF" << " ";
                 else
                     cout << setw(5) << pesos[i][j] << " ";
