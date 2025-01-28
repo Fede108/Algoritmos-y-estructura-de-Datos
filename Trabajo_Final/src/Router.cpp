@@ -19,6 +19,7 @@ void Router :: almacenar(Paquete* paquete){
             bufferPaquetes = bufferPaquetes->resto();
         }
         terminales.get(paquete->pagina->getByteMSB())->recibirPagina(arr);
+        delete bufferPaquetes; delete[] arr;
         bufferPaginas.borrar(paquete->pagina->id);
     }
 }
@@ -68,7 +69,7 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
         destino = calcularDestino(p);    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarPagina = procesarPagina->resto();
-        if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas paquetes
+        if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
             vecino->colaDeEspera->add(p);
             vecino->cantEnviados++;
             this->procesarPagina->borrarDato(p); 

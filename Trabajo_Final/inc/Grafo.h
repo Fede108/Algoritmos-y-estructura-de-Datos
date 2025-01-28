@@ -14,6 +14,7 @@ public:
     int N; // cantidad de routers
     int a; // ancho de banda
     int K; // grado del grafo
+    int t;
     Vector<Router*> nodos;
     Grafo(int N, int k, int a, int t);
     ~Grafo();

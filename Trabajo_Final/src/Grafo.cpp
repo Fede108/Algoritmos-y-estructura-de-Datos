@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K) {
+Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K), t(t) {
     if (K >= N) { cout << "K debe ser menor que N " << endl;
         return;
     }
@@ -50,7 +50,7 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K) {
     }
     // verificar la regularidad con la matriz de adyacencia
     bool regular = verificarRegular();
-    // verificar que sea fuertemente conectado con dfs algorithm 
+    // verificar que sea fuertemente conectado con kosajuru algorithm 
 }
 
 void Grafo::agregarArco(int n, int m) {

@@ -34,6 +34,11 @@ public:
             terminales.add(terminal->ip.to_ulong(),terminal);
         }   
     };
+    ~Router() {
+        delete[] tablaRuta; 
+        delete procesarPagina; 
+        delete procesarVecinos;
+    }
     void agregarNodoAdyacente(Router* nodo);
     void impre();
     int tamañoCola(int n);
@@ -46,7 +51,6 @@ public:
     void recepcion(); 
     int calcularDestino(Paquete* p);
     void almacenar(Paquete* paquete);
-    void enviarPagina(Lista<Paquete*>* paquetes);
 }; 
 
 #endif
