@@ -73,7 +73,7 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
             vecino->colaDeEspera->add(p);
             vecino->cantEnviados++;
             this->procesarPagina->borrarDato(p); 
-       }   
+      }   
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 

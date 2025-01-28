@@ -54,6 +54,10 @@ void Administrador::simular(){
     grafo->nodos.get(2)->terminal->emitirPagina(0,10);  // origen
     grafo->nodos.get(4)->terminal->emitirPagina(1,3);
     grafo->nodos.get(3)->terminal->emitirPagina(0,3);
+    grafo->nodos.get(5)->terminal->emitirPagina(2,7);
+    grafo->nodos.get(0)->terminal->emitirPagina(5,6);
+    grafo->nodos.get(7)->terminal->emitirPagina(2,8);
+    grafo->nodos.get(1)->terminal->emitirPagina(6,4);
     grafo->matrizPesos();
     grafo->Floyd();
     int ciclos = 0;
@@ -80,9 +84,9 @@ void Administrador::simular(){
 }
 
 int main() {
-    int N = 6; // numero de nodos
+    int N = 8; // numero de nodos
     int K = 2; // conexiones por nodo
-    int A = 2; // ancho de banda 
+    int A = 4; // ancho de banda 
     int t = 2; // numero de terminales por nodo
     Administrador* ad = new Administrador();
     ad->crearGrafo(N,K,A,t);
