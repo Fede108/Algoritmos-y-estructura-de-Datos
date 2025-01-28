@@ -93,18 +93,20 @@ void Floyd(int peso[][MAXNODOS], int A[][MAXNODOS], int cf[][MAXNODOS])
   for(i=0;i<MAXNODOS;i++){
          for(j=0;j<MAXNODOS;j++){
                                  A[i][j]=peso[i][j];
-                                 if(peso[i][j] == INFI) cf[i][j]=-1;
-                                 else cf[i][j]=j;
+                                 if(peso[i][j] == INFI) cf[i][j]=-1;   // -1 si no hay camino directo de i a j 
+                                 else cf[i][j]=j;   // camino de i a j es directo
          }
   }
-  for(i=0;i<MAXNODOS;i++) A[i][i]=0;
+  for(i=0;i<MAXNODOS;i++) A[i][i]=0; 
   
-  for(k=0;k<MAXNODOS;k++){
+  for(k=0;k<MAXNODOS;k++){// recorre los k nodos intermedio en orden externo
+    // recorre la matriz completa N veces
       for(i=0;i<MAXNODOS;i++){
          for(j=0;j<MAXNODOS;j++){
-                                 if((A[i][k]+ A[k][j])< A[i][j]){
-                                              A[i][j]= A[i][k]+ A[k][j];
-                                              cf[i][j]=k;
+                                 if((A[i][k]+ A[k][j])< A[i][j]){            // si el camino ij es mas corto a traves de k
+                                              A[i][j]= A[i][k]+ A[k][j]; // actualiza el peso minimo
+                                              cf[i][j]=k;      // actualiza nodo intermedio en el camino 
+  
                                  }
          }
       }

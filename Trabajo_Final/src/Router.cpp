@@ -69,11 +69,11 @@ void Router::enviarCola(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *proces
         destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
         vecino  = vecinos.buscar(destino);
         procesarPagina = procesarPagina->resto();
-        if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
+    //    if (vecino->cantEnviados < A){    // envio pagina segun ancho banda para intercalar con demas maquinas
             vecino->colaDeEspera->add(p);
             vecino->cantEnviados++;
             this->procesarPagina->borrarDato(p); 
-        }   
+    //   }   
     }
     if(!procesarVecinos->esvacia()){ 
         p = procesarVecinos->cabeza();   // buscar el destino e ir agregar a cada cola segun ancho de banda de esa cola 

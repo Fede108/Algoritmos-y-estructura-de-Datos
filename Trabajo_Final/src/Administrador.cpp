@@ -69,7 +69,7 @@ void Administrador::simular(){
             grafo->nodos.get(i)->recepcion();
        }
        grafo->matrizPesos();
-       grafo->mostrarGrafo();
+       grafo->mostrarCaminos();
        generarDOT();
        if(ciclos==1){
             ciclos = 0;

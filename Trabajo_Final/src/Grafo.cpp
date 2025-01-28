@@ -36,29 +36,25 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K), t(
     for (int i = 0; i < N; i++) {
         for (int j = 1; j <= K / 2; j++) {
             int siguiente = (i + j) % N;          // conexion hacia adelante
-            int anterior = (i - j + N) % N;       // conexion hacia atras
-
+            int anterior =  (i - j + N) % N;       // conexion hacia atras
             agregarArco(i, siguiente);
             agregarArco(i, anterior);
         }
-    }
-    if(K%2){   
+    } 
+    if(K%2){      // si k es impar
         for (int i = 0; i < N; i++) {
             int siguiente = (i + K) % N; 
             agregarArco(i, siguiente);
         }
     }
-    // verificar la regularidad con la matriz de adyacencia
-    bool regular = verificarRegular();
-    // verificar que sea fuertemente conectado con kosajuru algorithm 
 }
 
 void Grafo::agregarArco(int n, int m) {
     if (n >= 0 && n < N && m >= 0 && m < N) { 
-        if(matriz[n][m] != 0){ // verifica no producir conexiones repetidas
+        if(matriz[n][m] != 0){  // verifica no producir conexiones repetidas
             agregarArco(n,(m+1)%N);
         }
-        else if(n == m)  agregarArco(n,(m+1)%N);
+        else if(n == m)  agregarArco(n,(m+1)%N);  // verifica no producir autoconexion
         else {
             matriz[n][m] = 1;
             nodos.get(n)->agregarNodoAdyacente(nodos.get(m));
@@ -66,25 +62,52 @@ void Grafo::agregarArco(int n, int m) {
     }
 }
 
-bool Grafo::verificarRegular(){
-    int k = 0;
+void Grafo :: matrizPesos(){
     for (int i = 0; i < N; i++)
     {
         for (int y = 0; y < N; y++)
         {
-            k += matriz[i][y];
+           if(nodos.get(i)->tamañoCola(y) == 9000)  pesos[i][y] = 9000;
+           else pesos[i][y] = nodos.get(i)->tamañoCola(y); 
         }
-        if(k!=K) return false;
     }
-    return true;
 }
 
+void Grafo :: Floyd(){
+    int i,j,k;
+    for(i=0;i<N;i++){
+        for(j=0;j<N;j++){
+                        A[i][j]=(pesos[i][j]/ a) + 1;  // se pierde un ciclo al entrar y salir del router
+                        if(pesos[i][j] == 9000) cf[i][j]=-1;   // -1 si no hay camino directo de i a j 
+                        else cf[i][j]=j;   // camino de i a j es directo
+        }
+    }
+    for(i=0;i<N;i++) A[i][i]=0;
+  
+    for(k=0;k<N;k++){     // recorro por cada k nodo intermedio en orden externo
+    // recorro la matriz completa para encontrar caminos más cortos
+        for(i=0;i<N;i++){
+            for(j=0;j<N;j++){
+                            if((A[i][k]+ A[k][j])< A[i][j]){      // si el camino ij es mas corto a traves de k 
+                                    A[i][j]= A[i][k]+ A[k][j];    // actualiza el peso minimo
+                                    cf[i][j]=k;                   // actualiza nodo intermedio en el camino 
+                        }
+            }
+        }
+    }
+    // se envian los caminos optimos a los nodos
+    for (int i = 0; i < N; i++)
+    {
+        nodos.get(i)->actualizarTabla(cf[i]);
+    }  
+}
+
+
 void Grafo::mostrarGrafo() {
-    
-       cout << "--- MATRIZ DE ADYACENCIA ---\n";
+       cout << "\n--- MATRIZ DE ADYACENCIA ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                cout << setw(3) << matriz[i][j] << " ";
+                cout << setw(6) << matriz[i][j] << " ";
             }
             cout << endl;
         } 
@@ -94,9 +117,11 @@ void Grafo::mostrarGrafo() {
             cout << "Nodo " << i << ":[";
             nodos.get(i)->impre();
             cout << "]"<<endl;
-        } 
+        }         
+}
 
-        cout << "\n--- MATRIZ DE PESOS ---\n";
+void Grafo::mostrarCaminos() {
+    cout << "\n--- MATRIZ DE PESOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (pesos[i][j] == 9000) // 9000 representa infinito
@@ -106,55 +131,14 @@ void Grafo::mostrarGrafo() {
             }
             cout << endl;
         }
-
-        cout << "\n--- MATRIZ DE CAMINOS ÓPTIMOS ---\n";
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (cf[i][j] == -1)
-                    cout << setw(3) << "-1" << " "; 
-                else
-                    cout << setw(3) << cf[i][j] << " ";
-            }
-            cout << endl;
+    cout << "\n--- MATRIZ DE CAMINOS ÓPTIMOS ---\n";
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (cf[i][j] == -1)
+                cout << setw(5) << "-1" << " "; 
+            else
+                cout << setw(5) << cf[i][j] << " ";
         }
-}
-
-
-void Grafo :: matrizPesos(){
-    for (int i = 0; i < N; i++)
-    {
-        for (int y = 0; y < N; y++)
-        {
-           if(nodos.get(i)->tamañoCola(y) == 9000)  pesos[i][y] = 9000;
-           else pesos[i][y] = nodos.get(i)->tamañoCola(y); // se pierde un ciclo al entrar y salir del router
-        }
+        cout << endl;
     }
-}
-
-void Grafo :: Floyd(){
-    int i,j,k;
-    for(i=0;i<N;i++){
-        for(j=0;j<N;j++){
-                        A[i][j]=(pesos[i][j]/ a)+1;  // se pierde un ciclo al entrar y salir del router
-                        if(pesos[i][j] == 9000) cf[i][j]=-1;   // -1 si no hay camino de i a j 
-                        else cf[i][j]=j;   // camino de i a j es directo
-        }
-    }
-    for(i=0;i<N;i++) A[i][i]=0;
-  
-    for(k=0;k<N;k++){
-        for(i=0;i<N;i++){
-            for(j=0;j<N;j++){
-                            if((A[i][k]+ A[k][j])< A[i][j]){
-                                    A[i][j]= A[i][k]+ A[k][j];
-                                    cf[i][j]=k;    
-                        }
-            }
-        }
-    }
-
-    for (int i = 0; i < N; i++)
-    {
-        nodos.get(i)->actualizarTabla(cf[i]);
-    }  
 }
