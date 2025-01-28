@@ -1,30 +1,26 @@
 #include "../inc/Terminal.h"
 #include "../inc/Router.h"
 
-Terminal::Terminal(Router* router,  bitset<8> n )
-{
-    this->router = router;
-    this->ip = n;
-}
-
-void Terminal :: enviarPagina(bitset<16> destino, int tamaño){
+void Terminal :: emitirPagina(bitset<16> destino, int tamaño){   // emite una nueva pagina con un identificador unico
     Pagina* p = new Pagina(tamaño);
-    p->destino     = destino;
-    p->id          = nroPagina;
-    p->origen      = this->ip;
+    p->destino     = bitset<16>(destino);
+    p->origen      = (this->ip.to_ulong() << 8) | this->router->ip.to_ulong();
+    p->id          = (nroPagina << 16) | p->origen.to_ulong();
     router->recibirPagina(p);
     nroPagina++;
 }
 
-void Terminal :: recibirPagina(Paquete* arreglo){
+void Terminal :: recibirPagina(Paquete* arreglo){   // recibe la pagina en paquetes
+    if (pagina != NULL) {
+        delete pagina;
+    }
     pagina = arreglo->pagina; 
     pagina->arr = arreglo;
-    for (int i = 0; i < pagina->tamaño; i++)
-    {
+    for (int i = 0; i < pagina->tamaño; i++){
         cout<<pagina->arr[i].nroPaquete<<endl;
     }
 }
 
-void Terminal :: recibirPagina(Pagina* p){
+void Terminal :: recibirPagina(Pagina* p){    // recibe la pagina completa
     pagina = p;
 }

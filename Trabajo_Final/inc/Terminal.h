@@ -17,12 +17,17 @@ class Pagina
 public:
     Paquete* arr;  
     int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina 
+    bitset<16> destino  = 0;
+    bitset<16> origen    = 0;
+    int id = 0;
+    
     Pagina(int tamaño) : tamaño(tamaño){
         arr = new Paquete[tamaño];
     }
-    bitset<16> destino  = 0;
-    bitset<8> origen    = 0;
-    int id = 0;
+    ~Pagina() {
+        delete[] arr; 
+    }
+    
     int getByteMSB(){
         return ((destino.to_ulong() >> 8) & 0xFF);
     };
@@ -39,12 +44,11 @@ private:
 public:
     bitset<8> ip; // nro de terminal
     Pagina* pagina = NULL;
-    Terminal(Router* router, bitset<8> n);
-    ~Terminal();
-    void enviarPagina(bitset<16> destino, int tamaño);
+    Terminal(Router* router, bitset<8> n): router(router), ip(n){};
+    ~Terminal(){delete pagina;};
+    void emitirPagina(bitset<16> destino, int tamaño);
     void recibirPagina(Paquete* arr);
     void recibirPagina(Pagina* p);
 };
-
 
 #endif 
