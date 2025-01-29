@@ -50,6 +50,10 @@ void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
 }
 
 void Router :: procesamiento(){
+    Vector<nodo*> listaVecinos = vecinos.listar();
+    for (int i = 0; i < listaVecinos.size(); i++)
+    {   listaVecinos.get(i)->cantEnviados = 0;
+    }
     enviarColaEspera(procesarPagina, procesarVecinos);
 }
 
@@ -62,9 +66,10 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
             // buscar el destino e ir agregar a cada cola segun ancho de banda
             destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
              nodo* vecino = vecinos.buscar(destino);
-            if (a++ < A){    // envio paginas segun ancho banda para intercalar con demas maquinas
+            if (vecino->cantEnviados < A){    // envio paginas segun ancho banda para intercalar con demas maquinas
                 vecino->colaDeEspera->encolar(p);
-                this->procesarPagina->borrarDato(p); 
+                this->procesarPagina->borrarDato(p);
+                vecino->cantEnviados++; 
             }      
         }
         if(!procesarVecinos->esvacia()){   Paquete* p = procesarVecinos->cabeza();  procesarVecinos = procesarVecinos->resto(); // sigo con el resto de los paquetes 
@@ -86,8 +91,12 @@ void Router::reenvio(){   // envio paquete al vecino
         while (!listaVecinos.get(i)->colaDeEspera->esvacia() && a++<A )   // mientras la cola de espera tenga paquetes y no se llene ancho banda
         {
             p = listaVecinos.get(i)->colaDeEspera->tope();
+ 
+        //   cout << "\n ID: "<< p->pagina->id <<"\n Nro: "<<p->nroPaquete<<"\n Ruta: "<< this->ip.to_ulong() << " -> "<<listaVecinos.get(i)->router->ip.to_ulong()<< " \n";
+        //    cout<<" Origen: "<< p->pagina->origen.operator&=(0xFF).to_ulong()<< " -> "<<"Destino: "<<p->pagina->getByteLSB()<<"\n";
+
             listaVecinos.get(i)->colaDeEspera->desencolar();
-            listaVecinos.get(i)->router->recibirPaquete(p); 
+            listaVecinos.get(i)->router->recibirPaquete(p);    
         }
     }
 }  

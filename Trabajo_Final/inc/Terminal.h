@@ -6,7 +6,6 @@
 class Router;
 struct Pagina;
 
-
 struct Paquete
 {
    Pagina *pagina;
@@ -38,7 +37,7 @@ private:
     Router* router;
 public:
     bitset<8> ip; // nro de terminal
-    Pagina* pagina = NULL;
+    Pagina* pagina = nullptr;
     Terminal(Router* router, bitset<8> n): router(router), ip(n){};
     ~Terminal(){delete pagina;};
     void emitirPagina(bitset<16> destino, int tamaño);

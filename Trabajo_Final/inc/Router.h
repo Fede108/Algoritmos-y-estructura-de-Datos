@@ -21,7 +21,6 @@ public:
     bitset<8> ip; // nro de router
     int A = 0; // ancho de banda
     int t;      // cantidad de terminales
-    Terminal* terminal;
     
     Router(int n, int A, int t, int* &tabla) : ip(n), A(A), t(t){ 
         tablaRuta = tabla;
@@ -29,8 +28,7 @@ public:
         procesarVecinos = new Lista<Paquete*>();
         for (int i = 0; i < t; i++)
         {
-            terminal = new Terminal(this, i);
-            terminales.add(terminal->ip.to_ulong(),terminal);
+            terminales.add(i, new Terminal(this, i));
         }   
     };
 

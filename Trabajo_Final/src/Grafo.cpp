@@ -117,17 +117,17 @@ void Grafo::mostrarGrafo() {
 }
 
 void Grafo::mostrarCaminos() {
-    cout << "\n--- MATRIZ DE PESOS ---\n";
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (pesos[i][j] == INFI) 
-                    cout << setw(5) << "INF" << " ";
-                else
-                    cout << setw(5) << pesos[i][j] << " ";
-            }
-            cout << endl;
-        }
-    cout << "\n--- MATRIZ DE CAMINOS ÓPTIMOS ---\n";
+//    cout << "\n------ MATRIZ DE PESOS-------\n";
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < N; j++) {
+//                if (pesos[i][j] == INFI) 
+//                    cout << setw(5) << "INF" << " ";
+//                else
+//                    cout << setw(5) << pesos[i][j] << " ";
+//            }
+//            cout << endl;
+//        }
+    cout << "\n---- MATRIZ DE CAMINOS ÓPTIMOS ----\n";
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (cf[i][j] == -1)

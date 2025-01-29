@@ -59,10 +59,12 @@ template <class T> void Hash<T>::borrar(int id) {
     int i = fh(id);
     if  ( D[i] != nullptr) {
          Lista<HashEntry<T>*>* aux = D[i];
-         while (!aux->esvacia())
+         while (!aux->esvacia())      // recorro la lista buscando la hashEntry
         {
-            if(aux->cabeza()->key == id){
-                this->D[i]->borrarDato(aux->cabeza());
+            if(aux->cabeza()->key == id){        // si la key coincide con el id
+                HashEntry<T>* entry = aux->cabeza();
+                this->D[i]->borrarDato(entry);  // se borra el dato de la lista
+                delete entry;       // se borra el dato
                 break;  
             }  
             aux = aux->resto();
