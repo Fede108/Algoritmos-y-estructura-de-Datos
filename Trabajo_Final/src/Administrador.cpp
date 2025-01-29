@@ -88,9 +88,9 @@ void Administrador::simular(){
 void Administrador::crearNuevaPagina(){
      if (rand() % 100 < 40) { // 80% de probabilidad
             int origenR     =  rand() % grafo->N;       // Nodo origen aleatorio
-            int origenT    =  rand() % grafo->t;        // Terminal origen aleatorio
-            bitset<8> h_ip = rand() %  grafo->t;        // Parte alta de la IP destino
-            bitset<8> l_ip = rand() %  grafo->N;;       // Parte baja de la IP destino
+            int origenT    =   rand() % grafo->t;        // Terminal origen aleatorio
+            bitset<8> h_ip =   rand() %  grafo->t;        // Parte alta de la IP destino
+            bitset<8> l_ip =   rand() %  grafo->N;;       // Parte baja de la IP destino
             int tamaño     = (rand() % 10) + 1;         // Tamaño aleatorio (1 a 10)
             bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
             grafo->nodos.get(origenR)->terminales.get(origenT)->emitirPagina(destino, tamaño);      

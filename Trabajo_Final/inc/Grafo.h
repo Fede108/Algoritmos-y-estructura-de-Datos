@@ -25,6 +25,7 @@ public:
     void mostrarCaminos();    
     void matrizPesos();
     void Floyd();
+    void copiarGrafo();
 };
 
 #endif

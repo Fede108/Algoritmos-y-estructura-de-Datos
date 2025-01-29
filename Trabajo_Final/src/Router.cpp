@@ -93,7 +93,7 @@ void Router::reenvio(){   // envio paquete al vecino
             p = listaVecinos.get(i)->colaDeEspera->tope();
  
         //   cout << "\n ID: "<< p->pagina->id <<"\n Nro: "<<p->nroPaquete<<"\n Ruta: "<< this->ip.to_ulong() << " -> "<<listaVecinos.get(i)->router->ip.to_ulong()<< " \n";
-        //    cout<<" Origen: "<< p->pagina->origen.operator&=(0xFF).to_ulong()<< " -> "<<"Destino: "<<p->pagina->getByteLSB()<<"\n";
+        //   cout<<" Origen: "<< p->pagina->origen.operator&=(0xFF).to_ulong()<< " -> "<<"Destino: "<<p->pagina->getByteLSB()<<"\n";
 
             listaVecinos.get(i)->colaDeEspera->desencolar();
             listaVecinos.get(i)->router->recibirPaquete(p);    
