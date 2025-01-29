@@ -14,6 +14,7 @@ private:
 public:
     void crearGrafo(int n, int N, int a, int t);
     void simular();
+    void crearNuevaPagina();
     void generarDOT();
 };
 

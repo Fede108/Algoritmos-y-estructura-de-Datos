@@ -40,24 +40,18 @@ void Administrador::crearGrafo(int N, int K, int a, int t){
 
 void Administrador::simular(){
     bool sigue = true;
-    grafo->matrizPesos();
-    grafo->Floyd();
-    grafo->mostrarGrafo();
     srand(time(0));
-    bitset<8>  h = rand() % grafo->t;
-    bitset<8>  l = rand() % grafo->N;
-    bitset<16> destino( (h.to_ulong()<<8) | l.to_ulong());
-    int tamaño = rand() % 10;
-    int origen = rand() % 4;   // destino 
 //    grafo->nodos.get(origen)->terminal->emitirPagina(destino,tamaño);  // origen, destino y tamaño
 //    grafo->nodos.get(origen)->terminal->emitirPagina(3,tamaño);  // origen
-    grafo->nodos.get(2)->terminal->emitirPagina(0,10);  // origen
-    grafo->nodos.get(4)->terminal->emitirPagina(1,3);
-    grafo->nodos.get(3)->terminal->emitirPagina(0,3);
-    grafo->nodos.get(5)->terminal->emitirPagina(2,7);
-    grafo->nodos.get(0)->terminal->emitirPagina(5,6);
-    grafo->nodos.get(7)->terminal->emitirPagina(2,8);
-    grafo->nodos.get(1)->terminal->emitirPagina(6,4);
+//    grafo->nodos.get(2)->terminal->emitirPagina(0,10);  // origen
+//    grafo->nodos.get(4)->terminal->emitirPagina(1,3);
+//    grafo->nodos.get(3)->terminal->emitirPagina(0,3);
+//    grafo->nodos.get(5)->terminal->emitirPagina(2,7);
+//    grafo->nodos.get(0)->terminal->emitirPagina(5,6);
+//    grafo->nodos.get(7)->terminal->emitirPagina(2,8);
+//    grafo->nodos.get(1)->terminal->emitirPagina(6,4);
+        grafo->nodos.get(2)->terminal->emitirPagina(1,5);
+        grafo->nodos.get(3)->terminal->emitirPagina(1,3);
     grafo->matrizPesos();
     grafo->Floyd();
     int ciclos = 0;
@@ -65,28 +59,39 @@ void Administrador::simular(){
     generarDOT();
     while (sigue)
     {  
+        
         for (int i = 0; i < grafo->N; i++)
-       {
-            grafo->nodos.get(i)->reenvio();
-       }
+        {
+         grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
+        }
         for (int i = 0; i < grafo->N; i++)
-       {
-            grafo->nodos.get(i)->recepcion();
-       }
-       grafo->matrizPesos();
-       grafo->mostrarCaminos();
-       generarDOT();
-       if(ciclos==1){
-            ciclos = 0;
-            grafo->Floyd();
-       } else{  ciclos++;}
+        {
+          grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente
+        }
+        grafo->matrizPesos();
+        grafo->mostrarCaminos();
+        generarDOT();
+
+        if (ciclos%2) grafo->Floyd();
+        if (++ciclos == 50) sigue = false;
+    }
+}
+
+void Administrador::crearNuevaPagina(){
+     if (rand() % 100 < 80) { // 80% de probabilidad
+            int origen     =  rand() % grafo->N;       // Nodo origen aleatorio
+            bitset<8> h_ip = rand() %  grafo->t;  // Parte alta de la IP destino
+            bitset<8> l_ip = rand() %  grafo->N;;       // Parte baja de la IP destino
+            int tamaño     = (rand() % 10) + 1; // Tamaño aleatorio (1 a 10)
+            bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
+            grafo->nodos.get(origen)->terminal->emitirPagina(destino, tamaño);
     }
 }
 
 int main() {
-    int N = 8; // numero de nodos
+    int N = 5; // numero de nodos
     int K = 2; // conexiones por nodo
-    int A = 4; // ancho de banda 
+    int A = 2; // ancho de banda 
     int t = 2; // numero de terminales por nodo
     Administrador* ad = new Administrador();
     ad->crearGrafo(N,K,A,t);
@@ -94,9 +99,3 @@ int main() {
 
     return 0;
 } 
-
-/*// Solicitar entrada al usuario
-        char opcion;
-        cout << "¿Desea continuar con la simulación? (s/n): ";
-        cin >> opcion;
-        sigue = (opcion == 's' || opcion == 'S'); // Continuar si se ingresa 's' o 'S'*/

@@ -6,6 +6,7 @@
 class Router;
 struct Pagina;
 
+
 struct Paquete
 {
    Pagina *pagina;
@@ -15,18 +16,12 @@ struct Paquete
 class Pagina
 {
 public:
-    Paquete* arr;  
     int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina 
     bitset<16> destino  = 0;
-    bitset<16> origen    = 0;
+    bitset<16> origen   = 0;
     int id = 0;
     
-    Pagina(int tamaño) : tamaño(tamaño){
-        arr = new Paquete[tamaño];
-    }
-    ~Pagina() {
-        delete[] arr; 
-    }
+    Pagina(int tamaño) : tamaño(tamaño){}
     
     int getByteMSB(){
         return ((destino.to_ulong() >> 8) & 0xFF);

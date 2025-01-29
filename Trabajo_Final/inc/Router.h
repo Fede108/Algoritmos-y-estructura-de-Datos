@@ -22,6 +22,7 @@ public:
     int A = 0; // ancho de banda
     int t;      // cantidad de terminales
     Terminal* terminal;
+    
     Router(int n, int A, int t, int* &tabla) : ip(n), A(A), t(t){ 
         tablaRuta = tabla;
         procesarPagina  = new Lista<Paquete*>();
@@ -32,20 +33,21 @@ public:
             terminales.add(terminal->ip.to_ulong(),terminal);
         }   
     };
+
     ~Router() {
         delete[] tablaRuta; 
         delete procesarPagina; 
         delete procesarVecinos;
     }
+
     void agregarNodoAdyacente(Router* nodo);
     void impre();
     int tamañoCola(int n);
     void recibirPagina(Pagina* Pagina);
     void recibirPaquete(Paquete* Paquete);
-    void enviarCola(Lista<Paquete*> *paquetesPagina, Lista<Paquete*> *paquetesVecinos);
-    void enviarPaquete();
-    void reenvio(){ enviarPaquete();};
-    void recepcion(); 
+    void enviarColaEspera(Lista<Paquete*> *paquetesPagina, Lista<Paquete*> *paquetesVecinos);
+    void reenvio();
+    void procesamiento(); 
     int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
 }; 

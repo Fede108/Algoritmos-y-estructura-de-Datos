@@ -47,6 +47,7 @@ Grafo::Grafo(int N, int K, int a, int t) : matriz(nullptr), N(N), a(a), K(K), t(
             agregarArco(i, siguiente);
         }
     }
+    // creo el grafo con una matriz, algoritmo de dfs sirve para ver conexiones?
 }
 
 void Grafo::agregarArco(int n, int m) {
