@@ -48,7 +48,7 @@ public:
     void procesamiento(); 
     int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
-    void imprimirRuta();
+    void imprimirRuta(int destino);
 }; 
 
 #endif

@@ -70,33 +70,22 @@ void Administrador::crearRed(string cfg){
 void Administrador::simular(){
     bool sigue = true;
     srand(time(0));
-//    grafo->nodos.get(origen)->terminal->emitirPagina(destino,tamaño);  // origen, destino y tamaño
-//    grafo->nodos.get(origen)->terminal->emitirPagina(3,tamaño);  // origen
-//    grafo->nodos.get(2)->terminal->emitirPagina(0,10);  // origen
-//    grafo->nodos.get(4)->terminal->emitirPagina(1,3);
-//    grafo->nodos.get(3)->terminal->emitirPagina(0,3);
-//    grafo->nodos.get(5)->terminal->emitirPagina(2,7);
-//    grafo->nodos.get(0)->terminal->emitirPagina(5,6);
-//    grafo->nodos.get(7)->terminal->emitirPagina(2,8);
-//    grafo->nodos.get(1)->terminal->emitirPagina(6,4);
-// cout << "\n -- PAGINAS EMITIDAS-- \n";
-//        grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
-//        grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
-//        grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
-    grafo->mostrarGrafo();
     grafo->matrizPesos();
     grafo->Floyd();
+    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
     int ciclos = 0;
     generarDOT();
     while (sigue)
     {   
         cout << "\n -----------------------------CICLO SIMULACION "<< ciclos<<" ------------------------------------------------- \n";
         grafo->matrizPesos();
+        if (ciclos%2) grafo->Floyd();
         grafo->mostrarCaminos();
-    //   cout << "\n -- PAGINAS EMITIDAS-- \n";
+        generarDOT();
+        cout << "\n -- PAGINAS EMITIDAS-- \n";
         crearNuevaPagina();
-        crearNuevaPagina();
-    //    cout << "\n -- PAQUETES ENVIADOS-- \n";
+        cout << "\n -- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
@@ -104,19 +93,16 @@ void Administrador::simular(){
         for (int i = 0; i < grafo->N; i++)
         {
           grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente
-        }
-        // grafo->matrizPesos();
-        // grafo->mostrarCaminos();
-        generarDOT();
-      //  if (ciclos%2)
-         grafo->matrizPesos();
-         grafo->Floyd();
+        } 
         if (++ciclos == 50) sigue = false;
     }
 }
 
 void Administrador::crearNuevaPagina(){
-     if (rand() % 100 < 40) { // 40% de probabilidad
+     
+    //        grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
+    //        grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
+    /* if (rand() % 100 < 40) { // 40% de probabilidad
             int origenR     =  rand() % grafo->N;       // Nodo origen aleatorio
             int origenT     =  rand() % grafo->t;       // Terminal origen aleatorio
             bitset<8> h_ip  =  rand() % grafo->t;      // Parte alta de la IP destino
@@ -124,7 +110,7 @@ void Administrador::crearNuevaPagina(){
             int tamaño      = (rand() % 10) + 1;         // Tamaño aleatorio (1 a 10)
             bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
             grafo->nodos.get(origenR)->terminales.get(origenT)->emitirPagina(destino, tamaño);      
-    }
+    }*/
 }
 
 int main() {
@@ -136,4 +122,15 @@ int main() {
     ad->crearRed("cfg.txt");
     ad->simular();
     return 0;
-} 
+}
+
+
+
+//    grafo->nodos.get(origen)->terminal->emitirPagina(destino,tamaño);  // origen, destino y tamaño
+//    grafo->nodos.get(origen)->terminal->emitirPagina(3,tamaño);  // origen
+//    grafo->nodos.get(2)->terminal->emitirPagina(0,10);  // origen
+//    grafo->nodos.get(4)->terminal->emitirPagina(1,3);
+//    grafo->nodos.get(3)->terminal->emitirPagina(0,3);
+//    grafo->nodos.get(5)->terminal->emitirPagina(2,7);
+//    grafo->nodos.get(0)->terminal->emitirPagina(5,6);
+//    grafo->nodos.get(7)->terminal->emitirPagina(2,8);
