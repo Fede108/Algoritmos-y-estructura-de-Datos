@@ -12,7 +12,7 @@ class Administrador
 private:
     Grafo *grafo;
 public:
-    void crearGrafo(int n, int N, int a, int t);
+    void crearRed(string archivo);
     void simular();
     void crearNuevaPagina();
     void generarDOT();

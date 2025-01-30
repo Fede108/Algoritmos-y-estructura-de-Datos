@@ -1,7 +1,7 @@
 #include "../inc/Tree.h"
 #include "../inc/Router.h"
 
-nodo::nodo(Router* router) : router(router)
+nodo::nodo(Router* router, int anchoBanda) : router(router), anchoBanda(anchoBanda)
 {
     colaDeEspera = new Cola<Paquete*>();
 }
@@ -29,20 +29,20 @@ void arbol:: ird(nodo *aux)
     }
 }
 
-void arbol::agregarNodo(Router* router)
+void arbol::agregarNodo(Router* router, int anchoBanda)
 {
-    ArbolBusq(router, raiz);
+    ArbolBusq(router, raiz, anchoBanda);
 }
  
-void arbol::ArbolBusq(Router* router, nodo*& nuevo)
+void arbol::ArbolBusq(Router* router, nodo*& nuevo, int anchoBanda)
 {
     if (nuevo == NULL) {
-        nuevo = new nodo(router);
+        nuevo = new nodo(router, anchoBanda);
         nuevo->der = nuevo->izq = NULL;
         return;
     }
-    if (router->ip.to_ulong() > nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->der);
-    if (router->ip.to_ulong() < nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->izq);
+    if (router->ip.to_ulong() > nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->der, anchoBanda);
+    if (router->ip.to_ulong() < nuevo->router->ip.to_ulong()) ArbolBusq(router, nuevo->izq, anchoBanda);
 }
 
 nodo* arbol::busca(nodo* aux, unsigned long x)

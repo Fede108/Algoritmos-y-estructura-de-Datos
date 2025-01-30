@@ -17,21 +17,22 @@ public:
     Cola<Paquete*> *colaDeEspera;
     Router* router;
     int cantEnviados = 0;
-    nodo (Router* router);
+    int anchoBanda;
+    nodo (Router* router, int anchoBanda);
     ~nodo();
 };
 
 class arbol {
 private:
     nodo* raiz;
-    void ArbolBusq(Router* router, nodo*& nuevo);
+    void ArbolBusq(Router* router, nodo*& nuevo, int anchoBanda);
     nodo* busca(nodo* aux, unsigned long x);
     void ird(nodo* A);
     void recorridoTransversal(nodo* n, Vector<nodo*> *r );
 public:
     arbol() { raiz = NULL; }
     ~arbol() {}
-    void agregarNodo(Router* router);
+    void agregarNodo(Router* router, int anchoBanda);
     nodo* buscar(int x) { return busca(raiz, x);}
     void IRD(){ird(raiz);}    // recorrido inorden del arbol  
     Vector<nodo*> listar() {

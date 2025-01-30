@@ -19,10 +19,9 @@ private:
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
     bitset<8> ip; // nro de router
-    int A = 0; // ancho de banda
     int t;      // cantidad de terminales
     
-    Router(int n, int A, int t, int* &tabla) : ip(n), A(A), t(t){ 
+    Router(int n, int t, int* &tabla) : ip(n), t(t){ 
         tablaRuta = tabla;
         procesarPagina  = new Lista<Paquete*>();
         procesarVecinos = new Lista<Paquete*>();
@@ -38,9 +37,10 @@ public:
         delete procesarVecinos;
     }
 
-    void agregarNodoAdyacente(Router* nodo);
+    void agregarNodoAdyacente(Router* nodo, int anchoBanda);
     void impre();
     int tamañoCola(int n);
+    int anchoBanda(int n);
     void recibirPagina(Pagina* Pagina);
     void recibirPaquete(Paquete* Paquete);
     void enviarColaEspera(Lista<Paquete*> *paquetesPagina, Lista<Paquete*> *paquetesVecinos);
