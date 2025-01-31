@@ -72,28 +72,29 @@ void Administrador::simular(){
     srand(time(0));
     grafo->matrizPesos();
     grafo->Floyd();
-    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+ //   grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
     grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
     int ciclos = 0;
     generarDOT();
     while (sigue)
     {   
         cout << "\n -----------------------------CICLO SIMULACION "<< ciclos<<" ------------------------------------------------- \n";
-        grafo->matrizPesos();
-        if (ciclos%2) grafo->Floyd();
         grafo->mostrarCaminos();
-        generarDOT();
         cout << "\n -- PAGINAS EMITIDAS-- \n";
         crearNuevaPagina();
-        cout << "\n -- PAQUETES ENVIADOS-- \n";
+        cout << "\n -- PAGINAS RECIBIDAS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
         }
+        cout << "\n -- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
           grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente
         } 
+        grafo->matrizPesos();
+        generarDOT();
+        if (ciclos%2) grafo->Floyd();
         if (++ciclos == 50) sigue = false;
     }
 }

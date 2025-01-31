@@ -53,10 +53,6 @@ void Router::recibirPaquete(Paquete* paquete){ // recibo paquete del vecino
 }
 
 void Router :: procesamiento(){
-    Vector<nodo*> listaVecinos = vecinos.listar();
-    for (int i = 0; i < listaVecinos.size(); i++)
-    {   listaVecinos.get(i)->cantEnviados = 0;
-    }
     enviarColaEspera(procesarPagina, procesarVecinos);
 }
 
@@ -72,7 +68,8 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
             if (vecino->cantEnviados < vecino->anchoBanda){    // envio paginas segun ancho banda para intercalar con demas maquinas
                 vecino->colaDeEspera->encolar(p);
                 this->procesarPagina->borrarDato(p);
-                vecino->cantEnviados++; 
+                vecino->cantEnviados++;
+                imprimirSalida(p); 
             }      
         }
         if(!procesarVecinos->esvacia()){   Paquete* p = procesarVecinos->cabeza();  procesarVecinos = procesarVecinos->resto(); // sigo con el resto de los paquetes 
@@ -80,7 +77,8 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
             destino = calcularDestino(p->pagina->getByteLSB());    // encuentro el camino optimo
             nodo* vecino  = vecinos.buscar(destino);
             vecino->colaDeEspera->encolar(p);
-            this->procesarVecinos->borrarDato(p); 
+            this->procesarVecinos->borrarDato(p);
+            imprimirSalida(p);  
         } 
     }
 }
@@ -94,13 +92,10 @@ void Router::reenvio(){   // envio paquete al vecino
         while (!listaVecinos.get(i)->colaDeEspera->esvacia() && a++ < listaVecinos.get(i)->anchoBanda)   // mientras la cola de espera tenga paquetes y no se llene ancho banda
         {
             p = listaVecinos.get(i)->colaDeEspera->tope();
-            cout << "\n ID: "<< p->pagina->id <<"\n Nro paq: "<<p->nroPaquete<<"\n Ruta: "<< this->ip.to_ulong();
-            imprimirRuta(p->pagina->getByteLSB());
-            cout<<"\n Origen: "<< p->pagina->origen.operator&=(0xFF).to_ulong()<< " -> "<<"Destino: "<<p->pagina->getByteLSB()<<"\n";
-
             listaVecinos.get(i)->colaDeEspera->desencolar();
-            listaVecinos.get(i)->router->recibirPaquete(p);    
+            listaVecinos.get(i)->router->recibirPaquete(p);   
         }
+        listaVecinos.get(i)->cantEnviados = 0; // reinicio para el siguiente ciclo
     }
 }  
 
@@ -113,15 +108,22 @@ int Router::calcularDestino(int destino){
     return calcularDestino(destino);  // recursion hasta encontrar un vecino directo
 }
 
-void Router::imprimirRuta(int destino){
-    if(destino != tablaRuta[destino]){
-        imprimirRuta(tablaRuta[destino]);  // recursion hasta encontrar un vecino directo
-        cout<<" -> "<<destino;
+
+void Router::imprimirSalida(Paquete* p){
+    cout << "\n ID: "<< p->pagina->id <<"\n Nro paq: "<<p->nroPaquete<<"\n Ruta: "<< this->ip.to_ulong();
+    imprimirRuta(p->pagina->getByteLSB(),this->ip.to_ulong());
+    cout<<"\n Origen: "<< p->pagina->origen.operator&=(0xFF).to_ulong()<< " -> "<<"Destino: "<<p->pagina->getByteLSB()<<"\n";
+}
+
+void Router::imprimirRuta(int destino, int origen){
+    if(destino == caminos[origen][destino]){
+        // recursion hasta encontrar un vecino directo
+        cout<<" -> "<<destino;   
         return;  // si el destino es un vecino directo, retorna el destino 
     }
-    cout<<" -> "<<destino;
+    cout<<" -> "<<caminos[origen][destino];
+    imprimirRuta(destino,caminos[origen][destino]); 
     return; 
-    
 }
 
 void Router :: agregarNodoAdyacente(Router* router, int anchoBanda){

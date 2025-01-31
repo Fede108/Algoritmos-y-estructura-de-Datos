@@ -21,7 +21,7 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
     }
     // crea lista de adyacencia 
     for (int i = 0; i < N; i++) {
-        nodos.push( new Router(i, t, cf[i])); 
+        nodos.push(new Router(i, t, cf[i], cf)); 
     }
     // creo el grafo con una matriz, algoritmo de dfs sirve para ver conexiones?
     for (int i = 0; i < N; i++){

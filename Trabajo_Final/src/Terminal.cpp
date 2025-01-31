@@ -15,7 +15,7 @@ void Terminal :: emitirPagina(bitset<16> destino, int tamaño){   // emite una n
 void Terminal :: recibirPagina(Paquete* arreglo){   // recibe la pagina en paquetes
     if (pagina != nullptr) delete pagina;
     pagina = arreglo->pagina;
-    cout << " !! PAGINA RECIBIDA -- ID: "<< arreglo->pagina->id << 
+    cout << "\n ID: "<< arreglo->pagina->id << 
     " Tamaño: "<< arreglo->pagina->tamaño <<" [" ;
     for (int i = 0; i < pagina->tamaño; i++){
         cout<<" "<<arreglo[i].nroPaquete<<" ";

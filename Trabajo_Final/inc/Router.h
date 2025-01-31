@@ -16,12 +16,13 @@ private:
     Lista<Paquete*> *procesarPagina;    
     Lista<Paquete*> *procesarVecinos;  
     int *tablaRuta;
+    int **caminos;   // para poder imprimir la ruta completa
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
     bitset<8> ip; // nro de router
     int t;      // cantidad de terminales
     
-    Router(int n, int t, int* &tabla) : ip(n), t(t){ 
+    Router(int n, int t, int* &tabla ,int** &caminos) : ip(n), t(t), caminos(caminos){ 
         tablaRuta = tabla;
         procesarPagina  = new Lista<Paquete*>();
         procesarVecinos = new Lista<Paquete*>();
@@ -48,7 +49,8 @@ public:
     void procesamiento(); 
     int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
-    void imprimirRuta(int destino);
+    void imprimirRuta(int destino, int origen);
+    void imprimirSalida(Paquete* p);
 }; 
 
 #endif
