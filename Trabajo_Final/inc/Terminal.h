@@ -2,6 +2,7 @@
 #define TERMINAL_H
 #include "Cola1.h"
 #include <bitset>
+#include <cstdint>
 
 class Router;
 struct Pagina;
@@ -15,7 +16,7 @@ struct Paquete
 class Pagina
 {
 public:
-    int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina
+    int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina 
     Paquete* paquetes; 
     bitset<16> destino  = 0;
     bitset<16> origen   = 0;
@@ -23,12 +24,19 @@ public:
     
     Pagina(int tamaño) : tamaño(tamaño){ paquetes = new Paquete;}
     
-    int getByteMSB(){
+    int getTermDestino(){
         return ((destino.to_ulong() >> 8) & 0xFF);
     };
-    int getByteLSB(){
+    int getRoutDestino(){
         return (destino.to_ulong() & 0xFF);
     };
+    int getTermOrigen(){
+        return ((origen.to_ulong() >> 8) & 0xFF);
+    };
+    int getRoutOrigen(){
+        return (origen.to_ulong() & 0xFF);
+    };
+
 };
 
 class Terminal
@@ -37,9 +45,9 @@ private:
     int nroPagina = 0;
     Router* router;
 public:
-    bitset<8> ip; // nro de terminal
+    int ip; // nro de terminal
     Pagina* pagina = nullptr;
-    Terminal(Router* router, bitset<8> n): router(router), ip(n){};
+    Terminal(Router* router, int n): router(router), ip(n){};
     ~Terminal(){delete pagina;};
     void emitirPagina(bitset<16> destino, int tamaño);
     void recibirPagina(Pagina* p);

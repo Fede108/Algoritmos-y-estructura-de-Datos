@@ -14,12 +14,14 @@ private:
     arbol vecinos;   // arbol binario con punteros a los router vecinos
     Hash<Lista<Paquete*>*>  bufferPaginas; // estructura para almacenar las paginas de las terminales
     Lista<Paquete*> *procesarPagina;    
-    Lista<Paquete*> *procesarVecinos;  
+    Lista<Paquete*> *procesarVecinos;                               // PORQUE COMO PUNTERO?? en lista y objeto
+    Hash<nodo*> vecinosEncolados;   
+    Cola<int> idEncolados;
     int *tablaRuta;
     int **caminos;   // para poder imprimir la ruta completa
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
-    bitset<8> ip; // nro de router
+    int ip; // nro de router
     int t;        // cantidad de terminales
     
     Router(int n, int t, int* &tabla ,int** &caminos) : ip(n), t(t), caminos(caminos){ 

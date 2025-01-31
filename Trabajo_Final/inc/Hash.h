@@ -42,7 +42,7 @@ public:
 template <class T> bool Hash<T>::esta(int id){
     int i = fh(id);
     if  ( D[i] != nullptr) {
-         Lista<HashEntry<T>*>* aux = D[i];
+        Lista<HashEntry<T>*>* aux = D[i];
         while (!aux->esvacia())
         {
             if(aux->cabeza()->key == id){
@@ -91,10 +91,15 @@ template <class T> T Hash<T>::get(int id){
 
 template <class T> void Hash<T>::add(int id, T p) {
     int i = fh(id);
-     if (D[i] == nullptr) {
-         D[i] = new Lista<HashEntry<T>*>;
+    if (D[i] == nullptr) {
+        D[i] = new Lista<HashEntry<T>*>;
+    } 
+    else  // recorro la lista buscando elemento 
+    {
+        if(! esta(id) ) D[i]->add( new HashEntry(id, p));
+        else // si ya se encuentra no lo agrego 
     }
-        D[i]->add( new HashEntry(id, p)); 
+         
 }
 
 template <class T>
