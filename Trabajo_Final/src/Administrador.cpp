@@ -27,7 +27,6 @@ void Administrador::generarDOT(){
       }
         
     }
-
     archivo << "}\n";
     //archivo.close();
     }
@@ -72,7 +71,7 @@ void Administrador::simular(){
     srand(time(0));
     grafo->matrizPesos();
     grafo->Floyd();
- //   grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
     grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
     int ciclos = 0;
     generarDOT();
@@ -80,14 +79,14 @@ void Administrador::simular(){
     {   
         cout << "\n -----------------------------CICLO SIMULACION "<< ciclos<<" ------------------------------------------------- \n";
         grafo->mostrarCaminos();
-        cout << "\n -- PAGINAS EMITIDAS-- \n";
+
         crearNuevaPagina();
-        cout << "\n -- PAGINAS RECIBIDAS-- \n";
+    //    cout << "\n -- PAGINAS RECIBIDAS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
         }
-        cout << "\n -- PAQUETES ENVIADOS-- \n";
+    //    cout << "\n \n-- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
           grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente
@@ -115,10 +114,6 @@ void Administrador::crearNuevaPagina(){
 }
 
 int main() {
-    int N = 4; // numero de nodos
-    int K = 2; // conexiones por nodo
-    int A = 2; // ancho de banda 
-    int t = 2; // numero de terminales por nodo
     Administrador* ad = new Administrador();
     ad->crearRed("cfg.txt");
     ad->simular();

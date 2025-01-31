@@ -15,12 +15,13 @@ struct Paquete
 class Pagina
 {
 public:
-    int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina 
+    int tamaño;     // el tamaño es la cantidad de paquetes que forman la pagina
+    Paquete* paquetes; 
     bitset<16> destino  = 0;
     bitset<16> origen   = 0;
     int id = 0;
     
-    Pagina(int tamaño) : tamaño(tamaño){}
+    Pagina(int tamaño) : tamaño(tamaño){ paquetes = new Paquete;}
     
     int getByteMSB(){
         return ((destino.to_ulong() >> 8) & 0xFF);
@@ -41,7 +42,6 @@ public:
     Terminal(Router* router, bitset<8> n): router(router), ip(n){};
     ~Terminal(){delete pagina;};
     void emitirPagina(bitset<16> destino, int tamaño);
-    void recibirPagina(Paquete* arr);
     void recibirPagina(Pagina* p);
 };
 

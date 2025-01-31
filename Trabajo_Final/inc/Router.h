@@ -20,7 +20,7 @@ private:
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
     bitset<8> ip; // nro de router
-    int t;      // cantidad de terminales
+    int t;        // cantidad de terminales
     
     Router(int n, int t, int* &tabla ,int** &caminos) : ip(n), t(t), caminos(caminos){ 
         tablaRuta = tabla;
@@ -49,8 +49,8 @@ public:
     void procesamiento(); 
     int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
-    void imprimirRuta(int destino, int origen);
-    void imprimirSalida(Paquete* p);
+    void ruta(int destino, int origen);
+    void imprimirRuta(Paquete* p);
 }; 
 
 #endif

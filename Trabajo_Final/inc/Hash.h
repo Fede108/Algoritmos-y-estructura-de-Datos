@@ -34,7 +34,7 @@ public:
     }
     void add(int id, T p);
     int fh(int id);
-    T get(int id);
+    T get (int id);
     void borrar(int id);
     bool esta(int id);
 };

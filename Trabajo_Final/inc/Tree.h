@@ -16,7 +16,7 @@ public:
     nodo* der, * izq;
     Cola<Paquete*> *colaDeEspera;
     Router* router;
-    int cantEnviados = 0;
+    int paqPagRecibidas = 0;
     int anchoBanda;
     nodo (Router* router, int anchoBanda);
     ~nodo();
