@@ -112,7 +112,10 @@ void Router::reenvio(){   // envio paquete al vecino
             Paquete *p = vecino->getTope();
 
             cout << " [Router " << vecino->router->ip << "] <- [Router " << this->ip << "] | " << "[ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete
-                 << " | Origen: " << p->pagina->getRoutOrigen()<< " | Destino: " << p->pagina->getRoutDestino() << "\n";
+                 << " | AnchoBanda: " << paquetesEnviados << "/" << vecino->anchoBanda 
+                 << " (Faltan: " << vecino->colaDeEspera->size() << ")"
+                 << " | Origen: " << p->pagina->getRoutOrigen()<< " | Destino: " << p->pagina->getRoutDestino() 
+                 << "\n";
 
             vecino->router->recibirPaquete(p);
             if(vecino->colaDeEspera->esvacia())  vecinosEncolados.borrar(vecino->router->ip);    
@@ -131,32 +134,35 @@ int Router::calcularDestino(int destino){
 
 void Router::imprimirRuta(Paquete* p) {
     cout << " [ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete << " | Ruta: " << this->ip;
-    ruta(p->pagina->getRoutDestino(), this->ip);
+    int totalciclos = ruta(p->pagina->getRoutDestino(), this->ip);
+    cout << " | Total: "<<totalciclos<< " ciclos";
     cout << " | Origen: " <<  p->pagina->getRoutOrigen() 
          << " | Destino: " << p->pagina->getRoutDestino();
 }
 
-void Router::ruta(int destino, int origen) {
+int Router::ruta(int destino, int origen) {
+    int total;
+    total = ciclos[origen][caminos[origen][destino]];
     if (destino == caminos[origen][destino]) {
-        cout << " → " << destino;
-        return;
+        cout <<  " → " << destino <<" ("<< ciclos[origen][caminos[origen][destino]] << ")";
+        return total;
     }
-    cout << " → " << caminos[origen][destino];
-    ruta(destino, caminos[origen][destino]);
+    cout  << " → " << caminos[origen][destino] << " ("<< ciclos[origen][caminos[origen][destino]] << ") " << caminos[origen][destino];
+    return total + ruta(destino, caminos[origen][destino]);
 }
 
 void Router :: agregarNodoAdyacente(Router* router, int anchoBanda){
     vecinos.agregarNodo(router, anchoBanda);
 }
 
-int Router :: tamañoCola(int n) {
-    if (!vecinos.buscar(n)) return INFI;
-    return vecinos.buscar(n)->colaDeEspera->size(); 
+int* Router :: tamañoCola(int ip) {
+    if (!vecinos.buscar(ip)) return nullptr
+    return vecinos.buscar(ip)->getColaSize(); 
 }
 
-int Router :: anchoBanda(int n) {
-    if (!vecinos.buscar(n)) return INFI;
-    return vecinos.buscar(n)->anchoBanda; 
+int Router :: anchoBanda(int ip) {
+    if (!vecinos.buscar(ip)) return INFI;
+    return vecinos.buscar(ip)->anchoBanda; 
 }
 
 void Router :: impre(){

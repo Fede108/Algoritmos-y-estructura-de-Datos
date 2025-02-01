@@ -18,12 +18,13 @@ private:
     Hash<nodo*> vecinosEncolados;   
     int *tablaRuta;
     int **caminos;   // para poder imprimir la ruta completa
+    int **ciclos;    // para poder imprimir costos de la ruta
 public:
     Hash<Terminal*> terminales;   // terminales conectadas al router
     int ip;  // nro de router
     int t;   // cantidad de terminales
     
-    Router(int n, int t, int* &tabla ,int** &caminos) : ip(n), t(t), caminos(caminos){ 
+    Router(int n, int t, int* &tabla ,int** &caminos, int** &ciclos) : ip(n), t(t), caminos(caminos), ciclos(ciclos){ 
         tablaRuta = tabla;
         for (int i = 0; i < t; i++)
         {
@@ -37,7 +38,7 @@ public:
 
     void agregarNodoAdyacente(Router* nodo, int anchoBanda);
     void impre();
-    int tamañoCola(int n);
+    int* tamañoCola(int n);
     int anchoBanda(int n);
     void recibirPagina(Pagina* Pagina);
     void recibirPaquete(Paquete* Paquete);
@@ -47,8 +48,9 @@ public:
     void procesamiento(); 
     int calcularDestino(int destino);
     void almacenar(Paquete* paquete);
-    void ruta(int destino, int origen);
+    int ruta(int destino, int origen);
     void imprimirRuta(Paquete* p);
+
 
 }; 
 

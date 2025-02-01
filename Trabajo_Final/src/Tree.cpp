@@ -12,7 +12,12 @@ nodo::~nodo()
 Paquete* nodo::getTope(){
     Paquete* p = colaDeEspera->tope();
     colaDeEspera->desencolar();
+    colaSize = colaDeEspera->size();
     return p;
+}
+
+int* nodo::getColaSize(){
+    return &colaSize;
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -50,11 +55,11 @@ void arbol::ArbolBusq(Router* router, nodo*& nuevo, int anchoBanda)
     if (router->ip < nuevo->router->ip) ArbolBusq(router, nuevo->izq, anchoBanda);
 }
 
-nodo* arbol::busca(nodo* aux, unsigned long x)
+nodo* arbol::busca(nodo* aux, int ip)
 {
     if (aux == NULL) return NULL;
-    else if (x == aux->router->ip) return aux;
-    else if (x > aux->router->ip)  return busca(aux->der, x);
-    else if (x < aux->router->ip)  return busca(aux->izq, x);
+    else if (ip == aux->router->ip) return aux;
+    else if (ip > aux->router->ip)  return busca(aux->der, ip);
+    else if (ip < aux->router->ip)  return busca(aux->izq, ip);
     return aux;
 }

@@ -77,15 +77,18 @@ void Administrador::simular(){
     generarDOT();
     while (sigue)
     {   
-        cout << "\n ---------------------------------CICLO SIMULACION "<< ciclos<<" ----------------------------------------------- \n";
+        cout << "\n ================================= CICLO SIMULACION "<< ciclos<< " ================================== \n";
         grafo->mostrarCaminos();
 
         crearNuevaPagina();
-        cout << "\n -- PAQUETES RECIBIDOS-- \n\n";
+        cout << "\n-----------------\n\n -- PAQUETES RECIBIDOS-- \n\n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
         }
+        grafo->matrizPesos();
+        grafo->mostrarCaminos();
+        
         cout << " -----------------\n \n-- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
