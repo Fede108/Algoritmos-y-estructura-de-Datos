@@ -81,12 +81,12 @@ void Administrador::simular(){
         grafo->mostrarCaminos();
 
         crearNuevaPagina();
-        cout << "\n -- PAQUETES RECIBIDOS-- \n";
+        cout << "\n -- PAQUETES RECIBIDOS-- \n\n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
         }
-        cout << "\n -----------------\n \n-- PAQUETES ENVIADOS-- \n";
+        cout << " -----------------\n \n-- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
           grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente

@@ -9,6 +9,11 @@ nodo::~nodo()
 {
     delete colaDeEspera;
 }
+Paquete* nodo::getTope(){
+    Paquete* p = colaDeEspera->tope();
+    colaDeEspera->desencolar();
+    return p;
+}
 
 //---------------------------------------------------------------------------------------------------------
 

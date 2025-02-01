@@ -20,6 +20,7 @@ public:
     int anchoBanda;
     nodo (Router* router, int anchoBanda);
     ~nodo();
+    Paquete* getTope();  // devuelve el tope de la colaDeEspera y la desencola
 };
 
 class arbol {

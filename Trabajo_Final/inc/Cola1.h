@@ -25,7 +25,8 @@ public:
 };
 
 template <class T> class Lista {
-private: Nodo<T>* czo;
+private: 
+       Nodo<T>* czo;
        void addO(T d, Nodo<T>* ant);
        void borrarD(T d, Nodo<T>* ant);
 public:
