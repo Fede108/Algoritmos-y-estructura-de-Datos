@@ -9,8 +9,11 @@ struct Pagina;
 
 struct Paquete
 {
-   Pagina *pagina;
-   int nroPaquete  = 0;
+    Pagina *pagina;
+    int nroPaquete  = 0;
+    friend bool operator<(Paquete p1, Paquete p2) {
+        return p1.nroPaquete < p2.nroPaquete;
+    }
 };
 
 class Pagina
@@ -25,7 +28,7 @@ public:
     Pagina(int tamaño) : tamaño(tamaño){ 
         paquetes = NULL;
     }
-    
+    ~Pagina(){ delete paquetes;}
     int getTermDestino(){
         return ((destino.to_ulong() >> 8) & 0xFF);
     };

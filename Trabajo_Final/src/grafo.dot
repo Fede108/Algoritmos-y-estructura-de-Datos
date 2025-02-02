@@ -2,27 +2,27 @@ digraph G {
     edge [color=gray, penwidth=1];
     size="8,8";
     ratio="fill";
-    subgraph cluster_routers {
-        node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
+ subgraph routers {
+ node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
         0 [label="R0"];
         1 [label="R1"];
         2 [label="R2"];
         3 [label="R3"];
         4 [label="R4"];
-    }
-    subgraph cluster_terminales {
-        node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
-        00 [label="T0"];
-        01 [label="T1"];
-        10 [label="T0"];
-        11 [label="T1 [3]"];
-        20 [label="T0 [2]"];
-        21 [label="T1"];
-        30 [label="T0 [65539]"];
-        31 [label="T1"];
-        40 [label="T0"];
-        41 [label="T1"];
-    }
+  }
+ subgraph terminales {
+  node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
+00 [label="T0 [2]"];
+01 [label="T1"];
+10 [label="T0 [3]"];
+11 [label="T1"];
+20 [label="T0"];
+21 [label="T1"];
+30 [label="T0"];
+31 [label="T1"];
+40 [label="T0"];
+41 [label="T1"];
+ }
     0 -> 3 [label="0"];
     0 -> 4 [label="0"];
     1 -> 0 [label="0"];

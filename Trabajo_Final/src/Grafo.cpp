@@ -26,7 +26,7 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
     }
     // crea lista de adyacencia 
     for (int i = 0; i < N; i++) {
-        nodos.push(new Router(i, t, cf[i], cf, A)); 
+        nodos.push(new Router(i, t, cf[i])); 
     }
     // creo el grafo con una matriz
     for (int i = 0; i < N; i++){
@@ -41,12 +41,8 @@ void Grafo :: matrizPesos(){
     {
         for (int y = 0; y < N; y++)
         {
-            if(nodos.get(i)->tamañoCola(y) == INFI){
-                pesos[i][y] = INFI;
-            }
-            else{
-                 pesos[i][y] = nodos.get(i)->tamañoCola(y);
-            }
+            
+            pesos[i][y] = nodos.get(i)->tamañoCola(y);
 
             if(y!=i){
                 if (cf[i][y] == -1) A[i][y] = INFI;  // si no hay camino
@@ -82,7 +78,7 @@ void Grafo::Floyd(){
         for(i=0;i<N;i++){
             for(j=0;j<N;j++){
                             if((A[i][k]+ A[k][j])< A[i][j]){      // si el camino ij es mas corto a traves de k 
-                                    A[i][j]= A[i][k]+ A[k][j];    // actualiza el peso minimo
+                                    A[i][j]= A[i][k]+ A[k][j];    // actualiza el ciclo minimo
                                     cf[i][j]=k;                   // actualiza nodo intermedio en el camino 
                             }   
             }
@@ -143,7 +139,7 @@ void Grafo::mostrarCaminos() {
     }
 }
 
-void Grafo::crearGrafo(){
+/*void Grafo::crearGrafo(){
     // crea el grafo con K conexiones por nodo
     for (int i = 0; i < N; i++) {
         for (int j = 1; j <= K / 2; j++) {
@@ -159,9 +155,9 @@ void Grafo::crearGrafo(){
             agregarArco(i, siguiente);
         }
     }
-}
+} */
 
-void Grafo::agregarArco(int n, int m) {
+/*void Grafo::agregarArco(int n, int m) {
     if (n >= 0 && n < N && m >= 0 && m < N) { 
         if(matriz[n][m] != 0){  // verifica no producir conexiones repetidas
             agregarArco(n,(m+1)%N);
@@ -172,4 +168,4 @@ void Grafo::agregarArco(int n, int m) {
             nodos.get(n)->agregarNodoAdyacente(nodos.get(m),matriz[n][m]);
         }
     }
-}
+}*/

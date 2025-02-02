@@ -10,7 +10,7 @@ nodo::~nodo()
     delete colaDeEspera;
 }
 
-Paquete* nodo::getTope(){
+Paquete* nodo::desencolar(){
     Paquete* p = colaDeEspera->tope();
     colaDeEspera->desencolar();
     colaSize = colaDeEspera->size();

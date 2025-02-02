@@ -12,9 +12,9 @@ class Router
 {
 private:
     arbol vecinos;   // arbol binario con punteros a los router vecinos
-    Hash<Lista<Paquete*>*>  bufferPaginas; // estructura para almacenar las paginas de las terminales
+    Hash<Lista<Paquete>*>  bufferPaginas; // estructura para almacenar las paginas de las terminales
     Lista<Paquete*> procesarPagina;    
-    Lista<Paquete*> procesarVecinos;                               // PORQUE COMO PUNTERO?? en lista 
+    Lista<Paquete*> procesarVecinos;                               
     Hash<nodo*> vecinosEncolados;   
     int *tablaRuta;
 public:
@@ -22,7 +22,7 @@ public:
     int ip;  // nro de router
     int t;   // cantidad de terminales
     
-    Router(int n, int t, int* &tabla ,int** &caminos, int** &ciclos) : ip(n), t(t){ 
+    Router(int n, int t, int* &tabla) : ip(n), t(t){ 
         tablaRuta = tabla;
         for (int i = 0; i < t; i++)
         {

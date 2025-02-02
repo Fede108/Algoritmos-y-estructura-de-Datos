@@ -9,23 +9,23 @@ void Administrador::generarDOT(){
     ofstream archivo("grafo.dot");
     if(archivo.is_open()){
         archivo << "digraph G {\n" << "    edge [color=gray, penwidth=1];\n" << "    size=\"8,8\";\n" << "    ratio=\"fill\";\n";
-        archivo << "    subgraph routers {\n";
-        archivo << "        node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
+        archivo << " subgraph routers {\n";
+        archivo << " node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
             for (int i = 0; i < grafo->N; ++i) {
                     archivo << "        " << i << " [label=\"R" << i << "\"];\n";
             }
-        archivo << "    }\n";
-        archivo << "    subgraph terminales {\n";
-        archivo << "        node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
+        archivo << "  }\n";
+        archivo << " subgraph terminales {\n";
+        archivo << "  node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
         for (int i = 0; i < grafo->N; ++i) {
             for (int k = 0; k < grafo->t; ++k) {
                 if(grafo->nodos.get(i)->terminales.get(k)->pagina)
-                    archivo << "        " << i << k << " [label=\"T" << k << " [" << grafo->nodos.get(i)->terminales.get(k)->pagina->id << "]\"];\n";
+                    archivo << i << k << " [label=\"T" << k << " [" << grafo->nodos.get(i)->terminales.get(k)->pagina->id << "]\"];\n";
                 else
-                    archivo << "        " << i << k << " [label=\"T" << k << "\"];\n";
+                    archivo << i << k << " [label=\"T" << k << "\"];\n";
             }
         }
-        archivo << "    }\n";
+        archivo << " }\n";
 
         for (int i = 0; i < grafo->N; ++i) {
             for (int j = 0; j < grafo->N; ++j) {
@@ -83,13 +83,13 @@ void Administrador::simular(){
     srand(time(0));
     grafo->matrizPesos();
     grafo->Floyd();
-//    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
-//    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
-//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
-//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
-    crearNuevaPagina();
-    crearNuevaPagina();
-    crearNuevaPagina();
+    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
+//    crearNuevaPagina();
+//    crearNuevaPagina();
+//    crearNuevaPagina();
     int ciclos = 0;
     generarDOT();
     while (sigue)
@@ -125,9 +125,9 @@ void Administrador::crearNuevaPagina(){
      if (rand() % 100 < 110) { // 40% de probabilidad
             int origenR     =  rand() % grafo->N;       // Nodo origen aleatorio
             int origenT     =  rand() % grafo->t;       // Terminal origen aleatorio
-            bitset<8> h_ip  =  rand() % grafo->t;      // Parte alta de la IP destino
-            bitset<8> l_ip  =  rand() % grafo->N;;     // Parte baja de la IP destino
-            int tamaño      = (rand() % 10) + 1;         // Tamaño aleatorio (1 a 10)
+            bitset<8> h_ip  =  rand() % grafo->t;       // Parte alta de la IP destino
+            bitset<8> l_ip  =  rand() % grafo->N;;      // Parte baja de la IP destino
+            int tamaño      = (rand() % 10) + 1;        // Tamaño aleatorio (1 a 10)
             bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
             grafo->nodos.get(origenR)->terminales.get(origenT)->emitirPagina(destino, tamaño);      
     }

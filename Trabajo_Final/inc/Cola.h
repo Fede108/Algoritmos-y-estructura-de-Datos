@@ -123,7 +123,7 @@ T Lista<T>::cabeza(void)
 {
     if (this->esvacia()) {
         cout << " Error, Cabeza de lista vacia";
-        return NULL;
+        return T(); 
     }
     return czo->get_dato();
 }

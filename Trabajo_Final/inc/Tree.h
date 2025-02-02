@@ -22,7 +22,7 @@ public:
     int ciclos = 1;
     nodo (Router* router, int anchoBanda);
     ~nodo();
-    Paquete* getTope();  // devuelve el tope de la colaDeEspera y la desencola
+    Paquete* desencolar();  // devuelve el tope de la colaDeEspera y la desencola
     void encolar(Paquete* p);
 };
 

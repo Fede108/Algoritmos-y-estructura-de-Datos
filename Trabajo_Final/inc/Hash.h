@@ -25,7 +25,7 @@ private:
 public:
     Hash() { 
         Max = MAX; 
-        D = new Lista<HashEntry<T>*>*[MAX];
+        D = new Lista<HashEntry<T>*>*[MAX];  
         for (int i = 0; i < Max; i++)
         {
             D[i] = nullptr; 

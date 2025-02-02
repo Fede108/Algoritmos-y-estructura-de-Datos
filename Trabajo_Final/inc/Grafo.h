@@ -16,16 +16,14 @@ public:
     int **matriz;
     int N; // cantidad de routers
     int t; // cantidad de terminales por router
-    int K; // grado del grafo
     Vector<Router*> nodos;
     Grafo(int N, int t, int** matriz);
     ~Grafo();
-    void agregarArco(int n, int m);
     void mostrarGrafo();
     void mostrarCaminos();    
     void matrizPesos();
     void Floyd();
-    void crearGrafo();
+    
 };
 
 #endif
