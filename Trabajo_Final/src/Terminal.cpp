@@ -19,8 +19,9 @@ void Terminal :: recibirPagina(Pagina* p){    // recibe la pagina completa
     if (pagina != nullptr) delete pagina;
     pagina = p;
     cout << "\n ¡PAGINA COMPLETA! " << " ID: "<< pagina->id << " Tamaño: "<< pagina->tamaño <<" [" ;
-    for (int i = 0; i < pagina->tamaño; i++){
-        cout<<" "<< pagina->paquetes[i].nroPaquete<<" ";
-    }
+    if(pagina->paquetes == NULL) cout<<"";
+    else for (int i = 0; i < pagina->tamaño; i++){
+            cout<<" "<< pagina->paquetes[i].nroPaquete<<" ";
+        }
     cout<<"] " <<"Destino: "<< pagina->getRoutDestino() <<  " \n\n";
 }

@@ -1,6 +1,6 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
-#include "Cola1.h"
+#include "Cola.h"
 #include <bitset>
 #include <cstdint>
 
@@ -22,7 +22,9 @@ public:
     bitset<16> origen   = 0;
     int id = 0;
     
-    Pagina(int tamaño) : tamaño(tamaño){ paquetes = new Paquete;}
+    Pagina(int tamaño) : tamaño(tamaño){ 
+        paquetes = NULL;
+    }
     
     int getTermDestino(){
         return ((destino.to_ulong() >> 8) & 0xFF);

@@ -1,6 +1,6 @@
 #ifndef TREE_H
 #define TREE_H
-#include "Cola1.h"
+#include "Cola.h"
 #include "Vector.h"
 #include <cstdlib>
 #include <iostream>

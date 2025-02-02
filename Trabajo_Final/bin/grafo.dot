@@ -1,72 +1,57 @@
 digraph G {
-    // Configuración global para aristas y dimensiones del grafo
     edge [color=gray, penwidth=1];
     size="8,8";
     ratio="fill";
-    
-    // Subgrafo para nodos de un solo dígito (configuración del "1" o estilo R)
-    subgraph cluster_singles {
-        // Estos nodos tendrán forma de recuadro, fondo lleno, color royalblue, 
-        // tamaño fijo (0.5x0.5 pulgadas) y se etiquetarán con "R" seguido de su identificador.
-        node [shape=box, style=filled, color=royalblue, fixedsize=true, fontcolor=white];
-        
-        0 [label="R0", tooltip="Este es el nodo inicial"];
+    subgraph routers {
+        node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
+        0 [label="R0"];
         1 [label="R1"];
         2 [label="R2"];
         3 [label="R3"];
+        4 [label="R4"];
     }
-    
-    // Subgrafo para nodos de dos dígitos (configuración del "00" o estilo T)
-    subgraph cluster_doubles {
-        // Estos nodos tendrán forma de recuadro, fondo lleno, color forestgreen,
-        // tamaño fijo (0.5x0.5 pulgadas) y se etiquetarán con "T" seguido de un dígito.
-        node [shape=box, style=filled, color=forestgreen, width=0.5, height=0.5, fixedsize=true, fontcolor=white];
-        
-        00 [label="T0"];
-        10 [label="T1"];
-        20 [label="T2"];
-        01 [label="T0"];
+    subgraph terminales {
+        node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
+        00 [label="T0 [2]"];
+        01 [label="T1"];
+        02 [label="T2"];
+        10 [label="T0 [0]"];
         11 [label="T1"];
-        21 [label="T2"];
-        02 [label="T0"];
-        12 [label="T1"];
+        12 [label="T2"];
+        20 [label="T0"];
+        21 [label="T1"];
         22 [label="T2"];
-        03 [label="T0"];
-        13 [label="T1"];
-        23 [label="T2"];
+        30 [label="T0"];
+        31 [label="T1"];
+        32 [label="T2"];
+        40 [label="T0"];
+        41 [label="T1"];
+        42 [label="T2"];
     }
-    
-    // (Opcional) Puedes mantener el mismo orden vertical para ciertos grupos:
-   // { rank = same; 0; 1; 2; 3; }
-   // { rank = same; 00; 10; 20; }
-   // { rank = same; 01; 11; 21; }
-   // { rank = same; 02; 12; 22; }
-   // { rank = same; 03; 13; 23; }
-    
-    // Definición de las conexiones (aristas)
-    
-    0 -> 3  [label="4"];
+    0 -> 3 [label="0"];
+    1 -> 0 [label="0"];
+    1 -> 2 [label="0"];
+    1 -> 4 [label="0"];
+    2 -> 1 [label="1"];
+    2 -> 3 [label="0"];
+    2 -> 4 [label="0"];
+    3 -> 0 [label="0"];
+    3 -> 2 [label="0"];
+    4 -> 0 [label="0"];
+    4 -> 3 [label="0"];
     0 -> 00 [minlen=0.2];
-    
-    // Ejemplo de conexión con nodos dobles (se reduce la longitud)
-    0 -> 10 [minlen=0.2];
-    0 -> 20 [minlen=0.2];
-    
-    1 -> 0  [label="0"];
-    1 -> 2  [label="0"];
-    1 -> 01 [minlen=0.2];
+    0 -> 01 [minlen=0.2];
+    0 -> 02 [minlen=0.2];
+    1 -> 10 [minlen=0.2];
     1 -> 11 [minlen=0.2];
-    1 -> 21 [minlen=0.2];
-    
-    2 -> 1  [label="2"];
-    2 -> 3  [label="0"];
-    2 -> 02 [minlen=0.2];
-    2 -> 12 [minlen=0.2];
+    1 -> 12 [minlen=0.2];
+    2 -> 20 [minlen=0.2];
+    2 -> 21 [minlen=0.2];
     2 -> 22 [minlen=0.2];
-    
-    3 -> 0  [label="0"];
-    3 -> 2  [label="0"];
-    3 -> 03 [minlen=0.2];
-    3 -> 13 [minlen=0.2];
-    3 -> 23 [minlen=0.2];
+    3 -> 30 [minlen=0.2];
+    3 -> 31 [minlen=0.2];
+    3 -> 32 [minlen=0.2];
+    4 -> 40 [minlen=0.2];
+    4 -> 41 [minlen=0.2];
+    4 -> 42 [minlen=0.2];
 }

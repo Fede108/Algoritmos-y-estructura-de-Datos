@@ -74,7 +74,7 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
         {   
             Paquete* p = procesarPagina->cabeza(); procesarPagina = procesarPagina->resto();   // sigo con el resto de los paquetes 
             // buscar el destino e ir agregar a cada cola segun ancho de banda
-            if(procesarPaquete(p, true)) this->procesarPagina.borrarDato(p);
+            if(procesarPaquete(p, procesarVecinos->esvacia())) this->procesarPagina.borrarDato(p);
         }
         if(!procesarVecinos->esvacia())
         {   
@@ -109,7 +109,7 @@ void Router::reenvio(){   // envio paquete al vecino
         {   
             Paquete *p = vecino->getTope();
 
-            cout << " [Router " << vecino->router->ip << "] <- [Router " << this->ip << "] | " << "[ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete
+            cout << " [Router " << vecino->router->ip << "] <- [Router " << this->ip << "] | " << "[ID: " << p->pagina->id << "] Nro: " << p->nroPaquete
                  << " | AnchoBanda: " << paquetesEnviados << "/" << vecino->anchoBanda << " (Faltan: " << vecino->colaDeEspera->size() << ")"
                  << " | Origen: " << p->pagina->getRoutOrigen()<< " | Destino: " << p->pagina->getRoutDestino() << "\n";
 
@@ -129,7 +129,7 @@ int Router::calcularDestino(int destino){
 }
 
 void Router::imprimirRuta(Paquete* p) {
-    cout << " [ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete << " | Ruta: " << this->ip;
+    cout << " [ID: " << p->pagina->id << "] Nro: " << p->nroPaquete << " | Ruta: " << this->ip;
     int totalCiclos = ruta(p->pagina->getRoutDestino());
     cout << " | Total: "  << totalCiclos << " ciclos" << " | Origen: " <<  p->pagina->getRoutOrigen() << " | Destino: "<< p->pagina->getRoutDestino();
 }
@@ -137,10 +137,10 @@ void Router::imprimirRuta(Paquete* p) {
 int Router::ruta(int destino) {
     int total = vecinos.buscar(calcularDestino(destino))->ciclos;
     if (destino == calcularDestino(destino)) {
-        cout <<  " → " << destino <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ")";
+        cout <<  " => " << destino <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ")";
         return total;
     }
-    cout <<  " → " << calcularDestino(destino) <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ") " << calcularDestino(destino);
+    cout <<  " => " << calcularDestino(destino) <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ") " << calcularDestino(destino);
     return total + vecinos.buscar(calcularDestino(destino))->router->ruta(destino);
 }
 

@@ -231,21 +231,8 @@ public:
     void desencolar(void) { this->borrar_last(); };
     T ultimo(void) { return this->cabeza(); };
     string imprimir(string s) { return this->toPrint(s); };
-    Cola<T>* copy(void);
-    Cola<T>* resto(void); //retorna el puntero al "resto" de la cola
                        
 };
 
-template <class T> Cola<T>* Cola<T>::resto(void){
-    Cola<T>* c = new Cola();
-    c = this->copy();
-    c->desencolar();
-    return c; 
-}
-template <class T> Cola<T>* Cola<T>::copy(void)
-{
-    Cola<T>* aux = new Cola();
-    aux->concat(this);
-    return aux;
-}
+
 #endif

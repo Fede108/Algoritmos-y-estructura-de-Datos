@@ -1,7 +1,7 @@
 #ifndef ROUTER_H
 #define ROUTER_H
 #include <iostream>
-#include <Cola1.h>
+#include <Cola.h>
 #include <bitset>
 #include "Terminal.h"
 #include "Tree.h"

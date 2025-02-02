@@ -109,7 +109,7 @@ void Grafo::mostrarGrafo() {
 }
 
 void Grafo::mostrarCaminos() {
-    cout << "\n--- MATRIZ DE ADYACENCIA ---" << setw(N*3)<<" "<< "--- MATRIZ DE PESOS ---\n";
+    cout <<"\n "<<setw(N/2) <<" "<<"--- MATRIZ DE ADYACENCIA ---" << setw(N*3+N)<<" "<< "--- MATRIZ DE PESOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 cout << setw(N) << matriz[i][j] << " ";
@@ -124,7 +124,7 @@ void Grafo::mostrarCaminos() {
             cout << endl;
         } 
     
-    cout << "\n--- MATRIZ DE CICLOS ---"<< setw(N*3)<< " " <<"--- MATRIZ DE CAMINOS ---\n";
+    cout <<"\n "<<setw(N/2) <<" "<<"--- MATRIZ DE CICLOS ---"<< setw(N*3+N)<< " " <<"--- MATRIZ DE CAMINOS ---\n";
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             cout << setw(N) << A[i][j] << " "; // Imprime la matriz de ciclos

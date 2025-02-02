@@ -5,7 +5,7 @@ using namespace std;
 
 #include <iostream>
 #include <string>
-#include "Cola1.h"
+#include "Cola.h"
 #include "Vector.h"
 #include "Terminal.h"
 #define MAX 17
