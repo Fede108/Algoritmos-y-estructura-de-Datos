@@ -9,8 +9,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-o",
-//              "${workspaceFolder}/Otras_Estructuras/programa.exe",
-//              "${workspaceFolder}/Otras_Estructuras/Hash_fede.cpp",             
+//            "${workspaceFolder}/Otras_Estructuras/programa.exe",
+//            "${workspaceFolder}/Otras_Estructuras/Hash_fede.cpp",             
 //               "${workspaceFolder}/Arboles/programa.exe",
 //               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
 //               "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
@@ -21,8 +21,8 @@
 //                   "${workspaceFolder}/Primer_Parcial/bin/main.exe",
 //                   "${workspaceFolder}/Primer_Parcial/src/*.cpp",
 //                "-I${workspaceFolder}/Primer_Parcial/inc"
-                "${workspaceFolder}/Trabajo_Final/bin/main.exe",
-                "${workspaceFolder}/Trabajo_Final/src/*.cpp",
+               "${workspaceFolder}/Trabajo_Final/bin/main.exe",
+               "${workspaceFolder}/Trabajo_Final/src/*.cpp",
                 "-I${workspaceFolder}/Trabajo_Final/inc"
             ],
  

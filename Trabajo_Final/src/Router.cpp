@@ -13,12 +13,13 @@ void Router :: almacenar(Paquete* paquete){
     bufferPaquetes->addOrdenado(*paquete); 
     Pagina* pagina = paquete->pagina;
     delete paquete;
+    
     if(bufferPaquetes->size() == pagina->tamaño)   // si la pagina ya se encuentra completa
     { 
         Paquete *arr = new Paquete[pagina->tamaño]; int i = 0;
         while (!bufferPaquetes->esvacia()){
-            arr[i++] = bufferPaquetes->cabeza();
-            bufferPaquetes->borrar();
+                arr[i++] = bufferPaquetes->cabeza();
+                bufferPaquetes->borrar();
         }
         pagina->paquetes = arr;
         terminales.get(pagina->getTermDestino())->recibirPagina(pagina);
@@ -67,9 +68,7 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
 {   
     bool impreso = true;
     while( !procesarPagina->esvacia() || !procesarVecinos->esvacia() ){
-
         if(impreso){ cout << "\n"; impreso=false;}
-
         if(!procesarPagina->esvacia())
         {   
             Paquete* p = procesarPagina->cabeza(); 
@@ -91,13 +90,16 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
 }
 
 bool Router::procesarPaquete(Paquete* p, bool pagCliente ){
-    int destino = calcularDestino(p->pagina->getRoutDestino());    // encuentro el camino optimo
+    int destino   = calcularDestino(p->pagina->getRoutDestino());    // encuentro el camino optimo
     nodo* vecino  = vecinos.buscar(calcularDestino(p->pagina->getRoutDestino()));
-    if(pagCliente){
-         if (vecino->paqPagRecibidas++ >= vecino->anchoBanda) return false;    // envio paginas segun ancho banda para intercalar con demas maquinas
+    if(pagCliente)
+    {
+        if (vecino->paqPagRecibidas++ >= vecino->anchoBanda) return false;    // envio paginas segun ancho banda para intercalar con demas maquinas
     }
+
     cout << "[Router " << this->ip << "] → [Router " << destino << "] | ";
     imprimirRuta(p);  cout << "\n";
+
     vecino->encolar(p);
     vecinosEncolados.add(vecino->router->ip, vecino);
     return true;  
@@ -109,7 +111,6 @@ void Router::reenvio(){   // envio paquete al vecino
     {
         nodo* vecino = v.get(i);
         int paquetesEnviados = 0; 
-
         while (!vecino->colaDeEspera->esvacia() && paquetesEnviados ++ < vecino->anchoBanda)   // mientras la cola de espera tenga paquetes y no se llene ancho banda
         {   
             Paquete *p = vecino->desencolar();
