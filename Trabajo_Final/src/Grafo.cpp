@@ -20,9 +20,9 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
         A[i] = new int[N]();
     }
     // crea la matriz de pesos
-    pesos = new int **[N];
+    pesos = new int *[N];
     for (int i = 0; i < N; i++) {
-        pesos[i] = new int*[N]();
+        pesos[i] = new int[N]();
     }
     // crea lista de adyacencia 
     for (int i = 0; i < N; i++) {
@@ -33,15 +33,6 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
         for (int y = 0; y < N; y++){
                 if(matriz[i][y]) nodos.get(i)->agregarNodoAdyacente(nodos.get(y), matriz[i][y]);
         }
-    }  
-}
-void Grafo :: matrizPesos(){
-    for (int i = 0; i < N; i++)
-    {
-        for (int y = 0; y < N; y++)
-        {
-           pesos[i][y] = nodos.get(i)->tamañoCola(y);
-        }
     }
 }
 
@@ -50,20 +41,27 @@ void Grafo :: matrizPesos(){
     {
         for (int y = 0; y < N; y++)
         {
-           if(nodos.get(i)->tamañoCola(y) == INFI){
+            if(nodos.get(i)->tamañoCola(y) == INFI){
                 pesos[i][y] = INFI;
-                if(i!=y) A[i][y] =   (nodos.get(i)->tamañoCola(cf[i][y])/nodos.get(i)->anchoBanda(cf[i][y])) + 
-                            (nodos.get(cf[i][y])->tamañoCola(y)/nodos.get(cf[i][y])->anchoBanda(y)) + 1;
-           }             
-           else{
-                pesos[i][y] = nodos.get(i)->tamañoCola(y);
-                A[i][y]=(pesos[i][y]/ nodos.get(i)->anchoBanda(y)) + 1;  // se pierde un ciclo al entrar y salir del router
-           }  
+            }
+            else{
+                 pesos[i][y] = nodos.get(i)->tamañoCola(y);
+            }
+
+            if(y!=i){
+                if (cf[i][y] == -1) A[i][y] = INFI;  // si no hay camino
+                else if (cf[i][y] == y){                     
+                    A[i][y] = nodos.get(i)->ciclos(y); // si el camino es directo
+                }             
+                else{
+                    A[i][y] = nodos.get(i)->ciclos(cf[i][y]) + A[cf[i][y]][y];  // si hay un nodo intermedio en el camino
+                }
+            }  
         }
     }
 }
 
-void Grafo :: Floyd(){
+void Grafo::Floyd(){
     int i,j,k;
     for(i=0;i<N;i++){
         for(j=0;j<N;j++){
@@ -73,7 +71,7 @@ void Grafo :: Floyd(){
                         } 
                         else{
                             cf[i][j]=j;   // camino de i a j es directo       
-                            A[i][j]=(pesos[i][j]/ nodos.get(i)->anchoBanda(j)) + 1;  // se pierde un ciclo al entrar y salir del router
+                            A[i][j] = nodos.get(i)->ciclos(j);  // se pierde un ciclo al entrar y salir del router
                         } 
         }
     }
@@ -83,7 +81,6 @@ void Grafo :: Floyd(){
     // recorro la matriz completa para encontrar caminos más cortos
         for(i=0;i<N;i++){
             for(j=0;j<N;j++){
-                         //   anterior[i][j] = cf[i][j];
                             if((A[i][k]+ A[k][j])< A[i][j]){      // si el camino ij es mas corto a traves de k 
                                     A[i][j]= A[i][k]+ A[k][j];    // actualiza el peso minimo
                                     cf[i][j]=k;                   // actualiza nodo intermedio en el camino 
@@ -112,34 +109,34 @@ void Grafo::mostrarGrafo() {
 }
 
 void Grafo::mostrarCaminos() {
-    cout << "\n--- MATRIZ DE ADYACENCIA ---" << setw(N*2)<<" "<< "--- MATRIZ DE PESOS ---\n";
+    cout << "\n--- MATRIZ DE ADYACENCIA ---" << setw(N*3)<<" "<< "--- MATRIZ DE PESOS ---\n";
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                cout << setw(5) << matriz[i][j] << " ";
+                cout << setw(N) << matriz[i][j] << " ";
             }
-            cout << setw(N*2)<< " "; // Espacio entre matrices
+            cout << setw(N*3)<< " "; // Espacio entre matrices
             for (int j = 0; j < N; j++) {
                 if (pesos[i][j] == INFI) 
-                    cout << setw(5) << "INF" << " ";
+                    cout << setw(N) << "INF" << " ";
                 else
-                    cout << setw(5) << pesos[i][j] << " ";
+                    cout << setw(N) << pesos[i][j] << " ";
                 }
             cout << endl;
         } 
     
-    cout << "\n--- MATRIZ DE CICLOS ---"<< setw(N*2)<< " " <<"--- MATRIZ DE CAMINOS ---\n";
+    cout << "\n--- MATRIZ DE CICLOS ---"<< setw(N*3)<< " " <<"--- MATRIZ DE CAMINOS ---\n";
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            cout << setw(5) << A[i][j] << " "; // Imprime la matriz de ciclos
+            cout << setw(N) << A[i][j] << " "; // Imprime la matriz de ciclos
         }
-        cout << setw(N*2)<< " "; // Espacio entre matrices
+        cout << setw(N*3)<< " "; // Espacio entre matrices
         for (int j = 0; j < N; j++) {
             if (cf[i][j] == -1)
-                cout << setw(5) << "-1" << " ";
+                cout << setw(N) << "-1" << " ";
             else if (cf[i][j] != anterior[i][j])
-                cout << setw(4) << "*" << cf[i][j] << "*";
+                cout << setw(N-1) << "*" << cf[i][j] << "*";
             else
-                cout << setw(5) << cf[i][j] << " ";
+                cout << setw(N) << cf[i][j] << " ";
             anterior[i][j] = cf[i][j]; // Actualiza el valor anterior
         }
         cout << endl;

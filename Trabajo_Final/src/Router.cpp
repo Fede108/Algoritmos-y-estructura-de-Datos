@@ -32,7 +32,7 @@ void Router::recibirPagina (Pagina* pagina){
     {    
         terminales.get(pagina->getTermDestino())->recibirPagina(pagina); 
     } 
-    else if( !calcularDestino(pagina->getRoutDestino()) )
+    else if( calcularDestino(pagina->getRoutDestino()) == INFI )
     {
         // no se envia la pagina
          cout<< " ¡NO HAY RUTA! No se puede enviar\n ";
@@ -91,11 +91,9 @@ bool Router::procesarPaquete(Paquete* p, bool pagCliente ){
     if(pagCliente){
          if (vecino->paqPagRecibidas++ >= vecino->anchoBanda) return false;    // envio paginas segun ancho banda para intercalar con demas maquinas
     }
-    vecino->colaDeEspera->encolar(p);
-
     cout << "[Router " << this->ip << "] → [Router " << destino << "] | ";
     imprimirRuta(p);  cout << "\n";
-
+    vecino->encolar(p);
     vecinosEncolados.add(vecino->router->ip, vecino);
     return true;  
 }
@@ -112,10 +110,8 @@ void Router::reenvio(){   // envio paquete al vecino
             Paquete *p = vecino->getTope();
 
             cout << " [Router " << vecino->router->ip << "] <- [Router " << this->ip << "] | " << "[ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete
-                 << " | AnchoBanda: " << paquetesEnviados << "/" << vecino->anchoBanda 
-                 << " (Faltan: " << vecino->colaDeEspera->size() << ")"
-                 << " | Origen: " << p->pagina->getRoutOrigen()<< " | Destino: " << p->pagina->getRoutDestino() 
-                 << "\n";
+                 << " | AnchoBanda: " << paquetesEnviados << "/" << vecino->anchoBanda << " (Faltan: " << vecino->colaDeEspera->size() << ")"
+                 << " | Origen: " << p->pagina->getRoutOrigen()<< " | Destino: " << p->pagina->getRoutDestino() << "\n";
 
             vecino->router->recibirPaquete(p);
             if(vecino->colaDeEspera->esvacia())  vecinosEncolados.borrar(vecino->router->ip);    
@@ -126,7 +122,7 @@ void Router::reenvio(){   // envio paquete al vecino
 }  
 
 int Router::calcularDestino(int destino){
-    if(tablaRuta[destino] == -1) return 0;
+    if(tablaRuta[destino] == -1) return INFI;
     if(destino == tablaRuta[destino]) return destino;  // si el destino es un vecino directo, retorna el destino 
     destino = tablaRuta[destino]; 
     return calcularDestino(destino);  // recursion hasta encontrar un vecino directo
@@ -134,35 +130,32 @@ int Router::calcularDestino(int destino){
 
 void Router::imprimirRuta(Paquete* p) {
     cout << " [ID: " << p->pagina->id << "] | Nro Paquete: " << p->nroPaquete << " | Ruta: " << this->ip;
-    int totalciclos = ruta(p->pagina->getRoutDestino(), this->ip);
-    cout << " | Total: "<<totalciclos<< " ciclos";
-    cout << " | Origen: " <<  p->pagina->getRoutOrigen() 
-         << " | Destino: " << p->pagina->getRoutDestino();
+    int totalCiclos = ruta(p->pagina->getRoutDestino());
+    cout << " | Total: "  << totalCiclos << " ciclos" << " | Origen: " <<  p->pagina->getRoutOrigen() << " | Destino: "<< p->pagina->getRoutDestino();
 }
 
-int Router::ruta(int destino, int origen) {
-    int total;
-    total = ciclos[origen][caminos[origen][destino]];
-    if (destino == caminos[origen][destino]) {
-        cout <<  " → " << destino <<" ("<< ciclos[origen][caminos[origen][destino]] << ")";
+int Router::ruta(int destino) {
+    int total = vecinos.buscar(calcularDestino(destino))->ciclos;
+    if (destino == calcularDestino(destino)) {
+        cout <<  " → " << destino <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ")";
         return total;
     }
-    cout  << " → " << caminos[origen][destino] << " ("<< ciclos[origen][caminos[origen][destino]] << ") " << caminos[origen][destino];
-    return total + ruta(destino, caminos[origen][destino]);
+    cout <<  " → " << calcularDestino(destino) <<" ("<< vecinos.buscar(calcularDestino(destino))->ciclos << ") " << calcularDestino(destino);
+    return total + vecinos.buscar(calcularDestino(destino))->router->ruta(destino);
 }
 
 void Router :: agregarNodoAdyacente(Router* router, int anchoBanda){
     vecinos.agregarNodo(router, anchoBanda);
 }
 
-int* Router :: tamañoCola(int ip) {
-    if (!vecinos.buscar(ip)) return nullptr
-    return vecinos.buscar(ip)->getColaSize(); 
+int Router :: tamañoCola(int ip) {
+    if (!vecinos.buscar(ip)) return INFI;
+    return vecinos.buscar(ip)->colaDeEspera->size(); 
 }
 
-int Router :: anchoBanda(int ip) {
+int Router :: ciclos(int ip) {
     if (!vecinos.buscar(ip)) return INFI;
-    return vecinos.buscar(ip)->anchoBanda; 
+    return vecinos.buscar(ip)->ciclos; 
 }
 
 void Router :: impre(){

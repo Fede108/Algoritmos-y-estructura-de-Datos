@@ -9,15 +9,19 @@ nodo::~nodo()
 {
     delete colaDeEspera;
 }
+
 Paquete* nodo::getTope(){
     Paquete* p = colaDeEspera->tope();
     colaDeEspera->desencolar();
     colaSize = colaDeEspera->size();
+    ciclos = (colaSize/anchoBanda) + 1;
     return p;
 }
 
-int* nodo::getColaSize(){
-    return &colaSize;
+void nodo::encolar(Paquete* p){
+    colaDeEspera->encolar(p);
+    colaSize = colaDeEspera->size();
+    ciclos = (colaSize/anchoBanda) + 1;
 }
 
 //---------------------------------------------------------------------------------------------------------

@@ -5,32 +5,44 @@
 
 using namespace std;
 
-void Administrador::generarDOT(){
+void Administrador::generarDOT(){ 
     ofstream archivo("grafo.dot");
-    if (archivo.is_open() ){
-    archivo << "digraph G {\n";
-    archivo << "    node [shape=circle, style=filled, color=lightblue];\n";
-    archivo << "    edge [color=gray, penwidth=1];\n";
-    archivo << "    size=\"8,8\";\n";   // Especificar el tamaño en forma de cadena
-    archivo << "    ratio=\"fill\";\n"; // Usar comillas dobles para el valor "fill"
-    for (int i = 0; i < grafo->nodos.size(); ++i) {
-        for (int j = 0; j < grafo->nodos.size(); ++j) {
-            if (grafo->pesos[i][j] != 9000) {
-                archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
+    if(archivo.is_open()){
+        archivo << "digraph G {\n" << "    edge [color=gray, penwidth=1];\n" << "    size=\"8,8\";\n" << "    ratio=\"fill\";\n";
+        archivo << "    subgraph routers {\n";
+        archivo << "        node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
+            for (int i = 0; i < grafo->N; ++i) {
+                    archivo << "        " << i << " [label=\"R" << i << "\"];\n";
+            }
+        archivo << "    }\n";
+        archivo << "    subgraph terminales {\n";
+        archivo << "        node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
+        for (int i = 0; i < grafo->N; ++i) {
+            for (int k = 0; k < grafo->t; ++k) {
+                if(grafo->nodos.get(i)->terminales.get(k)->pagina)
+                    archivo << "        " << i << k << " [label=\"T" << k << " [" << grafo->nodos.get(i)->terminales.get(k)->pagina->id << "]\"];\n";
+                else
+                    archivo << "        " << i << k << " [label=\"T" << k << "\"];\n";
             }
         }
-     for (int k = 0; k < grafo->nodos.get(i)->t; k++)
-      {  
-        archivo << "    " << i << " -> " << k << i << ";\n";
-        if(grafo->nodos.get(i)->terminales.get(k)->pagina)  archivo << "    " << k << i  << " [label=\"" << k << " " <<grafo->nodos.get(i)->terminales.get(k)->pagina->tamaño <<"\"];\n";
-        else  archivo << "    " << k << i  << " [label=\"" << k << "\"];\n";
-      }
-        
-    }
-    archivo << "}\n";
-    //archivo.close();
+        archivo << "    }\n";
+
+        for (int i = 0; i < grafo->N; ++i) {
+            for (int j = 0; j < grafo->N; ++j) {
+                if(grafo->pesos[i][j] != 9000)
+                    archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
+            }
+        }
+        for (int i = 0; i < grafo->nodos.size(); ++i) {
+            for (int k = 0; k < grafo->nodos.get(i)->t; ++k) {
+                archivo << "    " << i << " -> "  << i << k << " [minlen=0.2];\n";
+            }
+        }
+        archivo << "}\n";
+        archivo.close();
     }
 }
+
 
 
 void Administrador::crearRed(string cfg){
@@ -73,23 +85,24 @@ void Administrador::simular(){
     grafo->Floyd();
     grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
     grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
     int ciclos = 0;
     generarDOT();
     while (sigue)
     {   
-        cout << "\n ================================= CICLO SIMULACION "<< ciclos<< " ================================== \n";
+        cout << "\n =========================================== CICLO SIMULACION "<< ciclos<< " ============================================ \n";
         grafo->mostrarCaminos();
 
         crearNuevaPagina();
-        cout << "\n-----------------\n\n -- PAQUETES RECIBIDOS-- \n\n";
+        cout << "\n--------------------\n\n -- PAQUETES RECIBIDOS-- \n\n";
         for (int i = 0; i < grafo->N; i++)
         {
-         grafo->nodos.get(i)->reenvio();  // se realizan las tareas de reenvio, recepcion y almacenamiento        
+         grafo->nodos.get(i)->reenvio();  // se realizan las tareas de recepcion, reenvio y almacenamiento        
         }
         grafo->matrizPesos();
         grafo->mostrarCaminos();
-        
-        cout << " -----------------\n \n-- PAQUETES ENVIADOS-- \n";
+        cout << " --------------------\n \n-- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
           grafo->nodos.get(i)->procesamiento();  // se procesan los paquetes recibidos asi estan listos para el ciclo siguiente

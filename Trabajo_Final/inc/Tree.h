@@ -18,11 +18,12 @@ public:
     Router* router;
     int paqPagRecibidas = 0;
     int anchoBanda;
-    int colaSize;
+    int colaSize = 0;
+    int ciclos = 1;
     nodo (Router* router, int anchoBanda);
     ~nodo();
     Paquete* getTope();  // devuelve el tope de la colaDeEspera y la desencola
-    int* getColaSize();
+    void encolar(Paquete* p);
 };
 
 class arbol {
@@ -37,7 +38,7 @@ public:
     ~arbol() {}
     void agregarNodo(Router* router, int anchoBanda);
     nodo* buscar(int ip) { return busca(raiz, ip);}
-    void IRD(){ird(raiz);}    // recorrido inorden del arbol  
+    void IRD(){ird(raiz);}      
     Vector<nodo*> listar() {
         Vector<nodo*> resultado;
         recorridoTransversal(raiz,&resultado);
