@@ -58,7 +58,7 @@ class ListaString : public ComponenteJson
 private:
     bool expresionCorrecta = false;
     Pila<char> p;
-    Cola<char> cola;
+    Cola<char> cola;                    // cola para almacenar los valores de la lista de strings
     Cola <String*> bufferStrings;
     String *str;  
     string cadena;

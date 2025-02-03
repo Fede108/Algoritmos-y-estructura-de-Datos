@@ -29,7 +29,7 @@ string String ::print(){
 //-------------------------------------------------------------------------------
 
 bool ListaString :: validarExpresion(char c){
-    agregar(c);
+    agregar(c);  
     if (c == '[' && p.pilavacia()){ 
         p.apilar(c);
         cadena += c;
