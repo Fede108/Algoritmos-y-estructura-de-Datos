@@ -81,7 +81,7 @@ template <class T> T Hash<T>::get(int id){
         if(aux->cabeza()->key == id) return aux->cabeza()->value;
         aux->borrar();
     } 
-
+    return T();
 }
 
 template <class T> bool Hash<T>::add(int id, T p) {

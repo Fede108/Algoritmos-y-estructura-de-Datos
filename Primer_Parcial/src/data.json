@@ -1,6 +1,17 @@
-
-{ 
-  "archivo":[ }
-
-
-
+{
+  "universidad": {
+    "nombre": "Universidad de Ejemplo",
+    "facultades": {
+      "ingenieria": {
+        "departamentos": ["sistemas", "electrica", "mecanica"],
+        "director": "Dr. Ingeniero"
+      },
+      "humanidades": {
+        "departamentos": ["historia", "filosofia"],
+        "director": "Dr. Humanista"
+      }
+    },
+    "ranking": "top10"
+  },
+  "anio": "2025"
+}

@@ -40,7 +40,7 @@ public:
 class Llave : public Estado{
 private:
     String *str;
-    Cola <String*> strings; //buffer de strings
+    Cola <String*> bufferStrings; 
     Pila<char> p;
     string llaves;
 public:
@@ -59,7 +59,7 @@ public:
 class Valor : public Estado{
 private:
     ComponenteJson *componenteJson;
-    Cola <ComponenteJson*> valores; //buffer de valores
+    Cola <ComponenteJson*> bufferComponentes; 
     Pila<char> p1;  
     string caracterIncorrecto = "";
 public:

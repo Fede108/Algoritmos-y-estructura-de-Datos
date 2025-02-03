@@ -115,7 +115,7 @@ void Administrador::simular(){
         if (ciclos%2) grafo->Floyd();
         char opcion;
         cin >> opcion;
-        sigue = (opcion == 's' || opcion == 'S'); // Continuar si se ingresa 's' o 'S'*/
+        sigue = (opcion == 's' || opcion == 'S'); // continuar si se ingresa s
 
         if (++ciclos == 50) sigue = false;
     }
@@ -123,11 +123,11 @@ void Administrador::simular(){
 
 void Administrador::crearNuevaPagina(){     
      if (rand() % 100 < 110) { // 40% de probabilidad
-            int origenR     =  rand() % grafo->N;       // Nodo origen aleatorio
-            int origenT     =  rand() % grafo->t;       // Terminal origen aleatorio
-            bitset<8> h_ip  =  rand() % grafo->t;       // Parte alta de la IP destino
-            bitset<8> l_ip  =  rand() % grafo->N;;      // Parte baja de la IP destino
-            int tamaño      = (rand() % 10) + 1;        // Tamaño aleatorio (1 a 10)
+            int origenR     =  rand() % grafo->N; 
+            int origenT     =  rand() % grafo->t;     
+            bitset<8> h_ip  =  rand() % grafo->t;       
+            bitset<8> l_ip  =  rand() % grafo->N;      
+            int tamaño      = (rand() % 10) + 1;        
             bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
             grafo->nodos.get(origenR)->terminales.get(origenT)->emitirPagina(destino, tamaño);      
     }

@@ -59,7 +59,7 @@ private:
     bool expresionCorrecta = false;
     Pila<char> p;
     Cola<char> cola;
-    Cola <String*> strings; //buffer de strings
+    Cola <String*> bufferStrings;
     String *str;  
     string cadena;
 public:

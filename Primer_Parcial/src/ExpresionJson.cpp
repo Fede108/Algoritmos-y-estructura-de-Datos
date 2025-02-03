@@ -38,11 +38,7 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
     }
    
     setEstado(getEntreLlaves());
-    while (entreLlaves.size()>0)
-    {
-        json += estadoActual->print();
-    }
-    
+    json = estadoActual->print();
     return correcto;
 }
 

@@ -9,15 +9,15 @@ class ExpresionJson
 {
 private:
     Estado* estadoActual;
-    EntreLlaves entreLlaves;     // Instancia única
-    Llave llave;                 // Instancia única
-    Valor valor;                 // Instancia única
+    EntreLlaves entreLlaves;    
+    Llave llave;                
+    Valor valor;                
     string json;
     int caracter;
     bool correcto;
 public:
     ExpresionJson() {
-        estadoActual = &entreLlaves; // Estado inicial
+        estadoActual = &entreLlaves; // estado inicial
         estadoActual->setExpresionJson(this);
         caracter = 0;
     }

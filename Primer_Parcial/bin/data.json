@@ -1,10 +1,21 @@
-  { 
-    "archivo": "aa",
-    "titulo": "Libro de Cuentos",
-    "autor": "Gabriel Garcia Marquez",
-    "capitulos": [["a","b"]] ,
-    "vams}":"}"}
+{ 
+  "archivo":{
 
+  "aa":"",
+  "titulo": "Libro de Cuentos",
+  "autor": "Gabriel Garcia Marquez",
+  "capitulos": {"s2":{"a":"b"}} ,
+  "vams}":"}"},
+  "sigue":{
+  "archivo":{
+
+  "aa":"",
+  "titulo": "Libro de Cuentos",
+  "autor": " Garcia ",
+  "capitulos": ["s2","a","b"] ,
+  "vams}":"}"}
+  }
+} 
 
 
 

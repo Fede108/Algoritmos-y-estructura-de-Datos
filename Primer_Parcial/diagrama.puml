@@ -29,7 +29,7 @@ class ListaString {
     -bool expresionCorrecta
     -Pila<char> p
     -Cola<char> cola
-    -vector<String*> strings
+    -Cola<String*> bufferStrings
     -String *str
     -string cadena
     +bool getExpresionEsCorrecta()
