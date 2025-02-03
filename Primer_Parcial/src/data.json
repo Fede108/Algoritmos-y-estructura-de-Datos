@@ -1,7 +1,6 @@
 {
   "universidad": {
-    "nombre": "Universidad de Ejemplo",
-    "facultades": {
+    "nombre" "Universidad de Ejemplo",
       "ingenieria": {
         "departamentos": ["sistemas", "electrica", "mecanica"],
         "director": "Dr. Ingeniero"
@@ -12,6 +11,4 @@
       }
     },
     "ranking": "top10"
-  },
-  "anio": "2025"
-}
+  }
