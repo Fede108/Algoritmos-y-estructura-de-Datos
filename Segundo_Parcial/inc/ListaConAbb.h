@@ -14,7 +14,7 @@ struct Dato
     int repeticiones;
 };
 
-class NodoAbb {   // Nodo de lista y nodo de arbol
+class NodoAbb {   // nodo de lista y nodo de arbol
 public:
     Dato* info;
     NodoAbb* der, * izq, *siguiente;
@@ -35,7 +35,7 @@ public:
     void incrContador(){ info->repeticiones++;}
 };
 
-// Estructura combinada de lista con arbol
+// estructura combinada de lista con arbol
 class ArbolAVL
 {
 private:

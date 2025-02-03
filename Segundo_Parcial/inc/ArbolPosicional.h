@@ -11,7 +11,7 @@ using namespace std;
 class Nodo 
 {
 public:
-   NodoAbb* hoja;
+   NodoAbb* hoja;   // hoja es un puntero a los nodos de la lista
    Nodo* der;
    Nodo* izq;
    int altura;

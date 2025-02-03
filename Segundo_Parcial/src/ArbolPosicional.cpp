@@ -30,9 +30,11 @@ NodoAbb* ArbolPosicional::recorrer(int bin, Nodo* Nodo)
 void ArbolPosicional :: swap(int p1, int p2){   // intercambia el contenido de los nodos
     p1 = p1 - 1;
     p2 = p2 - 1;
-    Dato* tmp  = recorrer(p2, raiz)->info;
-    recorrer(p2, raiz)->info = recorrer(p1, raiz)->info;
-    recorrer(p1, raiz)->info = tmp;
+    NodoAbb* NodoP2 = recorrer(p2, raiz);
+    NodoAbb* NodoP1 = recorrer(p1, raiz);
+    Dato* tmp = NodoP2->info;       
+    NodoP2->info = NodoP1->info;    
+    NodoP1->info = tmp;             
 }
 
 Dato* ArbolPosicional :: posicion(int p){    // devuelve contenido del nodo segun int p
@@ -63,23 +65,25 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // La formula log2(n) dete
 }
 
  void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n)
-    if (!nuevo && altura == 0 && T->last()->siguiente) {  // si la altura es 0 crea nodo hoja
-        nuevo = new Nodo;
-        nuevo->altura = altura;
-        nuevo->hoja = T->last();   
-        T = T->resto();     // se desplaza al siguiente nodo mas reciente
-        return;
-    }else if (!nuevo && altura != 0 ) {    // crea nodo interno
-        nuevo = new Nodo;
-        nuevo->altura = altura;
-    } 
-    else  { return; }
-    // recorrido id 
-    // se construye el arbol desde el nivel inferior hacia niveles superiores
+//    if(!nuevo){
+        if (altura == 0 && T->last()->siguiente) {  // si la altura es 0 crea nodo hoja
+            nuevo = new Nodo;
+            nuevo->altura = altura;
+            nuevo->hoja = T->last();   
+            T = T->resto();           // se desplaza al siguiente nodo mas reciente
+            return;
+        } else if (altura > 0) {    // crea nodo interno
+            nuevo = new Nodo;
+            nuevo->altura = altura;
+        }
+        else  { return; }
+//    } 
+    
+    // recorrido rid 
+    // se construye el arbol desde el nivel superior hacia niveles inferiores
     ArbolPos(T, nuevo->izq,  altura - 1);
     ArbolPos(T, nuevo->der,  altura - 1);
 }
-
 
 /* void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){  
     if (!nuevo->izq)

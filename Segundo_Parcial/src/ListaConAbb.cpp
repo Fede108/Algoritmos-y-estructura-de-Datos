@@ -56,7 +56,7 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                 if(A->siguiente) A->n = A->siguiente->n + 1; // seteo nro de nodo
                 aumento = true;        
         }else{
-                if (x < A->info->palabra){    // si la palabra 'x' es menor, se inserta en el subárbol izquierdo                    
+                if (x < A->info->palabra){    // si la palabra 'x' es menor alfabeticamente, se inserta en el subárbol izquierdo                    
                         Insert(x, aumento, A->izq);                     
                         if (aumento){
                                 switch (A->FB){
@@ -84,7 +84,7 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                                 }//fin switch
                         }//fin aumento==true
                 }//fin subarbol izquierdo
-                else if (x > A->info->palabra){   // si la palabra 'x' es mayor, se inserta en el subárbol derecho
+                else if (x > A->info->palabra){   // si la palabra 'x' es mayor alfabeticamenete, se inserta en el subárbol derecho
                         Insert(x, aumento, A->der);                     
                         if (aumento){
                                 switch (A->FB){         
@@ -112,7 +112,7 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                         }//fin aumento==true
                 }//fin subarbol derecho
                 else{ 
-                        A->incrContador();  // Si la palabra ya existe, se incrementa el contador de repeticiones
+                        A->incrContador();  // si la palabra ya existe, se incrementa el contador de repeticiones
                 }
         }//fin A!=NULL
 }
