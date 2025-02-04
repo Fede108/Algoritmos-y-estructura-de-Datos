@@ -1,7 +1,6 @@
 #ifndef LISTA_CON_ABB_H
 #define LISTA_CON_ABB_H
 
-
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -56,10 +55,11 @@ public:
     void CreaArbolAVL(string x);
     void IRD(){ird(raiz);};     // recorrido inorden del arbol  
     void print(){impre(czo);};  // imprime la lista
-    ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
+    ArbolAVL* Copy(void){  
+        ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
         return copy(czo, arbol);}; 
     NodoAbb* cabeza();    // devuelve el primer nodo de la lista
-    ArbolAVL* resto();  // retorna el puntero al "resto" de la lista
+    ArbolAVL* resto();    // retorna el puntero al "resto" de la lista
     void VerArbol(){ show(raiz,0); } 
 };
 

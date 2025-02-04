@@ -17,8 +17,8 @@
 //               "${workspaceFolder}/Arboles/programa.exe",
 //               "${workspaceFolder}/Arboles/ArbolAvl.cpp",
                "${workspaceFolder}/Segundo_Parcial/bin/main.exe",
-                "${workspaceFolder}/Segundo_Parcial/src/*.cpp",
-                  "-I${workspaceFolder}/Segundo_Parcial/inc"
+                "${workspaceFolder}/Segundo_Parcial/src/ArbolPosicional.cpp", "${workspaceFolder}/Segundo_Parcial/src/Main.cpp", "${workspaceFolder}/Segundo_Parcial/src/ListaConAbb.cpp",
+//                  "-I${workspaceFolder}/Segundo_Parcial/inc"
 //                "${workspaceFolder}/Grafos/programa.exe",
 //                "${workspaceFolder}/Grafos/Wharshall_floyd.cpp",
 //                   "${workspaceFolder}/Primer_Parcial/bin/main.exe",

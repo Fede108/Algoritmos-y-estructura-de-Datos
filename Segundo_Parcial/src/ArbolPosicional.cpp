@@ -77,7 +77,7 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cu
     return altura;     
 }
 
- void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n)
+ void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n) = O(N)
     if(!nuevo){
         if (altura == 0 && T->cabeza()->siguiente) {  // si la altura es 0 crea nodo hoja
             nuevo = new Nodo;

@@ -40,24 +40,21 @@ void ordenaQS(int v[], int primero, int ultimo)
       if(ultimo>primero){
             pivot=v[ultimo];cm++;
             
-            i=primero; j=ultimo;    
-            while (i < j) { // El bucle se detendrá cuando i > j
-                while (v[i] <= pivot){  // continua hasta que el dato sea mayor que el pivot
-                    cc++;
-                    i++;   
-                    if(i==ultimo) break; // no salga del rango del arreglo
+            i=primero-1; j=ultimo;    
+            while (1) { // El bucle se detendrá cuando i > j
+                while (v[++i] < pivot){  // continua hasta que el dato sea mayor que el pivot
+                    cc++;  
                 }    
-                while (v[j] >= pivot){  // continua hasta que el dato sea menor que el pivot
+                while (v[--j] > pivot){  // continua hasta que el dato sea menor que el pivot
                     cc++;
-                    j--;
-                    if(j==primero) break; // no salga del rango del arreglo
                 } 
-                if (i < j) { // Solo intercambiar si i < j
-                    aux = v[i];
-                    v[i] = v[j];
-                    v[j] = aux;
-                    cm += 3;
-                }
+                if(i>=j)break;
+                
+                aux = v[i];
+                v[i] = v[j];
+                v[j] = aux;
+                cm += 3;
+            
             }
             aux=v[i];
             v[i]=v[ultimo]; // pivot se mueve a v[i]

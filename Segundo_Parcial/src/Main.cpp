@@ -65,16 +65,14 @@ void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &c
       if(ultimo>primero){
             pivot = P.posicion(ultimo);cm++;
             
-            i=primero; j=ultimo;    
-            while (i < j) { // El bucle se detendrá cuando i >= j
-                while (P.posicion(i)->palabra < pivot->palabra){ // continua hasta que el dato sea mayor que el pivot
+            i=primero-1; j=ultimo;    
+            while (i < j) { 
+                while (P.posicion(++i)->palabra < pivot->palabra){ // continua hasta que el dato sea mayor que el pivot
                     cc++;
-                    i++;
                     if(i==ultimo) break; // evita que salga del rango
                 } 
-                while (P.posicion(j)->palabra >= pivot->palabra){ // continua hasta que el dato sea menor que el pivot
+                while (P.posicion(--j)->palabra > pivot->palabra){ // continua hasta que el dato sea menor que el pivot
                     cc++;
-                    j--;
                     if(j==primero) break; // evita que salga del rango
                 }
                 if (i < j) { // solo intercambiar si i < j
