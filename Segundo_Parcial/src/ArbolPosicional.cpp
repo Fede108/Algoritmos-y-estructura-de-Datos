@@ -12,11 +12,12 @@ void ArbolPosicional::show(Nodo* aux, int n){    // recorrido dri
     }
 }
 
-NodoAbb* ArbolPosicional::recorrer(int bin, Nodo* Nodo)
+NodoAbb* ArbolPosicional::recorrer(int n, Nodo* Nodo)
 {
+    convertirBin(n);
     while (Nodo->altura > 0)
-    {
-        int bit = (bin >> (Nodo->altura - 1)) & 1;   // toma el bit del numero segun altura del nodo 
+    {     
+        int bit = pila.tope(); pila.desapilar();
         if (bit) { 
         Nodo = Nodo->der; // recorre por el lado derecho 
         } else { 
@@ -42,6 +43,19 @@ Dato* ArbolPosicional :: posicion(int p){    // devuelve contenido del nodo segu
     return recorrer(p,raiz)->info;
 }
 
+void ArbolPosicional::convertirBin(int n){
+    int i = raiz->altura;  // nro de bits que debe tener el binario
+    while(n>0){
+        pila.apilar(n%2);   
+        n = n/2;
+        i--;
+    }
+    while(i>0){     // se completa con ceros
+        pila.apilar(0);
+        i--;
+    }
+}
+
 void ArbolPosicional ::imprimir(Nodo* Nodo)    // recorrido id
 {
     if (Nodo == NULL) return;
@@ -54,22 +68,21 @@ void ArbolPosicional ::imprimir(Nodo* Nodo)    // recorrido id
     imprimir(Nodo->der);
 }
 
-int ArbolPosicional :: calcularAltura(int nroNodo) {  // La formula log2(n) determina cuántos niveles (o altura) necesita un arbol completo
+int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cuantas veces puedo dividir en 2 al nro nodos
     int altura = 0;
-    while (nroNodo > 0) {
-        nroNodo = nroNodo / 2; // dividir por 2 en cada iteración equivalente log2(n) + 1
-        // dividir por 2 es equivalente a subir un nivel en el árbol
-        altura++;    // aumento de a uno la altura subiendo de nivel
+    while (nroNodo > 0) {    
+        nroNodo = nroNodo / 2;  // divido por 2 en cada iteracion 
+        altura++;               // aumento de a uno la altura del arbol
     }
     return altura;     
 }
 
  void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n)
-//    if(!nuevo){
-        if (altura == 0 && T->last()->siguiente) {  // si la altura es 0 crea nodo hoja
+    if(!nuevo){
+        if (altura == 0 && T->cabeza()->siguiente) {  // si la altura es 0 crea nodo hoja
             nuevo = new Nodo;
             nuevo->altura = altura;
-            nuevo->hoja = T->last();   
+            nuevo->hoja = T->cabeza();   
             T = T->resto();           // se desplaza al siguiente nodo mas reciente
             return;
         } else if (altura > 0) {    // crea nodo interno
@@ -77,7 +90,7 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // La formula log2(n) dete
             nuevo->altura = altura;
         }
         else  { return; }
-//    } 
+    } 
     
     // recorrido rid 
     // se construye el arbol desde el nivel superior hacia niveles inferiores

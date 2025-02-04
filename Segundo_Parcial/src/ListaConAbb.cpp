@@ -8,7 +8,7 @@ ArbolAVL* ArbolAVL::resto(){
         return (aux);
 }
 
-NodoAbb* ArbolAVL::last(){
+NodoAbb* ArbolAVL::cabeza(){
         return czo;
 }
 
@@ -149,8 +149,6 @@ void ArbolAVL::rotarRLalter(NodoAbb* &A){
         rotarRR(A);
 }
 
-
-
 void ArbolAVL::show(NodoAbb* aux, int n)
 { 
 int i;
@@ -161,3 +159,18 @@ int i;
        show(aux->izq, n+1);
    }
 }
+
+/*void ArbolAVL::show_(Cola<NodoAbb*>* cola, int n)
+{ 
+        int i;
+        while(cola->esvacia()){
+                for(i=1; i<=(czo->n-cola->size()); i++) cout<<"        ";
+                        cout<<"("<< cola->tope()->info->palabra<<" "<<cola->tope()->FB<<")";
+                        cola->desencolar();
+        }
+        cout<<"\n";
+        cola->encolar(cola->tope()->izq);
+        cola->encolar(cola->tope()->der);
+        show_()    
+        }
+} */

@@ -18,8 +18,8 @@ void impre(int v[], int n);
 int cc,cm;
 
 int main(int argc, char *argv[])
-{ //  int A[10]={30,45,130,70,100,150,30,140,18,110};
-   int A[5]={45,30,200,170,130};
+{  //int A[10]={30,45,130,70,100,150,30,140,18,110};
+   int A[5]={45,30,130,170,200};
 //   int A[MAX];
 //    for(int i=0;i<MAX;i++){
 //                    A[i]=int(rand());
@@ -42,15 +42,15 @@ void ordenaQS(int v[], int primero, int ultimo)
             
             i=primero; j=ultimo;    
             while (i < j) { // El bucle se detendrá cuando i > j
-                while (v[i] < pivot){ 
+                while (v[i] <= pivot){  // continua hasta que el dato sea mayor que el pivot
                     cc++;
-                    i++;
-                    if(i>ultimo) break; // no salga del rango del arreglo
+                    i++;   
+                    if(i==ultimo) break; // no salga del rango del arreglo
                 }    
-                while (v[j] >= pivot){
+                while (v[j] >= pivot){  // continua hasta que el dato sea menor que el pivot
                     cc++;
                     j--;
-                    if(j<primero) break; // no salga del rango del arreglo
+                    if(j==primero) break; // no salga del rango del arreglo
                 } 
                 if (i < j) { // Solo intercambiar si i < j
                     aux = v[i];

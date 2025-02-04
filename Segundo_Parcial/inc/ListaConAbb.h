@@ -58,7 +58,7 @@ public:
     void print(){impre(czo);};  // imprime la lista
     ArbolAVL* Copy(void){   ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
         return copy(czo, arbol);}; 
-    NodoAbb* last();    // devuelve el primer nodo de la lista
+    NodoAbb* cabeza();    // devuelve el primer nodo de la lista
     ArbolAVL* resto();  // retorna el puntero al "resto" de la lista
     void VerArbol(){ show(raiz,0); } 
 };
