@@ -14,7 +14,7 @@ NodoAbb* ArbolAVL::cabeza(){
 
 void ArbolAVL::impre(NodoAbb* aux){
     if (aux->siguiente != NULL) {
-        cout << "\n" << aux->info->palabra <<" "<<aux->info->repeticiones<<" "<<aux->n;
+        cout << aux->info->palabra <<" "<<aux->info->repeticiones<<"  ->  ";
         impre(aux->siguiente);
     }
 }
@@ -72,10 +72,10 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                                         }
                                         case 1:{  // cargado hacia la izquierda
                                                   // se balancea la raiz con rotacion der
-                                                if (A->izq->FB == 1){ // 1 necesita RR, si es -1 necesita RL
+                                                if (A->izq->FB == 1){ // 1 necesita RR, si es -1 necesita LR
                                                         rotarRR(A);
                                                 }else{
-                                                        rotarRLalter(A);
+                                                        rotarLRalter(A);
                                                         
                                                 }
                                                 aumento = false;   // fb = 0, no aumento la altura del arbol
@@ -90,8 +90,8 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
                                 switch (A->FB){     
                                         case -1:{ // cargado hacia la derecha    
                                                   // se balancea la raiz con rotacion izq
-                                                if (A->der->FB == 1){ // 1 necesita LR, si es -1 necesita LL
-                                                        rotarLRalter(A);
+                                                if (A->der->FB == 1){ // 1 necesita RL, si es -1 necesita LL
+                                                        rotarRLalter(A);
                                                 }else{
                                                         rotarLL(A);
                                                 }
@@ -117,21 +117,21 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
         }//fin A!=NULL
 }
 
-// B<A 
+// B<-A 
 void ArbolAVL::rotarRR(NodoAbb* &A){ 
         NodoAbb* B   = A->izq;   // nueva raiz B a la izq A
-        NodoAbb* aux = B->der;   // guardo hijo derecho de nueva raiz 
-        B->der = A;              // A se inserta a der B (nueva raiz)             
+        NodoAbb* aux = B->der;   // guardo subarbol derecho de B 
+        B->der = A;              // A se inserta a der B              
         B->FB = 0;                 
         A->izq = aux;            // hijo der de B se inserta izq de A  (sigue estando der de B y izq A)
         A->FB = 0;
         A = B;                   // B es nueva raiz
 }
 
-// B<A 
+// B->A 
 void ArbolAVL::rotarLL(NodoAbb* &B){  
         NodoAbb* A   = B->der;   // nueva raiz A esta a la der B
-        NodoAbb* aux = A->izq;   // guardo hijo izquierdo de nueva raiz
+        NodoAbb* aux = A->izq;   // guardo subarbol izquierdo de A
         A->izq = B;              // B se inserta a izq de A              
         A->FB = 0;                 
         B->der = aux;            // hijo izq de A se inserta der de B (sigue estando izq de A y der B)
@@ -139,13 +139,13 @@ void ArbolAVL::rotarLL(NodoAbb* &B){
         B = A;                   // A es nueva raiz
 }
  
-void ArbolAVL::rotarLRalter(NodoAbb* &A){ 
-        rotarRR(A->der);
+void ArbolAVL::rotarRLalter(NodoAbb* &A){ // raiz cargada hacia der
+        rotarRR(A->der);                  // hijo der se encuentra cargado hacia izq
         rotarLL(A);
 }
  
-void ArbolAVL::rotarRLalter(NodoAbb* &A){ 
-        rotarLL(A->izq);
+void ArbolAVL::rotarLRalter(NodoAbb* &A){ // raiz cargada hacia izq
+        rotarLL(A->izq);                  // hijo izq se encuentra cargado hacia der
         rotarRR(A);
 }
 

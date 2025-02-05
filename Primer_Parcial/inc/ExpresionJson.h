@@ -8,7 +8,7 @@ using namespace std;
 class ExpresionJson
 {
 private:
-    Estado* estadoActual;  // puede almacenar cualquier tipo de estado 
+    Estado* estadoActual;  // puede apuntar a cualquier tipo de estado 
     EntreLlaves entreLlaves;    
     Llave llave;                
     Valor valor;                

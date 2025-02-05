@@ -19,7 +19,8 @@ int main(){
     N = T.cabeza()->n + 1;
 
     salida(); cout <<"ird Abb original"<<"\n"; // impresion en recorrido inorden 
-    T.IRD();cout<<endl;                     
+    T.IRD(); cout<<"\n"<<endl;                     
+    T.print(); cout<<"\n";
 
     T_copy = T.Copy();                     // se guarda una copia de la lista original
     cout <<"\n-----Abb copia-----"<<"\n\n";
@@ -28,7 +29,8 @@ int main(){
     mapear(P, &T);                         // se mapea la lista en arbol pos, acceso a la lista en orden logaritmico
     cout <<"\n\n-----Arbol pos semicompleto-----\n"<<endl;
     P.verArbol();
- 
+    salida();cout<<"\n"; P.ImprimirHojas();
+
     ordenaSeleccion(P,N,cm1,cc1);          // ordenamiento de la lista por repeticion
     salida(); 
     cout <<"Hojas ordenadas por repeticion. Algoritmo de seleccion"<<endl;

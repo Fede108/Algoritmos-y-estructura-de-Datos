@@ -27,7 +27,6 @@ private:
     string expresion; //buffer de caracteres
     Pila<char> p;
 public:
-    // Métodos de ExpresionJson
     bool validarExpresion(char c) override;
     void guardarExpresion(char c);
     string print() override;

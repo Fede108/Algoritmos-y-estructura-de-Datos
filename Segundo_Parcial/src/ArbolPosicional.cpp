@@ -85,7 +85,7 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cu
             nuevo->hoja = T->cabeza();   
             T = T->resto();           // se desplaza al siguiente nodo mas reciente
             return;
-        } else if (altura > 0) {    // crea nodo interno
+        } else if (altura > 0) {      // crea nodo interno
             nuevo = new Nodo;
             nuevo->altura = altura;
         }
@@ -93,7 +93,6 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cu
     } 
     
     // recorrido rid 
-    // se construye el arbol desde el nivel superior hacia niveles inferiores
     ArbolPos(T, nuevo->izq,  altura - 1);
     ArbolPos(T, nuevo->der,  altura - 1);
 }
