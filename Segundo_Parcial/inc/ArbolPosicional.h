@@ -36,9 +36,6 @@ private:
 public:
     ArbolPosicional(){
           raiz = NULL;
-    //    raiz=new Nodo;
-    //    raiz->altura = 1;
-    //    pila.push(raiz);  
     };
     void CreaArbolPos(ArbolAVL *lista) // recibe una copia del puntero llamado lista, no puede modificar direccion del original
     {  

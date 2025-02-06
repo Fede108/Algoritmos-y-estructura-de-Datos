@@ -26,11 +26,17 @@ public:
         siguiente = NULL;
         n = -1;  // empiezo a enumerar desde el cero
     }
+     NodoAbb(string d, int repeticiones, int n){ 
+        info = new Dato;
+        info->palabra = d;
+        info->repeticiones = repeticiones;
+        this->n = n;
+    } 
     ~NodoAbb(){
         delete info;
     }
  
-    void setNext(NodoAbb *next){siguiente = next;};
+    void setNext(NodoAbb* next){siguiente = next;};
     void incrContador(){ info->repeticiones++;}
 };
 
@@ -57,7 +63,7 @@ public:
     void print(){impre(czo);};  // imprime la lista
     ArbolAVL* Copy(void){  
         ArbolAVL* arbol = new ArbolAVL(); // devuelve copia del arbol 
-        return copy(czo, arbol);}; 
+        return copy(raiz, arbol);}; 
     NodoAbb* cabeza();    // devuelve el primer nodo de la lista
     ArbolAVL* resto();    // retorna el puntero al "resto" de la lista
     void VerArbol(){ show(raiz,0); } 

@@ -14,8 +14,8 @@ NodoAbb* ArbolAVL::cabeza(){
 
 void ArbolAVL::impre(NodoAbb* aux){
     if (aux->siguiente != NULL) {
-        cout << aux->info->palabra <<" "<<aux->info->repeticiones<<"  ->  ";
         impre(aux->siguiente);
+        printf("%-10s %5i %5i\n", aux->info->palabra.c_str(), aux->info->repeticiones, aux->n);
     }
 }
 
@@ -37,12 +37,14 @@ void ArbolAVL::ird(NodoAbb* aux)
 }
 
 ArbolAVL* ArbolAVL::copy(NodoAbb* aux, ArbolAVL* &arbol){
-        if (aux->siguiente != NULL)
-        { 
-                copy(aux->siguiente, arbol);
-                arbol->CreaArbolAVL(aux->info->palabra); 
-        } 
-        return arbol;     
+        if (aux != NULL) {
+        copy(aux->izq, arbol);
+        NodoAbb* A = new NodoAbb(aux->info->palabra, aux->info->repeticiones,aux->n);
+        A->setNext(arbol->czo);
+        arbol->czo = A;
+        copy(aux->der, arbol);
+    }
+    return arbol;
 }
 
 void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
@@ -117,27 +119,28 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
         }//fin A!=NULL
 }
 
-// B<-A 
-void ArbolAVL::rotarRR(NodoAbb* &A){ 
-        NodoAbb* B   = A->izq;   // nueva raiz B a la izq A
-        NodoAbb* aux = B->der;   // guardo subarbol derecho de B 
-        B->der = A;              // A se inserta a der B              
+// A<-B 
+void ArbolAVL::rotarRR(NodoAbb* &B){ 
+        NodoAbb* A   = B->izq;   // nueva raiz A a la izq B
+        NodoAbb* aux = A->der;   // guardo subarbol derecho de A 
+        A->der = B;              // B se inserta a der A              
+        A->FB = 0;                 
+        B->izq = aux;            // hijo der de A se inserta izq de B  (sigue estando der de A y izq B)
+        B->FB = 0;
+        B = A;                   // A es nueva raiz
+}
+
+// A->B 
+void ArbolAVL::rotarLL(NodoAbb* &A){  
+        NodoAbb* B   = A->der;   // nueva raiz B esta a la der A
+        NodoAbb* aux = B->izq;   // guardo subarbol izquierdo de B
+        B->izq = A;              // A se inserta a izq de B              
         B->FB = 0;                 
-        A->izq = aux;            // hijo der de B se inserta izq de A  (sigue estando der de B y izq A)
+        A->der = aux;            // hijo izq de B se inserta der de A (sigue estando izq de B y der A)
         A->FB = 0;
         A = B;                   // B es nueva raiz
 }
 
-// B->A 
-void ArbolAVL::rotarLL(NodoAbb* &B){  
-        NodoAbb* A   = B->der;   // nueva raiz A esta a la der B
-        NodoAbb* aux = A->izq;   // guardo subarbol izquierdo de A
-        A->izq = B;              // B se inserta a izq de A              
-        A->FB = 0;                 
-        B->der = aux;            // hijo izq de A se inserta der de B (sigue estando izq de A y der B)
-        B->FB = 0;
-        B = A;                   // A es nueva raiz
-}
  
 void ArbolAVL::rotarRLalter(NodoAbb* &A){ // raiz cargada hacia der
         rotarRR(A->der);                  // hijo der se encuentra cargado hacia izq

@@ -20,16 +20,13 @@ int main(){
 
     salida(); cout <<"ird Abb original"<<"\n"; // impresion en recorrido inorden 
     T.IRD(); cout<<"\n"<<endl;                     
-    T.print(); cout<<"\n";
 
     T_copy = T.Copy();                     // se guarda una copia de la lista original
-    cout <<"\n-----Abb copia-----"<<"\n\n";
-    T.VerArbol();
-    
+  
     mapear(P, &T);                         // se mapea la lista en arbol pos, acceso a la lista en orden logaritmico
     cout <<"\n\n-----Arbol pos semicompleto-----\n"<<endl;
     P.verArbol();
-    salida();cout<<"\n"; P.ImprimirHojas();
+   // salida();cout<<"\n"; P.ImprimirHojas();
 
     ordenaSeleccion(P,N,cm1,cc1);          // ordenamiento de la lista por repeticion
     salida(); 
@@ -45,9 +42,9 @@ int main(){
     cout << "\n" <<"  algoritmo quickSort: nro movimientos = "<<cm2<<" nro de comparaciones = "<<cc2<<endl;
     
    
-    salida(); cout <<"ird copia"<<endl;
-    T_copy->IRD();cout<<endl;  
-    salida(); cout <<"ird original"<<"\n"; 
+    salida(); cout <<" lista copia"<<endl;
+    T_copy->print();cout<<endl;  
+    salida(); cout <<" ird Abb original"<<"\n"; 
     T.IRD();cout<<endl;                     
 
     
