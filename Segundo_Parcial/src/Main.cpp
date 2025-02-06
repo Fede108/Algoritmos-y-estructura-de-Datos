@@ -3,16 +3,16 @@
 #include "../inc/ArbolPosicional.h"
 
 void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc);
-void mapear(ArbolPosicional &P, ArbolAVL *T);
-void leer_archivo(string archivo_,  ArbolAVL &T);
+void mapear(ArbolPosicional &P, ListaConAbb *T);
+void leer_archivo(string archivo_,  ListaConAbb &T);
 void ordenaQuickSort(ArbolPosicional &P, int primero, int ultimo,int &cm, int &cc);
 string convertirMayuscula(string palabra);
 void salida();
 
 int main(){
     int cm1 = 0, cc1=0, cm2 = 0, cc2=0, N = 0;
-    ArbolAVL T; 
-    ArbolAVL *T_copy;
+    ListaConAbb T; 
+    ListaConAbb *T_copy;
     ArbolPosicional P;
 
     leer_archivo("data.txt", T);           // lee el archivo y guarda las palabras en el abb en orden alfabetico
@@ -113,11 +113,11 @@ void ordenaSeleccion(ArbolPosicional &P,int N,int &cm, int &cc){
 }
 
 
-void mapear(ArbolPosicional &P, ArbolAVL *T){  
+void mapear(ArbolPosicional &P, ListaConAbb *T){  
     P.CreaArbolPos(T);                                                                      
 }
     
-void leer_archivo(string archivo_,  ArbolAVL &T){
+void leer_archivo(string archivo_,  ListaConAbb &T){
     string palabra;
     ifstream archivo(archivo_);
     if (archivo.is_open() ){
@@ -127,7 +127,7 @@ void leer_archivo(string archivo_,  ArbolAVL &T){
               palabra += c;  
             } else if (!palabra.empty())   
             {    
-                T.CreaArbolAVL(convertirMayuscula(palabra));   // se van agregando las palabras al arbol  
+                T.CreaListaConAbb(convertirMayuscula(palabra));   // se van agregando las palabras al arbol  
                 palabra = ""; 
             }   
         }

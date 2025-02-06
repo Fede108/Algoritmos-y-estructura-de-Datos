@@ -12,7 +12,7 @@ struct nodoAVL{
 };
 
 typedef nodoAVL * pnodo;
-class arbolAVL{
+class ListaConAbb{
     pnodo raiz;
     void Insert(int x, bool &aumento, nodoAVL* &A);
     void show(pnodo aux, int n);
@@ -22,19 +22,19 @@ class arbolAVL{
     void rotarRLalter(nodoAVL* &A);
     
 public:
-    arbolAVL(){raiz=NULL;};
-    ~arbolAVL(){};
-    void CreaArbolAVL(tarbol x);
+    ListaConAbb(){raiz=NULL;};
+    ~ListaConAbb(){};
+    void CreaListaConAbb(tarbol x);
     void VerArbol(){ show(raiz,0); }
 };
 
-void arbolAVL::CreaArbolAVL(tarbol x)
+void ListaConAbb::CreaListaConAbb(tarbol x)
 {    bool aumento;
      aumento=false;
      Insert(x,aumento,raiz);
 }
 
-void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
+void ListaConAbb::Insert(int x, bool &aumento, nodoAVL* &A){
         if (A == NULL){
                 A = new nodoAVL;
                 A->dato = x;
@@ -103,7 +103,7 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
 }
 
 // B<A 
-void arbolAVL::rotarRR(nodoAVL* &A){ 
+void ListaConAbb::rotarRR(nodoAVL* &A){ 
         cout<<"\n Rotacion RR"<<endl;
         nodoAVL* B   = A->izq;   // B a la izq A
         nodoAVL* aux = B->der;   // hijo derecho de nueva raiz 
@@ -115,7 +115,7 @@ void arbolAVL::rotarRR(nodoAVL* &A){
 }
 
 // B<A
-void arbolAVL::rotarLL(nodoAVL* &B){  
+void ListaConAbb::rotarLL(nodoAVL* &B){  
         cout<<"\n Rotacion LL"<<endl;
         nodoAVL* A   = B->der;   // A esta a la der B
         nodoAVL* aux = A->izq;   // hijo izquierdo de nueva raiz
@@ -127,21 +127,21 @@ void arbolAVL::rotarLL(nodoAVL* &B){
 }
 
  
-void arbolAVL::rotarLRalter(nodoAVL* &A){ 
+void ListaConAbb::rotarLRalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble RR+LL"<<endl;
         rotarRR(A->der);
         VerArbol();
         rotarLL(A);
 }
  
-void arbolAVL::rotarRLalter(nodoAVL* &A){ 
+void ListaConAbb::rotarRLalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble LL+RR"<<endl;
         rotarLL(A->izq);
         VerArbol();
         rotarRR(A);
 }
 
-void arbolAVL::show(pnodo aux, int n)
+void ListaConAbb::show(pnodo aux, int n)
 { int i;
    if(aux!=NULL){                      //OjO este es un recorrido dri
        show(aux->der, n+1);
@@ -153,10 +153,10 @@ void arbolAVL::show(pnodo aux, int n)
 //-------------------------------------------------------
 int main (int argc, char *argv[])
 {  int i; tarbol x;
-   arbolAVL T;
+   ListaConAbb T;
    int vec[9]={50,120,180,240,270,360,410,425,550};
    for(i=0;i<9;i++){ 
-                      T.CreaArbolAVL(vec[i]);
+                      T.CreaListaConAbb(vec[i]);
                       T.VerArbol();
                       
    } 

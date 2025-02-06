@@ -2,17 +2,17 @@
 
 //------------------------------------ metodos de lista -----------------------------------------------------
 
-ArbolAVL* ArbolAVL::resto(){
-        ArbolAVL* aux = new ArbolAVL();
+ListaConAbb* ListaConAbb::resto(){
+        ListaConAbb* aux = new ListaConAbb();
         aux->czo = this->czo->siguiente;
         return (aux);
 }
 
-NodoAbb* ArbolAVL::cabeza(){
+NodoAbbLista* ListaConAbb::cabeza(){
         return czo;
 }
 
-void ArbolAVL::impre(NodoAbb* aux){
+void ListaConAbb::impre(NodoAbbLista* aux){
     if (aux->siguiente != NULL) {
         impre(aux->siguiente);
         printf("%-10s %5i %5i\n", aux->info->palabra.c_str(), aux->info->repeticiones, aux->n);
@@ -21,13 +21,13 @@ void ArbolAVL::impre(NodoAbb* aux){
 
 //------------------------------------ metodos de arbol -----------------------------------------------------
 
-void ArbolAVL::CreaArbolAVL(string x)
+void ListaConAbb::CreaListaConAbb(string x)
 {    bool aumento;
      aumento=false;
      Insert(x,aumento,raiz);
 }
 
-void ArbolAVL::ird(NodoAbb* aux)
+void ListaConAbb::ird(NodoAbbLista* aux)
 {
     if (aux != NULL) {
         ird(aux->izq);
@@ -36,10 +36,10 @@ void ArbolAVL::ird(NodoAbb* aux)
     }
 }
 
-ArbolAVL* ArbolAVL::copy(NodoAbb* aux, ArbolAVL* &arbol){
+ListaConAbb* ListaConAbb::copy(NodoAbbLista* aux, ListaConAbb* &arbol){
         if (aux != NULL) {
         copy(aux->izq, arbol);
-        NodoAbb* A = new NodoAbb(aux->info->palabra, aux->info->repeticiones,aux->n);
+        NodoAbbLista* A = new NodoAbbLista(aux->info->palabra, aux->info->repeticiones,aux->n);
         A->setNext(arbol->czo);
         arbol->czo = A;
         copy(aux->der, arbol);
@@ -47,13 +47,13 @@ ArbolAVL* ArbolAVL::copy(NodoAbb* aux, ArbolAVL* &arbol){
     return arbol;
 }
 
-void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
+void ListaConAbb::Insert(string x, bool &aumento, NodoAbbLista* &A){
         if (A == NULL){
-                A = new NodoAbb(x);
+                A = new NodoAbbLista(x);
                 A->FB = 0;
                 A->izq = NULL;
                 A->der = NULL;
-                A->setNext(czo);  // sumar NodoAbbs a la lista
+                A->setNext(czo);  // sumar NodoAbbListas a la lista
                 czo = A;          // Actualizar la cabeza de la lista
                 A->n = A->siguiente->n + 1; // seteo nro de nodo
                 aumento = true;        
@@ -120,9 +120,9 @@ void ArbolAVL::Insert(string x, bool &aumento, NodoAbb* &A){
 }
 
 // A<-B 
-void ArbolAVL::rotarRR(NodoAbb* &B){ 
-        NodoAbb* A   = B->izq;   // nueva raiz A a la izq B
-        NodoAbb* aux = A->der;   // guardo subarbol derecho de A 
+void ListaConAbb::rotarRR(NodoAbbLista* &B){ 
+        NodoAbbLista* A   = B->izq;   // nueva raiz A a la izq B
+        NodoAbbLista* aux = A->der;   // guardo subarbol derecho de A 
         A->der = B;              // B se inserta a der A              
         A->FB = 0;                 
         B->izq = aux;            // hijo der de A se inserta izq de B  (sigue estando der de A y izq B)
@@ -131,9 +131,9 @@ void ArbolAVL::rotarRR(NodoAbb* &B){
 }
 
 // A->B 
-void ArbolAVL::rotarLL(NodoAbb* &A){  
-        NodoAbb* B   = A->der;   // nueva raiz B esta a la der A
-        NodoAbb* aux = B->izq;   // guardo subarbol izquierdo de B
+void ListaConAbb::rotarLL(NodoAbbLista* &A){  
+        NodoAbbLista* B   = A->der;   // nueva raiz B esta a la der A
+        NodoAbbLista* aux = B->izq;   // guardo subarbol izquierdo de B
         B->izq = A;              // A se inserta a izq de B              
         B->FB = 0;                 
         A->der = aux;            // hijo izq de B se inserta der de A (sigue estando izq de B y der A)
@@ -142,17 +142,17 @@ void ArbolAVL::rotarLL(NodoAbb* &A){
 }
 
  
-void ArbolAVL::rotarRLalter(NodoAbb* &A){ // raiz cargada hacia der
+void ListaConAbb::rotarRLalter(NodoAbbLista* &A){ // raiz cargada hacia der
         rotarRR(A->der);                  // hijo der se encuentra cargado hacia izq
         rotarLL(A);
 }
  
-void ArbolAVL::rotarLRalter(NodoAbb* &A){ // raiz cargada hacia izq
+void ListaConAbb::rotarLRalter(NodoAbbLista* &A){ // raiz cargada hacia izq
         rotarLL(A->izq);                  // hijo izq se encuentra cargado hacia der
         rotarRR(A);
 }
 
-void ArbolAVL::show(NodoAbb* aux, int n)
+void ListaConAbb::show(NodoAbbLista* aux, int n)
 { 
 int i;
     if(aux!=NULL){                      //OjO este es un recorrido dri
@@ -163,7 +163,7 @@ int i;
    }
 }
 
-/*void ArbolAVL::show_(Cola<NodoAbb*>* cola, int n)
+/*void ListaConAbb::show_(Cola<NodoAbbLista*>* cola, int n)
 { 
         int i;
         while(cola->esvacia()){

@@ -12,7 +12,7 @@ void ArbolPosicional::show(Nodo* aux, int n){    // recorrido dri
     }
 }
 
-NodoAbb* ArbolPosicional::recorrer(int n, Nodo* Nodo)
+NodoAbbLista* ArbolPosicional::recorrer(int n, Nodo* Nodo)
 {
     convertirBin(n);
     while (Nodo->altura > 0)
@@ -31,8 +31,8 @@ NodoAbb* ArbolPosicional::recorrer(int n, Nodo* Nodo)
 void ArbolPosicional :: swap(int p1, int p2){   // intercambia el contenido de los nodos
     p1 = p1 - 1;
     p2 = p2 - 1;
-    NodoAbb* NodoP2 = recorrer(p2, raiz);
-    NodoAbb* NodoP1 = recorrer(p1, raiz);
+    NodoAbbLista* NodoP2 = recorrer(p2, raiz);
+    NodoAbbLista* NodoP1 = recorrer(p1, raiz);
     Dato* tmp = NodoP2->info;       
     NodoP2->info = NodoP1->info;    
     NodoP1->info = tmp;             
@@ -77,7 +77,7 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cu
     return altura;     
 }
 
- void ArbolPosicional :: ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n) = O(N)
+ void ArbolPosicional :: ArbolPos(ListaConAbb *&T, Nodo*& nuevo, int altura) { // crea el arbol posicional en una sola llamada O(2^n) = O(N)
     if(!nuevo){
         if (altura == 0 && T->cabeza()->siguiente) {  // si la altura es 0 crea nodo hoja
             nuevo = new Nodo;
@@ -97,7 +97,7 @@ int ArbolPosicional :: calcularAltura(int nroNodo) {  // la altura equivale a cu
     ArbolPos(T, nuevo->der,  altura - 1);
 }
 
-/* void ArbolPosicional :: ArbolPos(NodoAbb *lista, Nodo*& nuevo){  
+/* void ArbolPosicional :: ArbolPos(NodoAbbLista *lista, Nodo*& nuevo){  
     if (!nuevo->izq)
     {
         nuevo->izq = new Nodo;

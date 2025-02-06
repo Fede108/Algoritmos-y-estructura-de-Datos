@@ -12,7 +12,7 @@ using namespace std;
 class Nodo 
 {
 public:
-   NodoAbb* hoja;   // hoja es un puntero a los nodos de la lista
+   NodoAbbLista* hoja;   // hoja es un puntero a los nodos de la lista
    Nodo* der;
    Nodo* izq;
    int altura;
@@ -29,21 +29,21 @@ class ArbolPosicional
 private:
     Nodo* raiz;
     Pila<int> pila;
-    void ArbolPos(ArbolAVL *&T, Nodo*& nuevo, int altura); // modifica el puntero lista (que es copia del original) usando *&T  
-    void imprimir(Nodo* NodoAbb);           // imprime las hojas del arbol
+    void ArbolPos(ListaConAbb *&T, Nodo*& nuevo, int altura); // modifica el puntero lista (que es copia del original) usando *&T  
+    void imprimir(Nodo* NodoAbbLista);           // imprime las hojas del arbol
     int calcularAltura(int numElementos);   // calcula altura del arbol segun nro elementos de la lista
     void show(Nodo* aux, int n);            // imprime el arbol 
 public:
     ArbolPosicional(){
           raiz = NULL;
     };
-    void CreaArbolPos(ArbolAVL *lista) // recibe una copia del puntero llamado lista, no puede modificar direccion del original
+    void CreaArbolPos(ListaConAbb *lista) // recibe una copia del puntero a la lista, no puede modificar direccion del original
     {  
         ArbolPos(lista,raiz,calcularAltura(lista->cabeza()->n));     // crea arbolPos en una llamada segun cantidad nodos de lista
     };
     void ImprimirHojas(){imprimir(raiz);};
     void swap(int p1, int p2);    
-    NodoAbb* recorrer(int bin, Nodo* Nodo);
+    NodoAbbLista* recorrer(int bin, Nodo* Nodo);
     Dato* posicion(int p);
     void verArbol(){ show(raiz,0);}
     void convertirBin(int n);

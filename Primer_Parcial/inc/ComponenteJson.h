@@ -15,6 +15,7 @@ class ExpresionJson;
 class ComponenteJson
 {
 public:
+    virtual ~ComponenteJson() = default;
     virtual bool validarExpresion(char c)= 0;
     virtual bool  getExpresionEsCorrecta() = 0;
     virtual string print() = 0;
