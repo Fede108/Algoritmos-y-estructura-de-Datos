@@ -10,8 +10,8 @@
                 "-g",
                 "-o",
                 
-//               "${workspaceFolder}/Ordenamiento/programa.exe",
-//               "${workspaceFolder}/Ordenamiento/quick_sort_meg_sort.cpp",
+               "${workspaceFolder}/Ordenamiento/programa.exe",
+               "${workspaceFolder}/Ordenamiento/quick_sort_meg_sort.cpp",
 //            "${workspaceFolder}/Otras_Estructuras/programa.exe",
 //            "${workspaceFolder}/Otras_Estructuras/Hash_fede.cpp",             
 //               "${workspaceFolder}/Arboles/programa.exe",

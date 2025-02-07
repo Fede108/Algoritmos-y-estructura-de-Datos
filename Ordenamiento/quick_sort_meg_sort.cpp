@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 //                    A[i]=int(rand());
 // }
     cc=cm=0;
-    ordenaQS(A,0,5-1);
- //   ordenaMS(A,0,MAX);
+  //  ordenaQS(A,0,5-1);
+    ordenaMS(A,0,5);
     cout<<"\n -----------------------------";
     //impre(A,MAX);
     cout<<"comparaciones= "<<cc<<" movimientos= "<<cm<<endl;
@@ -70,12 +70,12 @@ void ordenaQS(int v[], int primero, int ultimo)
 int ordenaMS(int a[], int low, int high)
 {   int mid;
     if(low<high){
-                 mid=(low+high)/2;
-                 //cout<<"\n llamo a ordenaMS(1) con low= "<<low<<" mid= "<<mid<<endl;
-                 ordenaMS(a,low,mid);
-                 //cout<<"\n llamo a ordenaMS(2) con mid+1= "<<mid+1<<" high= "<<high<<endl;
-                 ordenaMS(a,mid+1,high);
-                 merge(a,low,high,mid);
+                 mid=(low+high)/2;  // subdivide el arreglo en 2 partes
+                
+                 ordenaMS(a,low,mid);  // recursion de low a mid
+                
+                 ordenaMS(a,mid+1,high); // recursion de mid+1 a high
+                 merge(a,low,high,mid);   // se juntan las 2 partes de manera ordenada
     }
     return(0);
 }

@@ -12,32 +12,32 @@ digraph G {
   }
  subgraph terminales {
   node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
-00 [label="T0 [2]"];
+00 [label="T0"];
 01 [label="T1"];
 02 [label="T2"];
-10 [label="T0 [3]"];
+10 [label="T0 [514]"];
 11 [label="T1"];
 12 [label="T2"];
-20 [label="T0"];
+20 [label="T0 [66048]"];
 21 [label="T1"];
-22 [label="T2"];
-30 [label="T0"];
+22 [label="T2 [1]"];
+30 [label="T0 [0]"];
 31 [label="T1"];
-32 [label="T2"];
+32 [label="T2 [512]"];
 40 [label="T0"];
 41 [label="T1"];
 42 [label="T2"];
  }
     0 -> 3 [label="0"];
-    1 -> 0 [label="0"];
+    1 -> 0 [label="1"];
     1 -> 2 [label="0"];
     1 -> 4 [label="0"];
-    2 -> 1 [label="0"];
-    2 -> 3 [label="0"];
+    2 -> 1 [label="1"];
+    2 -> 3 [label="2"];
     2 -> 4 [label="0"];
     3 -> 0 [label="0"];
-    3 -> 2 [label="0"];
-    4 -> 0 [label="0"];
+    3 -> 2 [label="18"];
+    4 -> 0 [label="2"];
     4 -> 3 [label="0"];
     0 -> 00 [minlen=0.2];
     0 -> 01 [minlen=0.2];
