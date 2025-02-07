@@ -12,7 +12,7 @@ digraph G {
   }
  subgraph terminales {
   node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];
-00 [label="T0"];
+00 [label="T0 [65539]"];
 01 [label="T1"];
 10 [label="T0"];
 11 [label="T1"];
@@ -23,18 +23,18 @@ digraph G {
 40 [label="T0"];
 41 [label="T1"];
  }
-    0 -> 3 [label="1"];
+    0 -> 3 [label="0"];
     0 -> 4 [label="0"];
-    1 -> 0 [label="0"];
+    1 -> 0 [label="2"];
     1 -> 2 [label="2"];
     1 -> 4 [label="0"];
-    2 -> 1 [label="0"];
-    2 -> 3 [label="0"];
-    2 -> 4 [label="0"];
+    2 -> 1 [label="3"];
+    2 -> 3 [label="2"];
+    2 -> 4 [label="1"];
     3 -> 0 [label="0"];
-    3 -> 2 [label="0"];
-    4 -> 1 [label="2"];
-    4 -> 3 [label="0"];
+    3 -> 2 [label="1"];
+    4 -> 1 [label="6"];
+    4 -> 3 [label="2"];
     0 -> 00 [minlen=0.2];
     0 -> 01 [minlen=0.2];
     1 -> 10 [minlen=0.2];

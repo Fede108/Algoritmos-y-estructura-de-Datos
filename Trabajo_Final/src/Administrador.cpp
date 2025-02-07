@@ -81,10 +81,10 @@ void Administrador::simular(){
     srand(time(0));
     grafo->matrizPesos();
     grafo->Floyd();
-//    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
-//    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
-//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
-//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
+    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
+    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
 //    crearNuevaPagina();
 //    crearNuevaPagina();
 //    crearNuevaPagina();

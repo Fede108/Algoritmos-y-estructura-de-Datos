@@ -6,8 +6,8 @@
         "director": "Dr. Ingeniero"
       },
       "humanidades": {
-        "departamentos": ["historia" "filosofia"],
-        "director": "Dr. Humanista"
+        "departamentos": ["historia", "filosofia"],
+        "director": 
       }
     },
     "ranking": "top10"
