@@ -46,7 +46,7 @@ Dato* ArbolPosicional :: posicion(int p){    // devuelve contenido del nodo segu
 void ArbolPosicional::convertirBin(int n){
     int i = raiz->altura;  // nro de bits que debe tener el binario
     while(n>0){
-        pila.apilar(n%2);   
+       pila.apilar(n%2);    
         n = n/2;
         i--;
     }

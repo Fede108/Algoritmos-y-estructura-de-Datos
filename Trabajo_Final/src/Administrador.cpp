@@ -11,15 +11,15 @@ void Administrador::generarDOT(){
         archivo << "digraph G {\n" << "    edge [color=gray, penwidth=1];\n" << "    size=\"8,8\";\n" << "    ratio=\"fill\";\n";
         archivo << " subgraph routers {\n";
         archivo << " node [shape=box, style=filled, color=royalblue, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
-            for (int i = 0; i < grafo->N; ++i) {
+            for (int i = 0; i < grafo->N; ++i) {  // crea los routers
                     archivo << "        " << i << " [label=\"R" << i << "\"];\n";
             }
         archivo << "  }\n";
         archivo << " subgraph terminales {\n";
         archivo << "  node [shape=box, style=filled, color=forestgreen, fixedsize=true, width=0.5, height=0.5, fontcolor=white];\n";
         for (int i = 0; i < grafo->N; ++i) {
-            for (int k = 0; k < grafo->t; ++k) {
-                if(grafo->nodos.get(i)->terminales.get(k)->pagina)
+            for (int k = 0; k < grafo->t; ++k) {    // crea las terminales de cada router
+                if(grafo->nodos.get(i)->terminales.get(k)->pagina)   // si la terminal recibio una pagina
                     archivo << i << k << " [label=\"T" << k << " [" << grafo->nodos.get(i)->terminales.get(k)->pagina->id << "]\"];\n";
                 else
                     archivo << i << k << " [label=\"T" << k << "\"];\n";
@@ -27,13 +27,13 @@ void Administrador::generarDOT(){
         }
         archivo << " }\n";
 
-        for (int i = 0; i < grafo->N; ++i) {
+        for (int i = 0; i < grafo->N; ++i) {     // crea las conexiones entre routers
             for (int j = 0; j < grafo->N; ++j) {
                 if(grafo->pesos[i][j] != 9000)
                     archivo << "    " << i << " -> " << j << " [label=\"" << grafo->pesos[i][j] << "\"];\n";
             }
         }
-        for (int i = 0; i < grafo->nodos.size(); ++i) {
+        for (int i = 0; i < grafo->nodos.size(); ++i) {  // crea las conexiones de los routers a terminales
             for (int k = 0; k < grafo->nodos.get(i)->t; ++k) {
                 archivo << "    " << i << " -> "  << i << k << " [minlen=0.2];\n";
             }
@@ -42,8 +42,6 @@ void Administrador::generarDOT(){
         archivo.close();
     }
 }
-
-
 
 void Administrador::crearRed(string cfg){
     bool conexiones = false, routers = false,  terminales = false;
@@ -83,10 +81,10 @@ void Administrador::simular(){
     srand(time(0));
     grafo->matrizPesos();
     grafo->Floyd();
-    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
-    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
-    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
-    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
+//    grafo->nodos.get(0)->terminales.get(0)->emitirPagina(1,4);
+//    grafo->nodos.get(2)->terminales.get(0)->emitirPagina(0,10);
+//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(1,6);
+//    grafo->nodos.get(3)->terminales.get(0)->emitirPagina(0,5);
 //    crearNuevaPagina();
 //    crearNuevaPagina();
 //    crearNuevaPagina();
@@ -96,15 +94,13 @@ void Administrador::simular(){
     {   
         cout << "\n =========================================== CICLO SIMULACION "<< ciclos<< " ============================================ \n";
         grafo->mostrarCaminos();
-
+        crearNuevaPagina();
         
         cout << "\n--------------------\n\n -- PAQUETES RECIBIDOS-- \n\n";
         for (int i = 0; i < grafo->N; i++)
         {
          grafo->nodos.get(i)->reenvio();  // se realizan las tareas de recepcion, reenvio o almacenamiento        
         }
-      //  grafo->matrizPesos();
-      //  grafo->mostrarCaminos();
         cout << " --------------------\n \n-- PAQUETES ENVIADOS-- \n";
         for (int i = 0; i < grafo->N; i++)
         {
@@ -122,12 +118,15 @@ void Administrador::simular(){
 }
 
 void Administrador::crearNuevaPagina(){     
-     if (rand() % 100 < 110) { // 40% de probabilidad
+     if (rand() % 100 < 60) { // 60% de probabilidad
             int origenR     =  rand() % grafo->N; 
             int origenT     =  rand() % grafo->t;     
             bitset<8> h_ip  =  rand() % grafo->t;       
-            bitset<8> l_ip  =  rand() % grafo->N;      
-            int tamaño      = (rand() % 10) + 1;        
+            bitset<8> l_ip  =  rand() % grafo->N; 
+            while(l_ip.to_ulong()==origenR){
+                  l_ip  =  rand() % grafo->N; 
+            } 
+            int tamaño      = (rand() % 10) + 1;
             bitset<16> destino((h_ip.to_ulong() << 8) | l_ip.to_ulong());
             grafo->nodos.get(origenR)->terminales.get(origenT)->emitirPagina(destino, tamaño);      
     }

@@ -28,7 +28,7 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
     for (int i = 0; i < N; i++) {
         nodos.push(new Router(i, t, cf[i])); 
     }
-    // creo el grafo con una matriz
+    // creo el grafo con la matriz de adyacencia
     for (int i = 0; i < N; i++){
         for (int y = 0; y < N; y++){
                 if(matriz[i][y]) nodos.get(i)->agregarNodoAdyacente(nodos.get(y), matriz[i][y]);
@@ -36,7 +36,7 @@ Grafo::Grafo(int N, int t, int **matriz) : matriz(matriz), N(N), t(t) {
     }
 }
 
-void Grafo :: matrizPesos(){
+void Grafo :: matrizPesos(){  // actualiza los tamaños de las colas y la cantidad de ciclos entre routers
     for (int i = 0; i < N; i++)
     {
         for (int y = 0; y < N; y++)
@@ -110,7 +110,7 @@ void Grafo::mostrarCaminos() {
             for (int j = 0; j < N; j++) {
                 cout << setw(N) << matriz[i][j] << " ";
             }
-            cout << setw(N*3)<< " "; // Espacio entre matrices
+            cout << setw(N*3)<< " "; // espacio entre matrices
             for (int j = 0; j < N; j++) {
                 if (pesos[i][j] == INFI) 
                     cout << setw(N) << "INF" << " ";
@@ -123,9 +123,9 @@ void Grafo::mostrarCaminos() {
     cout <<"\n "<<setw(N/2) <<" "<<"--- MATRIZ DE CICLOS ---"<< setw(N*3+N)<< " " <<"--- MATRIZ DE CAMINOS ---\n";
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            cout << setw(N) << A[i][j] << " "; // Imprime la matriz de ciclos
+            cout << setw(N) << A[i][j] << " "; 
         }
-        cout << setw(N*3)<< " "; // Espacio entre matrices
+        cout << setw(N*3)<< " "; 
         for (int j = 0; j < N; j++) {
             if (cf[i][j] == -1)
                 cout << setw(N) << "-1" << " ";
@@ -133,7 +133,7 @@ void Grafo::mostrarCaminos() {
                 cout << setw(N-1) << "*" << cf[i][j] << "*";
             else
                 cout << setw(N) << cf[i][j] << " ";
-            anterior[i][j] = cf[i][j]; // Actualiza el valor anterior
+            anterior[i][j] = cf[i][j]; // actualiza el valor de la matriz anterior
         }
         cout << endl;
     }

@@ -76,11 +76,13 @@ int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
                           if(S[i]==NO_MIEMBRO){
                                  nuevadist=D[actual]+C[actual][i];
                                  //printf("\n nuevadist=%3i D[%2i]=%3i ",nuevadist,i,D[i]);
+                                 // actualizan las distancias
                                  if(nuevadist<D[i]){
                                         D[i]=nuevadist; //actual distancia es menor que la anterior
                                         Pre[i]=actual; b=1;
                                  }//fin if
                                  //printf("\n menordist=%3i D[%2i]=%3i ",menordist,i,D[i]);
+                                 // nodo que tengo que visitar 
                                  if(D[i]<menordist){
                                         menordist=D[i];
                                         k=i;  b=1; //guardo el nodo de la menor distancia 
@@ -89,7 +91,7 @@ int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
                   }//fin for
                                
                   actual=k; // actual se ubica en el nodo de menor distancia
-                  S[actual]=MIEMBRO;
+                  S[actual]=MIEMBRO; // el nodo de menor distancia ya no se puede visitar
                   printf("\n\n         D     S     Pre");
                   for(i=0;i<MAXNODOS;i++){
                            printf("\n[%2i] %5i %5i %5i     ",i,D[i], S[i],Pre[i]);

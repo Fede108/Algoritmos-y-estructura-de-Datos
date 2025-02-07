@@ -91,7 +91,7 @@ void Router::enviarColaEspera(Lista<Paquete*> *procesarPagina, Lista<Paquete*> *
 
 bool Router::procesarPaquete(Paquete* p, bool pagCliente ){
     int destino   = calcularDestino(p->pagina->getRoutDestino());    // encuentro el camino optimo
-    nodo* vecino  = vecinos.buscar(calcularDestino(p->pagina->getRoutDestino()));
+    nodo* vecino  = vecinos.buscar(destino);
     if(pagCliente)
     {
         if (vecino->paqPagRecibidas++ >= vecino->anchoBanda) return false;    // envio paginas segun ancho banda para intercalar con demas maquinas

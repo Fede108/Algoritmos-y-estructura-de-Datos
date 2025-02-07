@@ -49,6 +49,9 @@
         "numeric": "cpp",
         "random": "cpp",
         "numbers": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "format": "cpp",
+        "span": "cpp",
+        "text_encoding": "cpp"
     }
 }

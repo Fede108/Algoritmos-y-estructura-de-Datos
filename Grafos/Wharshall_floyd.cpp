@@ -134,9 +134,9 @@ void caminoFloyd(int cf[][MAXNODOS], int s, int t)
   if(cf[s][t] == -1){ cout<<"no hay camino"; return;}
   k=cf[s][t];
   if (k!=t){
-            caminoFloyd(cf,s,k);
+            caminoFloyd(cf,s,k); // camino desde nodo s a nodo intermedio k
             cout<<"  "<<k;
-            caminoFloyd(cf,k,t);
+            caminoFloyd(cf,k,t); // camindo desde nodo intermedio k a t
             }
 }
 

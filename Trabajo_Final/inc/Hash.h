@@ -7,7 +7,6 @@ using namespace std;
 
 #define MAX 17
 
-
 template <class V> class HashEntry {
 public:
     int key; 
@@ -110,19 +109,6 @@ template <class T> Vector<T> Hash<T>::listar() {
         }
     }
     return resultado;
-}
-
-
-template <class T>
-void Hash<T>::imprimir() {
-    for (int i = 0; i < Max; i++) {
-        cout << "Bucket " << i << ": ";
-        if (D[i].esvacia()) {
-            cout << "vacio" << endl;
-        } else {
-            D[i].toPrint("");
-        }
-    }
 }
 
 template <class T>

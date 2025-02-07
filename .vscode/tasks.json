@@ -20,12 +20,12 @@
 //                "${workspaceFolder}/Segundo_Parcial/src/ArbolPosicional.cpp", "${workspaceFolder}/Segundo_Parcial/src/Main.cpp", "${workspaceFolder}/Segundo_Parcial/src/ListaConAbb.cpp",
 //                  "-I${workspaceFolder}/Segundo_Parcial/inc"
 //                "${workspaceFolder}/Grafos/programa.exe",
-//                "${workspaceFolder}/Grafos/Wharshall_floyd.cpp",
-                   "${workspaceFolder}/Primer_Parcial/bin/main.exe",
-                   "${workspaceFolder}/Primer_Parcial/src/ComponenteJson.cpp","${workspaceFolder}/Primer_Parcial/src/EntreLlaves.cpp","${workspaceFolder}/Primer_Parcial/src/ExpresionJson.cpp", "${workspaceFolder}/Primer_Parcial/src/Valor.cpp","${workspaceFolder}/Primer_Parcial/src/Llave.cpp","${workspaceFolder}/Primer_Parcial/src/Main.cpp",
-                "-I${workspaceFolder}/Primer_Parcial/inc"
+//                "${workspaceFolder}/Grafos/Dijkstra.cpp",
+//                   "${workspaceFolder}/Primer_Parcial/bin/main.exe",
+//                   "${workspaceFolder}/Primer_Parcial/src/ComponenteJson.cpp","${workspaceFolder}/Primer_Parcial/src/EntreLlaves.cpp","${workspaceFolder}/Primer_Parcial/src/ExpresionJson.cpp", "${workspaceFolder}/Primer_Parcial/src/Valor.cpp","${workspaceFolder}/Primer_Parcial/src/Llave.cpp","${workspaceFolder}/Primer_Parcial/src/Main.cpp",
+//                "-I${workspaceFolder}/Primer_Parcial/inc"
 //               "${workspaceFolder}/Trabajo_Final/bin/main.exe",
-//               "${workspaceFolder}/Trabajo_Final/src/*.cpp",
+//               "${workspaceFolder}/Trabajo_Final/src/Administrador.cpp","${workspaceFolder}/Trabajo_Final/src/Router.cpp","${workspaceFolder}/Trabajo_Final/src/Grafo.cpp","${workspaceFolder}/Trabajo_Final/src/Terminal.cpp","${workspaceFolder}/Trabajo_Final/src/Tree.cpp", 
 //                "-I${workspaceFolder}/Trabajo_Final/inc"
             ],
  
