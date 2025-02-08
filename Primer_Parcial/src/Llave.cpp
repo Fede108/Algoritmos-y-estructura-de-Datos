@@ -12,7 +12,7 @@ bool Llave :: validarExpresion(char c){
     if (str == nullptr)
     {
         str = new String();
-        strings.encolar(str);
+        bufferStrings.encolar(str);
     }
     
     if (str->getExpresionEsCorrecta())  // string ingresado es correcto 
@@ -32,15 +32,18 @@ bool Llave :: validarExpresion(char c){
 
 string Llave :: print(){
     ostringstream resultado;
-    if (!strings.esvacia())     resultado << strings.last()->print();
-    if (!llaves.empty())        resultado << llaves.front();
-                                resultado << getExpresionJson()->getValor()->print();
-
-    
-    if (!llaves.empty())  llaves.erase(llaves.begin());
-    if (!strings.esvacia()){ delete strings.last();
-    strings.borrar_last(); // elimina el primer elemento
-    }
+    if (!bufferStrings.esvacia())
+    {
+        resultado << bufferStrings.last()->print();
+        delete bufferStrings.last();                // se libera la memoria del puntero al objeto String
+        bufferStrings.borrar_last();                // elimina el primer elemento
+    } 
+    if (!llaves.empty())
+    {
+        resultado << llaves.front();
+        llaves.erase(llaves.begin());
+    }         
+    resultado << getExpresionJson()->getValor()->print();
     return resultado.str();
 }
 

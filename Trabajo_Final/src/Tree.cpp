@@ -1,7 +1,7 @@
 #include "../inc/Tree.h"
 #include "../inc/Router.h"
 
-nodo::nodo(Router* router) : router(router)
+nodo::nodo(Router* router, int anchoBanda) : router(router), anchoBanda(anchoBanda)
 {
     colaDeEspera = new Cola<Paquete*>();
 }
@@ -10,9 +10,23 @@ nodo::~nodo()
     delete colaDeEspera;
 }
 
+Paquete* nodo::desencolar(){
+    Paquete* p = colaDeEspera->tope();
+    colaDeEspera->desencolar();
+    colaSize = colaDeEspera->size();
+    ciclos = (colaSize/anchoBanda) + 1;
+    return p;
+}
+
+void nodo::encolar(Paquete* p){
+    colaDeEspera->encolar(p);
+    colaSize = colaDeEspera->size();
+    ciclos = (colaSize/anchoBanda) + 1;
+}
+
 //---------------------------------------------------------------------------------------------------------
 
-void arbol :: recorridoTransversal(nodo* n, vectorClass<nodo*> *r ){  // recorrido postorden idr
+void arbol :: recorridoTransversal(nodo* n, Vector<nodo*> *r ){  // recorrido postorden idr
      if(n != NULL){
         recorridoTransversal(n->izq, r);
         recorridoTransversal(n ->der, r);
@@ -24,32 +38,32 @@ void arbol:: ird(nodo *aux)
 {
     if (aux != NULL) {
         ird(aux->izq);
-        cout<<" -> "<<aux->router->n;
+        cout<<" -> "<<aux->router->ip;
         ird(aux->der);
     }
 }
 
-void arbol::agregarNodo(Router* router)
+void arbol::agregarNodo(Router* router, int anchoBanda)
 {
-    ArbolBusq(router, raiz);
+    ArbolBusq(router, raiz, anchoBanda);
 }
  
-void arbol::ArbolBusq(Router* router, nodo*& nuevo)
+void arbol::ArbolBusq(Router* router, nodo*& nuevo, int anchoBanda)
 {
     if (nuevo == NULL) {
-        nuevo = new nodo(router);
+        nuevo = new nodo(router, anchoBanda);
         nuevo->der = nuevo->izq = NULL;
         return;
     }
-    if (router->n > nuevo->router->n) ArbolBusq(router, nuevo->der);
-    if (router->n < nuevo->router->n) ArbolBusq(router, nuevo->izq);
+    if (router->ip > nuevo->router->ip) ArbolBusq(router, nuevo->der, anchoBanda);
+    if (router->ip < nuevo->router->ip) ArbolBusq(router, nuevo->izq, anchoBanda);
 }
 
-nodo* arbol::busca(nodo* aux, int x)
+nodo* arbol::busca(nodo* aux, int ip)
 {
     if (aux == NULL) return NULL;
-    else if (x == aux->router->n) return aux;
-    else if (x > aux->router->n)  return busca(aux->der, x);
-    else if (x < aux->router->n)  return busca(aux->izq, x);
+    else if (ip == aux->router->ip) return aux;
+    else if (ip > aux->router->ip)  return busca(aux->der, ip);
+    else if (ip < aux->router->ip)  return busca(aux->izq, ip);
     return aux;
 }

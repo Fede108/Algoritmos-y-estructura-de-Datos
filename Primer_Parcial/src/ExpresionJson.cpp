@@ -12,7 +12,6 @@ using namespace std;
 // cambia el modo de evaluacion de la expresion 
 void ExpresionJson :: setEstado(Estado* estado){
         estadoActual = estado;
-        estadoActual->setExpresionJson(this);
 }
 
 bool ExpresionJson :: leer_archivo(string nombre_archivo){
@@ -36,23 +35,21 @@ bool ExpresionJson :: leer_archivo(string nombre_archivo){
             correcto = false;
         }    
     }
-   
-    setEstado(getEntreLlaves());
-    while (entreLlaves.size()>0)
-    {
-        json += estadoActual->print();
-    }
-    
     return correcto;
 }
 
 void ExpresionJson :: generar_archivo(){
-    cout << "Longitud de json calculada: " << json.length() << endl;
+    setEstado(getEntreLlaves());
+    json = estadoActual->print();
+
+    if(correcto) cout << "Expresion correcta" << endl;
+    else cout << "Error en la expresion en el caracter " << caracter << endl;
+
     string marcador = ""; 
     ofstream archivoSalida("salida.json");
        if (archivoSalida.is_open()) {
          if (correcto) {
-            archivoSalida << json << "\nJSON correcto";
+            archivoSalida << json << "\n JSON-AYED Valido";
         } else{
             for (int i = 0; i < caracter-1; i++)
             {

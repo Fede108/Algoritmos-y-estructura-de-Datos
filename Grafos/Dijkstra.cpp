@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {   int C[MAXNODOS][MAXNODOS]={   INFI, INFI,    4,   13, INFI,
                                   INFI, INFI,    1, INFI, INFI,
                                   INFI,    5, INFI,    2,   11,
-                                  INFI, INFI, INFI,INFI,     2,
+                                  INFI, INFI, INFI,INFI,    12,
                                   INFI, INFI, INFI,    1, INFI       
                                  };
     int *pdist, i, j, P[MAXNODOS],s,t;
@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
 
 int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
 {
- static int D[MAXNODOS];
- int S[MAXNODOS];
+ static int D[MAXNODOS];   // arreglo de pesos desde s a t
+ int S[MAXNODOS];          // nodos visitados
  int actual, i, k, b;
  int menordist, nuevadist;
 // inicializaci�n
@@ -76,20 +76,22 @@ int *dijkstra(int C[][MAXNODOS],int s, int t, int Pre[])
                           if(S[i]==NO_MIEMBRO){
                                  nuevadist=D[actual]+C[actual][i];
                                  //printf("\n nuevadist=%3i D[%2i]=%3i ",nuevadist,i,D[i]);
+                                 // actualizan las distancias
                                  if(nuevadist<D[i]){
-                                        D[i]=nuevadist;//actual es menor que la anterior
+                                        D[i]=nuevadist; //actual distancia es menor que la anterior
                                         Pre[i]=actual; b=1;
                                  }//fin if
                                  //printf("\n menordist=%3i D[%2i]=%3i ",menordist,i,D[i]);
+                                 // nodo que tengo que visitar 
                                  if(D[i]<menordist){
                                         menordist=D[i];
-                                        k=i;  b=1;//guardo el nodo de la menor distancia
+                                        k=i;  b=1; //guardo el nodo de la menor distancia 
                                  }//fin if
                           }//fin if
                   }//fin for
                                
                   actual=k; // actual se ubica en el nodo de menor distancia
-                  S[actual]=MIEMBRO;
+                  S[actual]=MIEMBRO; // el nodo de menor distancia ya no se puede visitar
                   printf("\n\n         D     S     Pre");
                   for(i=0;i<MAXNODOS;i++){
                            printf("\n[%2i] %5i %5i %5i     ",i,D[i], S[i],Pre[i]);

@@ -48,6 +48,10 @@
         "iterator": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "bitset": "cpp",
+        "format": "cpp",
+        "span": "cpp",
+        "text_encoding": "cpp"
     }
 }

@@ -15,15 +15,16 @@ using namespace std;
 int main()
 { 
  
-
-  ExpresionJson* json = new ExpresionJson();
-  cout<<json->leer_archivo("data.json")<<endl;
-  json->generar_archivo();
+  bool sigue = true;
+  while(sigue){
+    ExpresionJson* json = new ExpresionJson();
+    cout<<json->leer_archivo("data.json")<<endl;
+    json->generar_archivo();
+    char opcion;
+    cin >> opcion;
+    sigue = (opcion == 's' || opcion == 'S'); // continuar si se ingresa s
+  }
      
-  system("PAUSE");
-
- 
-
   return EXIT_SUCCESS;
 }
 

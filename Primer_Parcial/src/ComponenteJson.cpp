@@ -1,18 +1,18 @@
 #include "../inc/ComponenteJson.h"
 
 bool String :: validarExpresion(char c){
-    str += c;   // Agrega el carácter al buffer actual
+    str += c;   // se agrega el caracter al buffer
     if (c == '"' && p.pilavacia()) { 
         p.apilar(c); 
         return true;
     } 
-     // Si se cierran las comillas, la expresión es válida  
+     // si se cierran las comillas la expresion es correcta  
     if (c == '"' && !p.pilavacia()) { 
         p.desapilar(); 
         expresionCorrecta = true;
         return true;
     }
-    if (!p.pilavacia()){ // Cualquier caracter dentro de las comillas es valido
+    if (!p.pilavacia()){ // cualquier caracter dentro de las comillas es valido
         return true;
     }
     return false;    
@@ -29,7 +29,7 @@ string String ::print(){
 //-------------------------------------------------------------------------------
 
 bool ListaString :: validarExpresion(char c){
-    agregar(c);
+    agregar(c);  
     if (c == '[' && p.pilavacia()){ 
         p.apilar(c);
         cadena += c;
@@ -47,17 +47,18 @@ bool ListaString :: validarExpresion(char c){
                 return true;
             }
             // primer string de la lista
-            if(strings.esvacia()){
+            if(bufferStrings.esvacia()){
                 str = new String();
-                strings.encolar(str);
+                bufferStrings.encolar(str);
             }
-            // siguientes strings de la lista
+            // siguientes bufferStrings de la lista
             else if (c == ',')
             {
                 cadena += c;
                 str = new String();
-                strings.encolar(str);
+                bufferStrings.encolar(str);
                 return true;
+            // cualquier otro caracter es incorrecto
             } else {
                 cadena += c;
                 return false;
@@ -66,7 +67,7 @@ bool ListaString :: validarExpresion(char c){
         }
         // se continua validando el ultimo string
         bool valida = str->validarExpresion(c);
-        if (str->getExpresionEsCorrecta()){  
+        if (str->getExpresionEsCorrecta()){  // el string se completo de manera correcta
             str = nullptr;
         }          
         return valida;
@@ -79,24 +80,22 @@ bool ListaString :: getExpresionEsCorrecta(){
 }
 
 string ListaString :: print(){
-    ostringstream resultado;
+    ostringstream resultado;  
 
-    if(cadena.size()>0 || !strings.esvacia()){
-
+    if(cadena.size()>0 || !bufferStrings.esvacia()){   // se recorre de manera recursiva cadena y bufferString
         if (cadena.size()>0)
         {
             resultado << cadena.front();
             cadena.erase(cadena.begin());
         }
-        if (!strings.esvacia())
+        if (!bufferStrings.esvacia())
         {
-            resultado << strings.last()->print(); 
-            delete strings.last();
-            strings.borrar_last();
+            resultado << bufferStrings.last()->print(); 
+            delete bufferStrings.last();   // se libera la memoria del puntero al objeto String
+            bufferStrings.borrar_last();   // se elimina de la lista
         }
 
-        resultado << this->print();
-
+        resultado << this->print();  // resultado almacena los caracteres de la lista de strings
     }
  
     return resultado.str(); 

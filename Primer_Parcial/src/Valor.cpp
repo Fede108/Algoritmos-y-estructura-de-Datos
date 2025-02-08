@@ -23,36 +23,36 @@ bool Valor:: validarExpresion(char c){
     if ( c == '"')          // el valor es de tipo string 
     {
         componenteJson = new String();
-        valores.encolar(componenteJson);  // se almacena el string en el buffer
+        bufferComponentes.encolar(componenteJson);  // se almacena el string en el buffer
         return componenteJson->validarExpresion(c);
     }
     if ( c == '[')     // el valor es de tipo lista string 
     {
         componenteJson = new ListaString();
-        valores.encolar(componenteJson);  // se almacena la lista de string en el buffer
+        bufferComponentes.encolar(componenteJson);  // se almacena la lista de string en el buffer
         return componenteJson->validarExpresion(c);    
     }
     if ( c =='{')  // el valor es de tipo subexpresion json   
     {
-        valores.encolar(new JsonAyed());
+        bufferComponentes.encolar(new JsonAyed());
         return getExpresionJson()->getEntreLlaves()->validarExpresion(c);  // se evalua el valor en clase entre llaves
-
     }
     caracterIncorrecto = c; // guarda char invalido
     return false;
 }
   
 string Valor::print(){
-    if (valores.esvacia()) return caracterIncorrecto + "";  // el unico valor a retornar posible es un caracter incorrecto
+    if (bufferComponentes.esvacia()) return caracterIncorrecto + "";  // el unico valor a retornar posible es un caracter incorrecto
 
     ostringstream resultado ;
-    if(dynamic_cast<JsonAyed*>(valores.last())){  // si el valor guardado es de tipo subexpresion retorna string vacio
+    if(dynamic_cast<JsonAyed*>(bufferComponentes.last())){  // si el valor guardado es de tipo subexpresion retorna string vacio
         resultado << "";
     } else{
-        resultado << valores.last()->print();  // retorna el valor mas antiguo en el buffer
+        resultado << bufferComponentes.last()->print();  // retorna el valor mas antiguo en el buffer
     }
-    delete valores.last();  // libera la memoria del objeto 
-    valores.desencolar();   // elimina el valor mas antiguo del buffer
+    delete bufferComponentes.last();  // libera la memoria del objeto 
+    bufferComponentes.desencolar();   // elimina el valor mas antiguo del buffer
+    resultado << getExpresionJson()->getEntreLlaves()->print();
     return resultado.str();
 }
 

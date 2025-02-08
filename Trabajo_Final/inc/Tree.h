@@ -16,26 +16,31 @@ public:
     nodo* der, * izq;
     Cola<Paquete*> *colaDeEspera;
     Router* router;
-    int cantEnviados = 0;
-    nodo (Router* router);
+    int paqPagRecibidas = 0;
+    int anchoBanda;
+    int colaSize = 0;
+    int ciclos = 1;
+    nodo (Router* router, int anchoBanda);
     ~nodo();
+    Paquete* desencolar();  // devuelve el tope de la colaDeEspera y la desencola
+    void encolar(Paquete* p);
 };
 
 class arbol {
 private:
     nodo* raiz;
-    void ArbolBusq(Router* router, nodo*& nuevo);
-    nodo* busca(nodo* aux, int x);
+    void ArbolBusq(Router* router, nodo*& nuevo, int anchoBanda);
+    nodo* busca(nodo* aux, int ip);
     void ird(nodo* A);
-    void recorridoTransversal(nodo* n, vectorClass<nodo*> *r );
+    void recorridoTransversal(nodo* n, Vector<nodo*> *r );
 public:
     arbol() { raiz = NULL; }
     ~arbol() {}
-    void agregarNodo(Router* router);
-    nodo* buscar(int x) { return busca(raiz, x);}
-    void IRD(){ird(raiz);}    // recorrido inorden del arbol  
-    vectorClass<nodo*> listar() {
-        vectorClass<nodo*> resultado;
+    void agregarNodo(Router* router, int anchoBanda);
+    nodo* buscar(int ip) { return busca(raiz, ip);}
+    void IRD(){ird(raiz);}      
+    Vector<nodo*> listar() {
+        Vector<nodo*> resultado;
         recorridoTransversal(raiz,&resultado);
         return resultado;
     };

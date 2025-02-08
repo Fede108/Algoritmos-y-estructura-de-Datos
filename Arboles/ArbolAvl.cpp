@@ -12,7 +12,7 @@ struct nodoAVL{
 };
 
 typedef nodoAVL * pnodo;
-class arbolAVL{
+class ListaConAbb{
     pnodo raiz;
     void Insert(int x, bool &aumento, nodoAVL* &A);
     void show(pnodo aux, int n);
@@ -22,19 +22,19 @@ class arbolAVL{
     void rotarRLalter(nodoAVL* &A);
     
 public:
-    arbolAVL(){raiz=NULL;};
-    ~arbolAVL(){};
-    void CreaArbolAVL(tarbol x);
+    ListaConAbb(){raiz=NULL;};
+    ~ListaConAbb(){};
+    void CreaListaConAbb(tarbol x);
     void VerArbol(){ show(raiz,0); }
 };
 
-void arbolAVL::CreaArbolAVL(tarbol x)
+void ListaConAbb::CreaListaConAbb(tarbol x)
 {    bool aumento;
      aumento=false;
      Insert(x,aumento,raiz);
 }
 
-void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
+void ListaConAbb::Insert(int x, bool &aumento, nodoAVL* &A){
         if (A == NULL){
                 A = new nodoAVL;
                 A->dato = x;
@@ -57,8 +57,9 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
                                                 aumento = true;
                                                 break;
                                         }
+                                        // cargado hacia la izquierda
                                         case 1:{
-                                                if (A->izq->FB == 1){ //1 necesita LL, si es -1 necesita LR
+                                                if (A->izq->FB == 1){ //1 necesita RR, si es -1 necesita RL
                                                        
                                                         rotarRR(A);
                                                 }else{
@@ -75,8 +76,9 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
                         Insert(x, aumento, A->der);                     
                         if (aumento){
                                 switch (A->FB){
+                                        // cargado hacia la derecha
                                         case -1:{
-                                                if (A->der->FB == 1){ //1 necesita RL, si es -1 necesita RR
+                                                if (A->der->FB == 1){ //1 necesita RL, si es -1 necesita LL
                                                           rotarLRalter(A);
                                                 }else{
                                                          rotarLL(A);
@@ -100,22 +102,22 @@ void arbolAVL::Insert(int x, bool &aumento, nodoAVL* &A){
         }//fin A!=NULL
 }
 
-// A>B 
-void arbolAVL::rotarRR(nodoAVL* &A){ 
+// B<A 
+void ListaConAbb::rotarRR(nodoAVL* &A){ 
         cout<<"\n Rotacion RR"<<endl;
-        nodoAVL* B = A->izq;     // nueva raiz B a la izq A
+        nodoAVL* B   = A->izq;   // B a la izq A
         nodoAVL* aux = B->der;   // hijo derecho de nueva raiz 
-        B->der = A;              // A se inserta a der B  nueva raiz (A->izq)             
+        B->der = A;              // A se inserta a der B (nueva raiz)             
         B->FB = 0;                 
-        A->izq = aux;            // hijo der de B se inserta izq de A  (sigue estando der de nueva raiz y izq A)
+        A->izq = aux;            // hijo der de B se inserta izq de A  (sigue estando der de B y izq A)
         A->FB = 0;
         A = B;                   // B es nueva raiz
 }
 
-// A>B
-void arbolAVL::rotarLL(nodoAVL* &B){  
+// B<A
+void ListaConAbb::rotarLL(nodoAVL* &B){  
         cout<<"\n Rotacion LL"<<endl;
-        nodoAVL* A = B->der;     // nueva raiz A esta a la der B
+        nodoAVL* A   = B->der;   // A esta a la der B
         nodoAVL* aux = A->izq;   // hijo izquierdo de nueva raiz
         A->izq = B;              // B se inserta a izq de A              
         A->FB = 0;                 
@@ -125,21 +127,21 @@ void arbolAVL::rotarLL(nodoAVL* &B){
 }
 
  
-void arbolAVL::rotarLRalter(nodoAVL* &A){ 
+void ListaConAbb::rotarLRalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble RR+LL"<<endl;
         rotarRR(A->der);
         VerArbol();
         rotarLL(A);
 }
  
-void arbolAVL::rotarRLalter(nodoAVL* &A){ 
+void ListaConAbb::rotarRLalter(nodoAVL* &A){ 
         cout<<"\n Rotacion Doble LL+RR"<<endl;
         rotarLL(A->izq);
         VerArbol();
         rotarRR(A);
 }
 
-void arbolAVL::show(pnodo aux, int n)
+void ListaConAbb::show(pnodo aux, int n)
 { int i;
    if(aux!=NULL){                      //OjO este es un recorrido dri
        show(aux->der, n+1);
@@ -151,10 +153,10 @@ void arbolAVL::show(pnodo aux, int n)
 //-------------------------------------------------------
 int main (int argc, char *argv[])
 {  int i; tarbol x;
-   arbolAVL T;
-   int vec[15]={50,120,180,240,270,360,410,425,445,495,510,260,530,540,550};
-   for(i=0;i<15;i++){ 
-                      T.CreaArbolAVL(vec[i]);
+   ListaConAbb T;
+   int vec[9]={50,120,180,240,270,360,410,425,550};
+   for(i=0;i<9;i++){ 
+                      T.CreaListaConAbb(vec[i]);
                       T.VerArbol();
                       
    } 
@@ -162,6 +164,6 @@ int main (int argc, char *argv[])
    T.VerArbol();
   
    cout<<endl;
-   system("PAUSE");
-   return EXIT_SUCCESS;
+//   system("PAUSE");
+//   return EXIT_SUCCESS;
 }

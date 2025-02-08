@@ -18,15 +18,15 @@ void impre(int v[], int n);
 int cc,cm;
 
 int main(int argc, char *argv[])
-{ //  int A[10]={30,45,130,70,100,150,30,140,18,110};
-   int A[5]={45,30,200,170,130};
+{  //int A[10]={30,45,130,70,100,150,30,140,18,110};
+   int A[5]={45,30,130,170,200};
 //   int A[MAX];
 //    for(int i=0;i<MAX;i++){
 //                    A[i]=int(rand());
 // }
     cc=cm=0;
-    ordenaQS(A,0,5-1);
- //   ordenaMS(A,0,MAX);
+  //  ordenaQS(A,0,5-1);
+    ordenaMS(A,0,5);
     cout<<"\n -----------------------------";
     //impre(A,MAX);
     cout<<"comparaciones= "<<cc<<" movimientos= "<<cm<<endl;
@@ -40,24 +40,21 @@ void ordenaQS(int v[], int primero, int ultimo)
       if(ultimo>primero){
             pivot=v[ultimo];cm++;
             
-            i=primero; j=ultimo;    
-            while (i < j) { // El bucle se detendrá cuando i > j
-                while (v[i] < pivot){ 
-                    cc++;
-                    i++;
-                    if(i>ultimo) break; // no salga del rango del arreglo
+            i=primero-1; j=ultimo;    
+            while (1) { // El bucle se detendrá cuando i > j
+                while (v[++i] < pivot){  // continua hasta que el dato sea mayor que el pivot
+                    cc++;  
                 }    
-                while (v[j] >= pivot){
+                while (v[--j] > pivot){  // continua hasta que el dato sea menor que el pivot
                     cc++;
-                    j--;
-                    if(j<primero) break; // no salga del rango del arreglo
                 } 
-                if (i < j) { // Solo intercambiar si i < j
-                    aux = v[i];
-                    v[i] = v[j];
-                    v[j] = aux;
-                    cm += 3;
-                }
+                if(i>=j)break;
+                
+                aux = v[i];
+                v[i] = v[j];
+                v[j] = aux;
+                cm += 3;
+            
             }
             aux=v[i];
             v[i]=v[ultimo]; // pivot se mueve a v[i]
@@ -73,12 +70,12 @@ void ordenaQS(int v[], int primero, int ultimo)
 int ordenaMS(int a[], int low, int high)
 {   int mid;
     if(low<high){
-                 mid=(low+high)/2;
-                 //cout<<"\n llamo a ordenaMS(1) con low= "<<low<<" mid= "<<mid<<endl;
-                 ordenaMS(a,low,mid);
-                 //cout<<"\n llamo a ordenaMS(2) con mid+1= "<<mid+1<<" high= "<<high<<endl;
-                 ordenaMS(a,mid+1,high);
-                 merge(a,low,high,mid);
+                 mid=(low+high)/2;  // subdivide el arreglo en 2 partes
+                
+                 ordenaMS(a,low,mid);  // recursion de low a mid
+                
+                 ordenaMS(a,mid+1,high); // recursion de mid+1 a high
+                 merge(a,low,high,mid);   // se juntan las 2 partes de manera ordenada
     }
     return(0);
 }

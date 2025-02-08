@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
           }                   
         }
       i++;
- 
+  
       for(j=MAX-i;j>y;j--){
           c++;               
           if(a[j]<a[j-1]){

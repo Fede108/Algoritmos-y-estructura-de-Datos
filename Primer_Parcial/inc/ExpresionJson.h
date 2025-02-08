@@ -8,21 +8,25 @@ using namespace std;
 class ExpresionJson
 {
 private:
-    Estado* estadoActual;
-    EntreLlaves entreLlaves;     // Instancia única
-    Llave llave;                 // Instancia única
-    Valor valor;                 // Instancia única
+    Estado* estadoActual;  // puede apuntar a cualquier tipo de estado 
+    EntreLlaves entreLlaves;    
+    Llave llave;                
+    Valor valor;                
     string json;
     int caracter;
     bool correcto;
 public:
     ExpresionJson() {
-        estadoActual = &entreLlaves; // Estado inicial
-        estadoActual->setExpresionJson(this);
+        // cada tipo de expresion tiene un puntero a la expresion jsonAyed
+        entreLlaves.setExpresionJson(this);
+        llave.setExpresionJson(this);
+        valor.setExpresionJson(this);
+      
+        estadoActual = &entreLlaves; // estado inicial
         caracter = 0;
     }
-    void setEstado(Estado* estado);
-    bool leer_archivo(string nombre_archivo);
+    void setEstado(Estado* estado);   // seteo el estado segun el modo siguiente correspondiente
+    bool leer_archivo(string nombre_archivo); 
     void generar_archivo();
    
     Estado* getEntreLlaves() { return &entreLlaves; };

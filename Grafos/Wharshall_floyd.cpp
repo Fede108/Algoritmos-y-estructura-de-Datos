@@ -7,6 +7,7 @@
 void warshall(int peso[][MAXNODOS], int caminos[][MAXNODOS]);
 void Floyd(int peso[][MAXNODOS], int A[][MAXNODOS],int cf[][MAXNODOS]);
 void caminoFloyd(int cf[][MAXNODOS], int s, int t);
+int caminoOptimo(int destino, int* tabla);
 
 using namespace std;
 
@@ -52,7 +53,10 @@ int main(int argc, char *argv[])
                          cout<<"\n\n camino:  "<<s;
                          caminoFloyd(cf,s,t);
                          cout<<"  "<<t;  
+                     
+                     cout<<"\n\n"<<caminoOptimo(0,cf[3]);
     }
+   
     else{
           cout<<"\n NO HAY CAMINO POSIBLE ENTRE s= "
               <<s<<" y t= "<<t<<endl;
@@ -88,17 +92,21 @@ void Floyd(int peso[][MAXNODOS], int A[][MAXNODOS], int cf[][MAXNODOS])
 { int i,j,k;
   for(i=0;i<MAXNODOS;i++){
          for(j=0;j<MAXNODOS;j++){
-                                 A[i][j]=peso[i][j]; cf[i][j]=-1;
+                                 A[i][j]=peso[i][j];
+                                 if(peso[i][j] == INFI) cf[i][j]=-1;   // -1 si no hay camino directo de i a j 
+                                 else cf[i][j]=j;   // camino de i a j es directo
          }
   }
-  for(i=0;i<MAXNODOS;i++) A[i][i]=0;
+  for(i=0;i<MAXNODOS;i++) A[i][i]=0; 
   
-  for(k=0;k<MAXNODOS;k++){
+  for(k=0;k<MAXNODOS;k++){// recorre los k nodos intermedio en orden externo
+    // recorre la matriz completa N veces
       for(i=0;i<MAXNODOS;i++){
          for(j=0;j<MAXNODOS;j++){
-                                 if((A[i][k]+ A[k][j])< A[i][j]){
-                                              A[i][j]= A[i][k]+ A[k][j];
-                                              cf[i][j]=k;
+                                 if((A[i][k]+ A[k][j])< A[i][j]){            // si el camino ij es mas corto a traves de k
+                                              A[i][j]= A[i][k]+ A[k][j]; // actualiza el peso minimo
+                                              cf[i][j]=k;      // actualiza nodo intermedio en el camino 
+  
                                  }
          }
       }
@@ -118,17 +126,24 @@ void Floyd(int peso[][MAXNODOS], int A[][MAXNODOS], int cf[][MAXNODOS])
            }                 
     }
     cout<<endl;
-    system("PAUSE");
-     
 }
 
 void caminoFloyd(int cf[][MAXNODOS], int s, int t)
 { int k;
 
+  if(cf[s][t] == -1){ cout<<"no hay camino"; return;}
   k=cf[s][t];
-  if (k!=-1){
-            caminoFloyd(cf,s,k);
+  if (k!=t){
+            caminoFloyd(cf,s,k); // camino desde nodo s a nodo intermedio k
             cout<<"  "<<k;
-            caminoFloyd(cf,k,t);
+            caminoFloyd(cf,k,t); // camindo desde nodo intermedio k a t
             }
+}
+
+int caminoOptimo(int destino, int tabla[]){
+       if(tabla[destino] == -1){
+         cout<< "no hay camino "; return 0;}
+       if(destino == tabla[destino]) return destino;
+       destino = tabla[destino]; 
+       return caminoOptimo(destino, tabla);
 }

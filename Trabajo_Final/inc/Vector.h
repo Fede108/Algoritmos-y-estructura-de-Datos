@@ -1,110 +1,67 @@
-// Self implementation of
-// the Vector Class in C++
 #ifndef VECTOR_H
 #define VECTOR_H
+
 using namespace std;
-template <typename T> class vectorClass {
 
-	// arr is the integer pointer
-	// which stores the address of our vector
-	T* arr;
-
-	// capacity is the total storage
-	// capacity of the vector
-	int capacity;
-
-	// current is the number of elements
-	// currently present in the vector
-	int current;
-
+template <typename T> class Vector
+{
+private:
+    T* arreglo;
+    int capacidad;
+    int actual;
 public:
-	// Default constructor to initialise
-	// an initial capacity of 1 element and
-	// allocating storage using dynamic allocation
-	vectorClass()
-	{
-		arr = new T[1];
-		capacity = 1;
-		current = 0;
-	}
-	// destructor to deallocate storage allocated by dynamic
-	// allocation to prevent memory leak
-	~vectorClass() { delete[] arr; }
-
-	// Function to add an element at the last
-	void push(T data)
-	{
-
-		// if the number of elements is equal to the
-		// capacity, that means we don't have space to
-		// accommodate more elements. We need to double the
-		// capacity
-		if (current == capacity) {
-			T* temp = new T[2 * capacity];
-
-			// copying old array elements to new array
-			for (int i = 0; i < capacity; i++) {
-				temp[i] = arr[i];
-			}
-
-			// deleting previous array
-			delete[] arr;
-			capacity *= 2;
-			arr = temp;
-		}
-
-		// Inserting data
-		arr[current] = data;
-		current++;
-	}
-
-	// function to add element at any index
-	void push(T data, int index)
-	{
-
-		// if index is equal to capacity then this
-		// function is same as push defined above
-		if (index == capacity)
-			push(data);
-		else
-			arr[index] = data;
-	}
-
-	// function to extract element at any index
-	T get(int index)
-	{
-		// if index is within the range
-		if (index < current)
-			return arr[index];
-		// if index is not within range
-		return NULL;
-	}
-
-    T get(T data){
-        for (int i = 0; i < capacity; i++)
-        {
-           if(data == arr[i]) return arr[i];
-        }
-        return nullptr;
-    }
-
-	// function to delete last element
-	void pop() { current--; }
-
-	// function to get size of the vector
-	int size() { return current; }
-
-	// function to get capacity of the vector
-	int getcapacity() { return capacity; }
-
-	// function to print array elements
+    Vector();
+    ~Vector();
+    void push(T data);
+    T get(int indice);
+	void pop() { actual--; }
+	int size() { return actual; }
+	int getCapacidad() { return capacidad; }
+	T* getArray() { return arreglo; }
 	void print()
 	{
-		for (int i = 0; i < current; i++) {
-			cout << arr[i] << " ";
+		for (int i = 0; i < actual; i++) {
+			cout << arreglo[i] << " ";
 		}
 		cout << endl;
 	}
 };
+
+
+template <typename T> Vector<T>::Vector()
+{
+    arreglo = new T[1];
+	capacidad = 1;
+	actual = 0;
+}
+
+template <typename T> Vector<T>::~Vector()
+{
+    delete[] arreglo;
+}
+
+template <typename T> void Vector<T>::push(T data){
+		if (actual == capacidad) {           // si la cantidad de elementos es igual a la capacidad
+			T* temp = new T[2 * capacidad];  // se duplica la capacidad
+
+			for (int i = 0; i < capacidad; i++) {
+				temp[i] = arreglo[i];
+			}
+
+			delete[] arreglo;
+			capacidad *= 2;
+			arreglo = temp;
+		}
+
+		arreglo[actual] = data;
+		actual++;
+}
+
+template <typename T> T Vector<T>:: get(int indice)
+{
+	if (indice < actual)
+		return arreglo[indice];
+	return NULL;
+}
 
 #endif

@@ -27,7 +27,6 @@ private:
     string expresion; //buffer de caracteres
     Pila<char> p;
 public:
-    // Métodos de ExpresionJson
     bool validarExpresion(char c) override;
     void guardarExpresion(char c);
     string print() override;
@@ -40,7 +39,7 @@ public:
 class Llave : public Estado{
 private:
     String *str;
-    Cola <String*> strings; //buffer de strings
+    Cola <String*> bufferStrings; 
     Pila<char> p;
     string llaves;
 public:
@@ -59,7 +58,7 @@ public:
 class Valor : public Estado{
 private:
     ComponenteJson *componenteJson;
-    Cola <ComponenteJson*> valores; //buffer de valores
+    Cola <ComponenteJson*> bufferComponentes; 
     Pila<char> p1;  
     string caracterIncorrecto = "";
 public:

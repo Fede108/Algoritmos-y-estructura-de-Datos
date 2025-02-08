@@ -34,14 +34,17 @@ int EntreLlaves :: size(){
 
 string EntreLlaves :: print(){
     ostringstream resultado;
-    if(expresion.empty()) return ""; 
-    if(expresion.front() == '}' )
+    while(expresion.front() == '}' )
     {
-        resultado << expresion.front(); // retorna ultimo caracter de subexpresion
-    }else{
-        resultado << expresion.front() << getExpresionJson()->getLlave()->print(); // retorna el caracter seguido resto de expresion
+        resultado << expresion.front();
+        expresion.erase(expresion.begin());
     }
-    expresion.erase(expresion.begin()); 
+    if(!expresion.empty())
+    {
+        resultado << expresion.front();
+        expresion.erase(expresion.begin());  
+    } 
+    resultado << getExpresionJson()->getLlave()->print(); // retorna el caracter seguido resto de expresion
     return resultado.str();
 }
     

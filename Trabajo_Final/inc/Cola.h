@@ -1,5 +1,5 @@
 
-// Cola con Lista.cpp : 
+// Cola con Lista.cpp 
 
 #include <cstdlib>
 #include <iostream>
@@ -7,8 +7,8 @@
 
 using namespace std;
 
-#ifndef COLA_H
-#define COLA_H
+#ifndef COLA1_H
+#define COLA1_H
 
 template <class T> class Nodo {
 private:
@@ -25,7 +25,8 @@ public:
 };
 
 template <class T> class Lista {
-private: Nodo<T>* czo;
+private: 
+       Nodo<T>* czo;
        void addO(T d, Nodo<T>* ant);
        void borrarD(T d, Nodo<T>* ant);
 public:
@@ -52,6 +53,8 @@ public:
     void addOrdenado(T d) { addO(d, NULL); }; //sumar nodos a la lista Ordenados de menor a MAYOR
     T last(); //retorna el dato del ultimo nodo
 };
+
+
 template <class T>
 T Lista<T>::last()
 {
@@ -82,6 +85,35 @@ void Lista<T>::addLast(T d) //100
 }
 
 template <class T>
+void Lista<T>::addO(T d, Nodo<T>* ant)
+{
+    if (this->esvacia()) {//el primero
+        this->add(d);
+    }
+    else {
+        if (d < czo->get_dato()) {
+            if (ant == NULL) {//al principio
+                this->add(d);
+            }
+            else {//entre medio
+                Nodo<T>* nuevo = new Nodo<T>(d);
+                nuevo->set_next(ant->get_next());
+                ant->set_next(nuevo);
+            }
+        }
+        else {
+            if ((czo->get_next())->get_next() == NULL) {//al final
+                Nodo<T>* nuevo = new Nodo<T>(d);
+                nuevo->set_next(czo->get_next());
+                czo->set_next(nuevo);
+
+            }
+            else this->resto()->addO(d, czo);
+        }
+    }
+}
+
+template <class T>
 bool Lista<T>::esvacia(void)
 {
     return czo->es_vacio();
@@ -91,7 +123,7 @@ T Lista<T>::cabeza(void)
 {
     if (this->esvacia()) {
         cout << " Error, Cabeza de lista vacia";
-        return NULL;
+        return T(); 
     }
     return czo->get_dato();
 }
@@ -101,34 +133,6 @@ Lista<T>* Lista<T>::resto(void)
 {
     Lista* l = new Lista(czo->get_next());
     return (l);
-}
-
-template <class T>
-string Lista<T>::toPrint(string p)
-{
-    if (this->esvacia()) {
-        return p;
-    }
-    else {
-        //std::ostringstream stm;
-        ostringstream stm;
-        stm << this->cabeza() << "-" << this->resto()->toPrint(p) << endl;
-        //cout<<endl<<" stm.str()= "<<stm.str()<<endl;
-        return stm.str();
-    }
-}
-
-template <class T>
-T Lista<T>::suma(T i)
-{    //cout<<" i al entrar= "<<i<<endl;
-    if (this->esvacia()) {
-        return i;
-    }
-    else {
-
-        //cout<<"this->cabeza()= "<<this->cabeza()<<endl;   
-        return this->resto()->suma(i + this->cabeza());
-    }
 }
 
 
@@ -160,76 +164,6 @@ template <class T> void Lista<T>::borrar_last()
     }
 }
 
-template <class T> void Lista<T>::concat(Lista<T>* l1)
-{// le transfiere los datos de l1 a this
-    if (!(l1->esvacia())) {
-        this->concat(l1->resto());
-        this->add(l1->cabeza());
-    }
-}
-
-template <class T> Lista<T>* Lista<T>::copy(void)
-{
-    Lista<T>* aux = new Lista();
-    aux->concat(this);
-    return aux;
-}
-
-template <class T> void Lista<T>::tomar(int n)
-{ //deja "vivos" los n primeros nodos y borra el resto
-    if (this->size() > n) {
-        this->borrar_last();
-        this->tomar(n);
-    }
-}
-
-template <class T> void Lista<T>::impre(void)
-{
-    Nodo<T>* aux;
-    aux = czo;
-    while (aux->get_next() != NULL) {
-        cout << aux->get_dato() << endl;
-        aux = aux->get_next();
-    }
-}
-
-template <class T>
-void Lista<T>::addO(T d, Nodo<T>* ant)
-{
-    if (this->esvacia()) {//el primero
-        this->add(d);
-    }
-    else {
-        if (d < czo->get_dato()) {
-            if (ant == NULL) {//al principio
-                this->add(d);
-            }
-            else {//entre medio
-                Nodo<T>* nuevo = new Nodo<T>(d);
-                nuevo->set_next(ant->get_next());
-                ant->set_next(nuevo);
-            }
-        }
-        else {
-            if ((czo->get_next())->get_next() == NULL) {//al final
-                Nodo<T>* nuevo = new Nodo<T>(d);
-                nuevo->set_next(czo->get_next());
-                czo->set_next(nuevo);
-
-            }
-            else this->resto()->addO(d, czo);
-
-        }
-    }
-}
-
-template <class T> bool Lista<T>::esta(T d)
-{// busca d en la lista
-    if (this->esvacia()) return false;
-    if (this->cabeza() == d) return true;
-
-    return this->resto()->esta(d);
-}
 
 template <class T>
 void Lista<T>::borrarD(T d, Nodo<T>* ant)
@@ -249,6 +183,43 @@ void Lista<T>::borrarD(T d, Nodo<T>* ant)
     }
 }
 
+template <class T> void Lista<T>::concat(Lista<T>* l1)
+{// le transfiere los datos de l1 a this
+    if (!(l1->esvacia())) {
+        this->concat(l1->resto());
+        this->add(l1->cabeza());
+    }
+}
+
+template <class T> Lista<T>* Lista<T>::copy(void)
+{
+    Lista<T>* aux = new Lista();
+    aux->concat(this);
+    return aux;
+}
+
+
+
+template <class T> void Lista<T>::impre(void)
+{
+    Nodo<T>* aux;
+    aux = czo;
+    while (aux->get_next() != NULL) {
+        cout << aux->get_dato() << endl;
+        aux = aux->get_next();
+    }
+}
+
+
+template <class T> bool Lista<T>::esta(T d)
+{// busca d en la lista
+    if (this->esvacia()) return false;
+    if (this->cabeza() == d) return true;
+
+    return this->resto()->esta(d);
+}
+
+
 
 template <class T> class Cola :public Lista<T> {
 public:
@@ -260,21 +231,8 @@ public:
     void desencolar(void) { this->borrar_last(); };
     T ultimo(void) { return this->cabeza(); };
     string imprimir(string s) { return this->toPrint(s); };
-    Cola<T>* copy(void);
-    Cola<T>* resto(void); //retorna el puntero al "resto" de la cola
                        
 };
 
-template <class T> Cola<T>* Cola<T>::resto(void){
-    Cola<T>* c = new Cola();
-    c = this->copy();
-    c->desencolar();
-    return c; 
-}
-template <class T> Cola<T>* Cola<T>::copy(void)
-{
-    Cola<T>* aux = new Cola();
-    aux->concat(this);
-    return aux;
-}
+
 #endif

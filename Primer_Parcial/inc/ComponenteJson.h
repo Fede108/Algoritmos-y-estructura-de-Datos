@@ -15,6 +15,7 @@ class ExpresionJson;
 class ComponenteJson
 {
 public:
+    virtual ~ComponenteJson() = default;
     virtual bool validarExpresion(char c)= 0;
     virtual bool  getExpresionEsCorrecta() = 0;
     virtual string print() = 0;
@@ -58,8 +59,8 @@ class ListaString : public ComponenteJson
 private:
     bool expresionCorrecta = false;
     Pila<char> p;
-    Cola<char> cola;
-    Cola <String*> strings; //buffer de strings
+    Cola<char> cola;                    // cola para almacenar los valores de la lista de strings
+    Cola <String*> bufferStrings;
     String *str;  
     string cadena;
 public:
